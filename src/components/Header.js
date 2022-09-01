@@ -18,12 +18,32 @@ const LeftButton=()=>{
 
 const RightButton=()=>{
     return (
-        <TouchableOpacity onPress={()=>alert('clicked')} style={{marginRight:-15}}>
+        <TouchableOpacity  onPress={()=>alert('clicked')} >
             <View style={styles.button}>
                 <FontAwesome name="gear" size={25} color={'white'} />
             </View>
         </TouchableOpacity>
-    );   
+    );
+}
+
+const DoneButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
+            <View style={styles.button}>
+                <FontAwesome name="check" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
+const GoBackButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
+            <View style={styles.button}>
+                <FontAwesome name="arrow-left" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
 }
 
 const DeckTitle=()=>{
@@ -42,4 +62,4 @@ const styles=StyleSheet.create({
     },
 });
 
-export {LeftButton,RightButton,DeckTitle};
+export {LeftButton,RightButton,DoneButton,GoBackButton,DeckTitle};

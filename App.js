@@ -25,7 +25,7 @@ function App() {
           // headerTitle:()=><DeckTitle />
         })} />
         
-        <Stack.Screen name="Add Note" component={AddNote} options={{}} />
+        <Stack.Screen name="Add Note" component={AddNote} options={{title:null}} />
       </Stack.Navigator>
     </NavigationContainer>
    );
