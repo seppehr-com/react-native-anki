@@ -4,8 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/pages/Home';
 import {LeftButton,RightButton,DeckTitle} from './src/components/Header';
 import theme from './assets/theme/index';
-import Deck from './src/pages/Deck';
 import AddNote from './src/pages/AddNote';
+import Cards from './src/pages/Cards';
 
 const Stack=createNativeStackNavigator();
 
@@ -19,7 +19,7 @@ function App() {
          headerTitleStyle:{color:theme.colors.white},
       }}>
         <Stack.Screen name="Simple Anki" component={Home} />
-        <Stack.Screen name="Deck" component={Deck} options={({route})=>({
+        <Stack.Screen name="Cards" component={Cards} options={({route})=>({
           title:route.params.item.title,
           // headerLeft:()=>{},
           // headerTitle:()=><DeckTitle />

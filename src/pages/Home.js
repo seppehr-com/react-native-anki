@@ -1,28 +1,51 @@
-import React, { useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, RefreshControl} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../../assets/theme';
 import Decks from '../components/Decks';
 import Modal from '../components/Modal';
 import ButtonsWrapper from '../components/ButtonsWrapper';
+import Database from '../../modules/Database';
 
 MaterialCommunityIcons.loadFont();
 
+const db= new Database();
 
-function Home({navigation,route}) {
+const Home=({navigation,route})=> {
     const [visibleModal,setVisibleModal] = useState(false);
+    const [deckTextInput,setDeckTextInput] = useState('');
+    const [decksList,setDecksList]=useState([]);
+
+    useEffect(()=>{
+        db.getDecks(setDecksList);
+        // db.getNotes(notes=>{
+        //     console.log(notes);
+        // });
+    },[]);
+
+    const handleCreateDeck=()=>{
+        if(!deckTextInput){
+            alert('Please Enter A Title!');
+            return false;
+        }
+
+        db.insertDeck(deckTextInput);
+        db.getDecks(setDecksList);
+        setDeckTextInput('');
+        setVisibleModal(false);
+    }
 
     return ( 
         <View style={styles.container}>
             <StatusBar backgroundColor="#0288D1" />
             
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Decks navigation={navigation} route={route} />
+                <Decks navigation={navigation} decks={decksList} />
             </ScrollView>
 
-            <Modal visible={visibleModal} onPress={()=>alert('ok')} onClose={()=>setVisibleModal(false)}>
+            <Modal visible={visibleModal} onPress={handleCreateDeck} onClose={()=>setVisibleModal(false)}>
                 <Text style={styles.createTitle}>Create Deck</Text>
-                <TextInput style={styles.createInput} />
+                <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
             </Modal>
 
             <ButtonsWrapper onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />

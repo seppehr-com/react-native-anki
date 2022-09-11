@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, View,StyleSheet, Pressable } from 'react-native';
 import theme from '../../assets/theme';
-import { decks } from '../../assets/data/default';
 
-function Decks({navigation,route}) {
+const Decks=({navigation,decks})=> {
+
     return ( 
         <View style={styles.container}>
             {decks.map((item,index)=>(
-                <Pressable key={index} style={styles.deckWrapper} onPress={()=>navigation.navigate('Deck',{id:item.id,item:item})}>
+                <Pressable key={index} style={styles.deckWrapper} onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}>
                     <Text style={styles.deckTitle}>{item.title}</Text>
                     <View style={styles.deckSide}>
                         <Text style={styles.deckCount}>0</Text>

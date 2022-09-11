@@ -1,21 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text,View,StyleSheet, TouchableOpacity } from 'react-native';
-import {notes} from '../../assets/data/default';
 import theme from '../../assets/theme';
+import Database from '../../modules/Database';
 
-const Card=()=>{
+const db= new Database();
+
+const SingleCard=()=>{
     const [visible]=useContext(VisibleContext);
-    const [card]=useContext(CardContext);
+    const [cards,counter]=useContext(CardContext);
+
+    const currentCard=cards[counter];
 
     return (
         <View style={styles.cardWrapper}>
             <View style={styles.frontWrapper}>
-                <Text style={styles.cardText}>{card.frontText}</Text>
+                <Text style={styles.cardText}>{currentCard.frontText}</Text>
             </View>
             <View style={[styles.backWrapper,{
                 display:visible?'flex':'none'
             }]}>
-                <Text style={styles.cardText}>{card.backText}</Text>
+                <Text style={styles.cardText}>{currentCard.backText}</Text>
             </View>
         </View>
     );
@@ -23,14 +27,26 @@ const Card=()=>{
 
 const Button=()=>{
     const [visible,setVisible]=useContext(VisibleContext);
-    const [card,setCard]=useContext(CardContext);
+    const [cards,counter,deckId,setCards,setCounter]=useContext(CardContext);
+
+    const currentCard=cards[counter];
 
     const handleShowBack=()=>{
         setVisible(true);
     }
 
-    function handleNextCard(status){
-        setCard(nextCard(card));
+    const handleNextCard=(score)=>{
+        db.updateScore(currentCard.id,currentCard.score+score);
+
+        if(cards[counter+1]){
+             //There are more cards
+            setCounter(counter+1);
+        }
+        else{ 
+            //The Last Card
+            db.getNotes(setCards,deckId);
+            setCounter(0);
+        }
         setVisible(false);
     }
 
@@ -43,13 +59,13 @@ const Button=()=>{
             )}
             {visible && (
                 <>
-                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard('again')}>
+                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard(-1)}>
                     <Text style={styles.buttonText}>AGAIN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard('good')}>
+                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard(1)}>
                     <Text style={styles.buttonText}>GOOD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard('easy')}>
+                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard(2)}>
                     <Text style={styles.buttonText}>EASY</Text>
                 </TouchableOpacity>
                 </>
@@ -58,18 +74,18 @@ const Button=()=>{
     );
 }
 
-function Deck({route}) {
-    const {id}=route.params;
+function Cards({route}) {
+    const deckId=route.params.id;
 
     const [visible,setVisible]=useState(false);
-    const [card,setCard]=useState(getCard());
+    const [cards,setCards]=useState();
+    const [counter,setCounter]=useState(0);
 
-    function getCard(){
-        const cards=notes.filter((note)=>note.deckId==id);
-        return cards[0];
-    }
+    useEffect(()=>{
+        db.getNotes(setCards,deckId);
+    },[]);
 
-    if(getCard()!=undefined)
+    if(cards)
         return ( 
             <View style={styles.container}>
                 <View style={styles.answersCounter}>
@@ -79,8 +95,8 @@ function Deck({route}) {
                 </View>
 
                 <VisibleContext.Provider value={[visible,setVisible]}>
-                    <CardContext.Provider value={[card,setCard]}>
-                        <Card />
+                    <CardContext.Provider value={[cards,counter,deckId,setCards,setCounter]}>
+                        <SingleCard />
                         <Button />
                     </CardContext.Provider>
                 </VisibleContext.Provider>
@@ -99,13 +115,6 @@ function Deck({route}) {
 
 const VisibleContext=React.createContext();
 const CardContext=React.createContext();
-
-function nextCard(card){
-    const newCard=notes.find((note)=>note.deckId==card.deckId&&note.id>card.id);
-    if(newCard==undefined)
-        return notes.find((note)=>note.deckId==card.deckId);
-    return newCard;
-}
 
 const styles=StyleSheet.create({
     container:{
@@ -194,4 +203,4 @@ const styles=StyleSheet.create({
     },
 });
 
-export default Deck;
+export default Cards;

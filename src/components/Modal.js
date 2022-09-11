@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import theme from '../../assets/theme';
 
 function Modal({children,style,visible,onPress,onClose}) {
@@ -8,7 +8,7 @@ function Modal({children,style,visible,onPress,onClose}) {
                 transparent
                 visible={visible}
             >
-            <View style={styles.modal}>
+            <Pressable style={styles.modal} onPress={onClose}>
                 <View style={styles.contentWrapper}>
                     {children}
                     <View style={styles.buttonsWrapper}>
@@ -20,7 +20,7 @@ function Modal({children,style,visible,onPress,onClose}) {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </Pressable>
         </ReactModal>
      );
 }
