@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { Text,View,StyleSheet, TouchableOpacity } from 'react-native';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
+import { DeleteButton, GoBackButton } from '../components/Header';
 
 const db= new Database();
 
@@ -10,6 +11,8 @@ const SingleCard=()=>{
     const [cards,counter]=useContext(CardContext);
 
     const currentCard=cards[counter];
+
+    // console.log(currentCard);
 
     return (
         <View style={styles.cardWrapper}>
@@ -35,8 +38,8 @@ const Button=()=>{
         setVisible(true);
     }
 
-    const handleNextCard=(score)=>{
-        db.updateScore(currentCard.id,currentCard.score+score);
+    const handleNextCard=(score,status)=>{
+        db.updateScore(currentCard.id,currentCard.score+score,status);
 
         if(cards[counter+1]){
              //There are more cards
@@ -59,13 +62,13 @@ const Button=()=>{
             )}
             {visible && (
                 <>
-                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard(-1)}>
+                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard(-1,'again')}>
                     <Text style={styles.buttonText}>AGAIN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard(1)}>
+                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard(1,'good')}>
                     <Text style={styles.buttonText}>GOOD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard(2)}>
+                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard(2,'easy')}>
                     <Text style={styles.buttonText}>EASY</Text>
                 </TouchableOpacity>
                 </>
@@ -74,24 +77,54 @@ const Button=()=>{
     );
 }
 
-function Cards({route}) {
+function Cards({navigation,navigation:{setOptions},route}) {
     const deckId=route.params.id;
 
     const [visible,setVisible]=useState(false);
     const [cards,setCards]=useState();
     const [counter,setCounter]=useState(0);
 
+    //Status Counts
+    const [easy,setEasy]=useState(0);
+    const [again,setAgain]=useState(0);
+    const [good,setGood]=useState(0);
+
+    useLayoutEffect(() => {
+        setOptions({
+          headerRight: () => (
+            <DeleteButton onPress={handleDeleteCard} />
+          ),
+          headerLeft: () => (
+            <GoBackButton onPress={()=>navigation.goBack()} />
+          ),
+        })
+    });
+
     useEffect(()=>{
         db.getNotes(setCards,deckId);
     },[]);
+
+    useEffect(()=>{
+        db.getStatusCount(deckId,'easy',setEasy);
+        db.getStatusCount(deckId,'again',setAgain);
+        db.getStatusCount(deckId,'good',setGood);
+    },[counter]);
+
+    const handleDeleteCard=()=>{
+        //Add Confirm Message!!
+        //Delete and reset the cards!
+        db.deleteNote(cards[counter].id);
+        db.getNotes(setCards,deckId);
+        setCounter(0);
+    }
 
     if(cards)
         return ( 
             <View style={styles.container}>
                 <View style={styles.answersCounter}>
-                    <Text style={styles.easyCounter}>0</Text>
-                    <Text style={styles.againCounter}>0</Text>
-                    <Text style={styles.goodCounter}>0</Text>
+                    <Text style={styles.easyCounter}>{easy}</Text>
+                    <Text style={styles.againCounter}>{again}</Text>
+                    <Text style={styles.goodCounter}>{good}</Text>
                 </View>
 
                 <VisibleContext.Provider value={[visible,setVisible]}>

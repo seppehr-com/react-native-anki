@@ -18,7 +18,7 @@ const Home=({navigation,route})=> {
 
     useEffect(()=>{
         db.getDecks(setDecksList);
-        // db.getNotes(notes=>{
+        // db.getNotes((notes)=>{
         //     console.log(notes);
         // });
     },[]);

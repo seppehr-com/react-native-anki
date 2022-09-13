@@ -22,7 +22,7 @@ class Database{
             },
           );
           txn.executeSql(
-            `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT,deckId INTEGER, frontText VARCHAR(200),backText VARCHAR(200),score INTEGER DEFAULT 0);`,
+            `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT,deckId INTEGER, frontText VARCHAR(200),backText VARCHAR(200),score INTEGER DEFAULT 0,lastStatus VARCHAR(20) DEFAULT 'empty');`,
             [],
             (sqlTxn, res) => {
                 // console.log("notes table created successfully");
@@ -37,7 +37,13 @@ class Database{
     getDecks=(setList)=>{
         this.db.transaction(txn=>{
             txn.executeSql(
-                `SELECT * FROM decks ORDER BY id DESC`,
+                `SELECT d.id,d.title,
+                COUNT(case when n.lastStatus='good' then 1 end) AS good,
+                COUNT(case when n.lastStatus='easy' then 1 end) AS easy,
+                COUNT(case when n.lastStatus='again' then 1 end) AS again
+                FROM decks as d
+                LEFT join notes as n ON n.deckId=d.id
+                GROUP BY d.id,d.title ORDER BY d.id DESC`,
                 [],
                 (sqlTxn,res)=>{
                     // console.log("decks retrieved successfully");
@@ -99,6 +105,22 @@ class Database{
         });
     }
 
+    getStatusCount=(deckId,status,setCount)=>{
+        this.db.transaction(txn=>{
+            txn.executeSql(
+                `SELECT count(*) as count FROM notes WHERE deckId=${deckId} and lastStatus='${status}' ORDER BY score ASC`,
+                [],
+                (sqlTxn,res)=>{
+                    // console.log("notes retrieved successfully");
+                   setCount(res.rows.item(0).count);
+                },
+                error=>{
+                    console.log(error.message);
+                }
+            );
+        });
+    }
+
     insertNote = (deckId,frontText,backText) => {
         this.db.transaction(txn=>{
             txn.executeSql(
@@ -114,13 +136,28 @@ class Database{
         })
     }
 
-    updateScore=(id,score)=>{
+    updateScore=(id,score,status)=>{
         this.db.transaction(txn=>{
             txn.executeSql(
-                `UPDATE notes SET score = ${score} WHERE id=${id}`,
+                `UPDATE notes SET score = ${score} , lastStatus = '${status}' WHERE id=${id}`,
                 [],
                 (sql,res)=>{
                     console.log(`score updated to ${score}`);
+                },
+                error=>{
+                    console.log(error.message);
+                }
+            );
+        });
+    }
+
+    deleteNote=(id)=>{
+        this.db.transaction(txn=>{
+            txn.executeSql(
+                `DELETE FROM notes WHERE id=${id}`,
+                [],
+                (sql,res)=>{
+                    console.log(`${id} deleted successfully`);
                 },
                 error=>{
                     console.log(error.message);

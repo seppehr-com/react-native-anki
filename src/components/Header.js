@@ -18,7 +18,7 @@ const LeftButton=()=>{
 
 const RightButton=()=>{
     return (
-        <TouchableOpacity  onPress={()=>alert('clicked')} >
+        <TouchableOpacity  onPress={()=>{}} style={{marginRight:-15}}>
             <View style={styles.button}>
                 <FontAwesome name="gear" size={25} color={'white'} />
             </View>
@@ -36,9 +36,19 @@ const DoneButton=({onPress})=>{
     ); 
 }
 
-const GoBackButton=({onPress})=>{
+const DeleteButton=({onPress})=>{
     return (
         <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
+            <View style={styles.button}>
+                <FontAwesome name="trash" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
+const GoBackButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:+15}}>
             <View style={styles.button}>
                 <FontAwesome name="arrow-left" size={20} color={'white'} />
             </View>
@@ -62,4 +72,4 @@ const styles=StyleSheet.create({
     },
 });
 
-export {LeftButton,RightButton,DoneButton,GoBackButton,DeckTitle};
+export {LeftButton,RightButton,DoneButton,DeleteButton,GoBackButton,DeckTitle};
