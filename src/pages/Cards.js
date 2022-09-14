@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Text,View,StyleSheet, TouchableOpacity } from 'react-native';
+import { Text,View,StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
 import { DeleteButton, GoBackButton } from '../components/Header';
@@ -11,8 +11,6 @@ const SingleCard=()=>{
     const [cards,counter]=useContext(CardContext);
 
     const currentCard=cards[counter];
-
-    // console.log(currentCard);
 
     return (
         <View style={styles.cardWrapper}>
@@ -111,11 +109,30 @@ function Cards({navigation,navigation:{setOptions},route}) {
     },[counter]);
 
     const handleDeleteCard=()=>{
-        //Add Confirm Message!!
-        //Delete and reset the cards!
-        db.deleteNote(cards[counter].id);
-        db.getNotes(setCards,deckId);
-        setCounter(0);
+        if(!cards){
+            alert('There is no card to delete!');
+            return false;
+        }
+
+        Alert.alert(
+            "Delete this Card!",
+            "Are you sure ?!",
+            [
+              {
+                text: "NO",
+                style: "cancel"
+              },
+              {
+                text: "YES",
+                onPress: () => {
+                    //Delete and reset the cards!
+                    db.deleteNote(cards[counter].id);
+                    db.getNotes(setCards,deckId);
+                    setCounter(0);
+                }
+              },
+            ]
+        );
     }
 
     if(cards)

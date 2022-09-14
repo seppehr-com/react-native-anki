@@ -177,6 +177,7 @@ const styles=StyleSheet.create({
         alignItems:'center'
     },
     textBox:{
+        color:'black',
         borderBottomColor:theme.colors.black,
         borderBottomWidth:1,
         fontSize:18,

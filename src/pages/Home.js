@@ -18,10 +18,7 @@ const Home=({navigation,route})=> {
 
     useEffect(()=>{
         db.getDecks(setDecksList);
-        // db.getNotes((notes)=>{
-        //     console.log(notes);
-        // });
-    },[]);
+    },[decksList]);
 
     const handleCreateDeck=()=>{
         if(!deckTextInput){
@@ -34,13 +31,13 @@ const Home=({navigation,route})=> {
         setDeckTextInput('');
         setVisibleModal(false);
     }
-
+    
     return ( 
         <View style={styles.container}>
             <StatusBar backgroundColor="#0288D1" />
             
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Decks navigation={navigation} decks={decksList} />
+                <Decks navigation={navigation} decks={decksList} handleRefresh={()=>db.getDecks(setDecksList)} />
             </ScrollView>
 
             <Modal visible={visibleModal} onPress={handleCreateDeck} onClose={()=>setVisibleModal(false)}>

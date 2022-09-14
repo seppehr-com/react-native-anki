@@ -165,6 +165,21 @@ class Database{
             );
         });
     }
+
+    deleteDeck=(id)=>{
+        this.db.transaction(txn=>{
+            txn.executeSql(
+                `DELETE FROM decks WHERE id=${id};DELETE FROM notes WHERE deckId=${id};`,
+                [],
+                (sql,res)=>{
+                    console.log(`${id} deleted successfully`);
+                },
+                error=>{
+                    console.log(error.message);
+                }
+            );
+        });
+    }
 }
  
 export default Database;
