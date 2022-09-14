@@ -3,36 +3,12 @@ import { Text, View,StyleSheet, Pressable, Alert } from 'react-native';
 import theme from '../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Database from '../../modules/Database';
 
 FontAwesome.loadFont();
 
-const db=new Database();
-
 let rowRefs = new Map();
 
-const Decks=gestureHandlerRootHOC(({navigation,decks,handleRefresh})=> {
-    const handleDeleteDeck=(id)=>{
-        Alert.alert(
-            "Delete this Deck!",
-            "Are you sure ?!",
-            [
-              {
-                text: "NO",
-                style: "cancel"
-              },
-              {
-                text: "YES",
-                onPress: () => {
-                    //Delete and reset the decks!
-                    db.deleteDeck(id);
-                    handleRefresh();
-                }
-              },
-            ]
-        );
-    }
-    
+const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
     const renderSwipeDelete=(progress, dragX)=>{
         return(
             <RectButton style={styles.deleteItemWrapper}>

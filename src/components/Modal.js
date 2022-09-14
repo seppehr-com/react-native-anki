@@ -1,25 +1,51 @@
-import React from 'react';
-import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable, Animated } from 'react-native';
 import theme from '../../assets/theme';
 
-function Modal({children,style,visible,onPress,onClose}) {
+function Modal({children,style,visible,setVisible,onPress}) {
+    const fadeAnim=useRef(new Animated.Value(0)).current;
+
+    useEffect(()=>{
+        if(visible){
+            Animated.timing(fadeAnim,{
+                toValue:1,
+                duration:400,
+                useNativeDriver:true,
+            }).start();   
+        }
+    },[visible]);
+
+    const onClose=()=>{
+        Animated.timing(fadeAnim,{
+            toValue:0,
+            duration:400,
+            useNativeDriver:true,
+        }).start();
+        setTimeout(()=>{
+            setVisible(false);
+        },400);
+    };
+
     return ( 
         <ReactModal
                 transparent
                 visible={visible}
             >
             <Pressable style={styles.modal} onPress={onClose}>
-                <View style={styles.contentWrapper}>
+                <Animated.View style={[styles.contentWrapper,{opacity:fadeAnim}]}>
                     {children}
                     <View style={styles.buttonsWrapper}>
                         <TouchableOpacity style={styles.button} onPress={onClose}>
                             <Text style={styles.buttonText}>CANCEL</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={onPress}>
+                        <TouchableOpacity style={styles.button} onPress={()=>{
+                            onClose();
+                            onPress();
+                        }}>
                             <Text style={styles.buttonText}>OK</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </Animated.View>
             </Pressable>
         </ReactModal>
      );
@@ -28,13 +54,12 @@ function Modal({children,style,visible,onPress,onClose}) {
 const styles=StyleSheet.create({
     modal:{
         flex: 1, 
-        alignItems: 'center', 
         justifyContent: 'center', 
         backgroundColor: 'rgba(0,0,0,0.5)'
     },
     contentWrapper:{
         backgroundColor:theme.colors.white,
-        width:'80%',
+        marginHorizontal:20,
         paddingVertical:15,
         paddingHorizontal:20,
         elevation:10,

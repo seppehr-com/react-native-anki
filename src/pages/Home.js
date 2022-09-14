@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, RefreshControl, Dimensions, Pressable } from 'react-native';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert, Dimensions} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../../assets/theme';
 import Decks from '../components/Decks';
@@ -31,7 +31,27 @@ const Home=gestureHandlerRootHOC(({navigation,route})=> {
         db.insertDeck(deckTextInput);
         db.getDecks(setDecksList);
         setDeckTextInput('');
-        setVisibleModal(false);
+    }
+
+    const handleDeleteDeck=(id)=>{
+        Alert.alert(
+            "Delete this Deck!",
+            "Are you sure ?!",
+            [
+              {
+                text: "NO",
+                style: "cancel"
+              },
+              {
+                text: "YES",
+                onPress: () => {
+                    //Delete and reset the decks!
+                    db.deleteDeck(id);
+                    db.getDecks(setDecksList);
+                }
+              },
+            ]
+        );
     }
 
 
@@ -56,10 +76,10 @@ const Home=gestureHandlerRootHOC(({navigation,route})=> {
                 >
                 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <Decks navigation={navigation} decks={decksList} handleRefresh={()=>db.getDecks(setDecksList)} />
+                    <Decks navigation={navigation} decks={decksList} handleDeleteDeck={handleDeleteDeck} />
                 </ScrollView>
 
-                <Modal visible={visibleModal} onPress={handleCreateDeck} onClose={()=>setVisibleModal(false)}>
+                <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
                     <Text style={styles.createTitle}>Create Deck</Text>
                     <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
                 </Modal>
