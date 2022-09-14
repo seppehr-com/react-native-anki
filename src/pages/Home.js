@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, RefreshControl} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, RefreshControl, Dimensions, Pressable } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../../assets/theme';
 import Decks from '../components/Decks';
 import Modal from '../components/Modal';
 import ButtonsWrapper from '../components/ButtonsWrapper';
+import { gestureHandlerRootHOC,DrawerLayout } from 'react-native-gesture-handler';
 import Database from '../../modules/Database';
 
 MaterialCommunityIcons.loadFont();
 
 const db= new Database();
 
-const Home=({navigation,route})=> {
+const Home=gestureHandlerRootHOC(({navigation,route})=> {
     const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);
+    const drawerRef=useRef();
 
     useEffect(()=>{
         db.getDecks(setDecksList);
@@ -31,24 +33,42 @@ const Home=({navigation,route})=> {
         setDeckTextInput('');
         setVisibleModal(false);
     }
+
+
+    const renderDrawer=()=>{
+        return (
+            <View>
+              <Text>I am in the drawer!</Text>
+            </View>
+          );
+    }
     
     return ( 
         <View style={styles.container}>
             <StatusBar backgroundColor="#0288D1" />
-            
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <Decks navigation={navigation} decks={decksList} handleRefresh={()=>db.getDecks(setDecksList)} />
-            </ScrollView>
+            <DrawerLayout
+                drawerWidth={Dimensions.get('window').width*0.7}
+                drawerPosition={DrawerLayout.positions.Left}
+                drawerType="front"
+                drawerBackgroundColor={theme.colors.white}
+                renderNavigationView={renderDrawer}
+                ref={drawerRef}
+                >
+                
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <Decks navigation={navigation} decks={decksList} handleRefresh={()=>db.getDecks(setDecksList)} />
+                </ScrollView>
 
-            <Modal visible={visibleModal} onPress={handleCreateDeck} onClose={()=>setVisibleModal(false)}>
-                <Text style={styles.createTitle}>Create Deck</Text>
-                <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
-            </Modal>
+                <Modal visible={visibleModal} onPress={handleCreateDeck} onClose={()=>setVisibleModal(false)}>
+                    <Text style={styles.createTitle}>Create Deck</Text>
+                    <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
+                </Modal>
 
-            <ButtonsWrapper onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
+                <ButtonsWrapper onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
+            </DrawerLayout>
         </View>
      );
-}
+});
 
 const styles=StyleSheet.create({
     container:{

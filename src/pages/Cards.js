@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { Text,View,StyleSheet, TouchableOpacity,Alert } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
 import { DeleteButton, GoBackButton } from '../components/Header';
@@ -146,7 +147,9 @@ function Cards({navigation,navigation:{setOptions},route}) {
 
                 <VisibleContext.Provider value={[visible,setVisible]}>
                     <CardContext.Provider value={[cards,counter,deckId,setCards,setCounter]}>
-                        <SingleCard />
+                        <ScrollView>
+                            <SingleCard />
+                        </ScrollView>
                         <Button />
                     </CardContext.Provider>
                 </VisibleContext.Provider>

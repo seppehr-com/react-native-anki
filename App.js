@@ -6,15 +6,18 @@ import {LeftButton,RightButton} from './src/components/Header';
 import theme from './assets/theme/index';
 import AddNote from './src/pages/AddNote';
 import Cards from './src/pages/Cards';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const Stack=createNativeStackNavigator();
 
-function App() {
+const App=gestureHandlerRootHOC(()=>{
   return ( 
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
          headerStyle: {backgroundColor:theme.colors.header},
          headerTitleStyle:{color:theme.colors.white},
+         gestureDirection: 'horizontal',
+         gestureEnabled: true,
       }}>
         <Stack.Screen name="Simple Anki" component={Home} options={{
           headerLeft:()=><LeftButton />,
@@ -28,6 +31,6 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
    );
-}
+});
 
 export default App;

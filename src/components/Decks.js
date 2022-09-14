@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View,StyleSheet, Pressable, Alert } from 'react-native';
 import theme from '../../assets/theme';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { gestureHandlerRootHOC,RectButton } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Database from '../../modules/Database';
 
@@ -48,26 +47,29 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleRefresh})=> {
                 <Swipeable 
                     key={index} 
                     ref={ref => {
-                        if (ref && !rowRefs.get(index)) {
-                          rowRefs.set(index, ref);
+                        if (ref && !rowRefs.get(item.id)) {
+                          rowRefs.set(item.id, ref);
                         }
                     }}
                     renderRightActions={renderSwipeDelete} 
                     onSwipeableOpen={()=>{
-                        [...rowRefs.entries()].forEach(([index, ref]) => {
+                        [...rowRefs.entries()].forEach(([id, ref]) => {
                             ref.close();
                         });
                         handleDeleteDeck(item.id);
                     }}>
 
-                    <Pressable style={styles.deckWrapper} onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}>
+                    <TouchableOpacity 
+                        style={styles.deckWrapper} 
+                        onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
+                        activeOpacity={0.6}>
                         <Text style={styles.deckTitle}>{item.title}</Text>
                         <View style={styles.deckSide}>
                             <Text style={styles.deckCount}>{item.easy}</Text>
                             <Text style={styles.deckCount}>{item.again}</Text>
                             <Text style={styles.deckCount}>{item.good}</Text>
                         </View>
-                    </Pressable>
+                    </TouchableOpacity>
                 </Swipeable>
             ))}
         </View>

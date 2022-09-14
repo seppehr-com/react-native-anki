@@ -24,7 +24,7 @@ const Button=({name})=>{
 }
 
 
-function AddNote({navigation,navigation: { setOptions}}) {
+const AddNote=({navigation,navigation: { setOptions}}) =>{
     const [decks,setDecks]=useState([]);
     const [frontInput,setFrontInput]=useState('');
     const [backInput,setBackInput]=useState('');
@@ -104,7 +104,7 @@ function AddNote({navigation,navigation: { setOptions}}) {
                             <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textBox} onChangeText={setFrontInput} />
+                    <TextInput style={styles.textBox} multiline onChangeText={setFrontInput} />
                 </View>
                 <View style={styles.textBoxGroup}>
                 <View style={styles.textBoxLabel}>
@@ -113,7 +113,7 @@ function AddNote({navigation,navigation: { setOptions}}) {
                             <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textBox} onChangeText={setBackInput} />
+                    <TextInput style={styles.textBox} multiline onChangeText={setBackInput} />
                 </View>
 
                 <View style={{marginTop:15}}>
