@@ -1,30 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable, Animated } from 'react-native';
 import theme from '../../assets/theme';
+import Animation from '../../modules/Animation';
 
-function Modal({children,style,visible,setVisible,onPress}) {
+const anim=new Animation();
+
+function Modal({children,visible,setVisible,onPress}) {
     const fadeAnim=useRef(new Animated.Value(0)).current;
 
     useEffect(()=>{
-        if(visible){
-            Animated.timing(fadeAnim,{
-                toValue:1,
-                duration:400,
-                useNativeDriver:true,
-            }).start();   
-        }
+        if(visible) 
+            anim.fadeIn(fadeAnim,600,setVisible);
     },[visible]);
 
-    const onClose=()=>{
-        Animated.timing(fadeAnim,{
-            toValue:0,
-            duration:400,
-            useNativeDriver:true,
-        }).start();
-        setTimeout(()=>{
-            setVisible(false);
-        },400);
-    };
+    const onClose=()=> anim.fadeOut(fadeAnim,600,setVisible);
 
     return ( 
         <ReactModal
@@ -55,7 +44,7 @@ const styles=StyleSheet.create({
     modal:{
         flex: 1, 
         justifyContent: 'center', 
-        backgroundColor: 'rgba(0,0,0,0.5)'
+        backgroundColor: 'rgba(0,0,0,0.4)'
     },
     contentWrapper:{
         backgroundColor:theme.colors.white,
