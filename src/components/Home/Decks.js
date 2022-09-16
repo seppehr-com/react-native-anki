@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View,StyleSheet, Pressable, Alert } from 'react-native';
-import theme from '../../assets/theme';
+import theme from '../../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -67,7 +67,7 @@ const styles=StyleSheet.create({
         paddingVertical:10,
     },
     deckTitle:{
-        ...theme.typo.h1,
+        ...theme.typo.h2,
         color:theme.colors.black,
     },
     deckSide:{

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Text, View ,StyleSheet, TouchableOpacity, Modal, Pressable, Animated} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import theme from '../../assets/theme/index';
-import Animation from '../../modules/Animation';
+import theme from '../../../assets/theme/index';
+import Animation from '../../../modules/Animation';
 
 MaterialCommunityIcons.loadFont();
 const anim=new Animation();
@@ -15,16 +15,16 @@ const Button = ({onPress,style,icon}) =>{
     );
 }
 
-export default ButtonsWrapper = ({onOpenModal,navigation}) =>{
+export default New = ({onOpenModal,navigation}) =>{
     const [visible,setVisible] = useState(false); 
     const fadeAnim=useRef(new Animated.Value(0)).current;
 
     const handlePress=()=>{
         if(!visible){
-            anim.fadeIn(fadeAnim,400,setVisible);
+            anim.fadeIn(fadeAnim,setVisible);
             return true;
         }
-        anim.fadeOut(fadeAnim,300,setVisible);
+        anim.fadeOut(fadeAnim,setVisible);
     }
     const handleOpenModal=()=>{
         onOpenModal();
@@ -60,10 +60,12 @@ export default ButtonsWrapper = ({onOpenModal,navigation}) =>{
                                 size:15,
                         }} />
                     </Animated.View>
-                    <Button style={[styles.addButton,{position:'absolute',right:20,bottom:30}]} onPress={handlePress} icon={{
-                        name:"close",
-                        size:22,
-                    }} />
+                    <Animated.View style={{position:'absolute',right:20,bottom:30,opacity:fadeAnim}}>
+                        <Button style={styles.addButton} onPress={handlePress} icon={{
+                            name:"close",
+                            size:22,
+                        }} />
+                    </Animated.View>
                 </Pressable>
             </Modal>
             <Button style={[styles.addButton,{display:visible?'none':'flex'}]} onPress={handlePress} icon={{
@@ -99,6 +101,8 @@ const styles=StyleSheet.create({
     modalBackground:{
         flex:1,
         backgroundColor:'rgba(0,0,0,0.4)',
+        // backgroundColor:'black',
+        // opacity:0.4,
         justifyContent:'flex-end',
         paddingRight:20,
         paddingBottom:80,

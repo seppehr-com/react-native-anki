@@ -10,10 +10,10 @@ function Modal({children,visible,setVisible,onPress}) {
 
     useEffect(()=>{
         if(visible) 
-            anim.fadeIn(fadeAnim,600,setVisible);
+            anim.fadeIn(fadeAnim,setVisible);
     },[visible]);
 
-    const onClose=()=> anim.fadeOut(fadeAnim,600,setVisible);
+    const onClose=()=> anim.fadeOut(fadeAnim,setVisible);
 
     return ( 
         <ReactModal
@@ -52,6 +52,7 @@ const styles=StyleSheet.create({
         paddingVertical:15,
         paddingHorizontal:20,
         elevation:10,
+        borderRadius:15,
     },
     buttonsWrapper:{
         flexDirection:'row',
@@ -63,7 +64,7 @@ const styles=StyleSheet.create({
         marginLeft:15,
     },
     buttonText:{
-        ...theme.typo.h2,
+        ...theme.typo.h3,
         color:theme.colors.darkGray,
     },
 });

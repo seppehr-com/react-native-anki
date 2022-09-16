@@ -1,24 +1,22 @@
 import { Animated } from 'react-native';
 
 class Animation {
-    fadeIn(ref,duration,setVisible){
-        Animated.timing(ref,{
+    fadeIn(ref,setVisible){
+        Animated.spring(ref,{
             toValue:1,
-            duration:duration,
             useNativeDriver:true,
         }).start();
         setVisible(true);
     }
-    fadeOut(ref,duration,setVisible){
-        Animated.timing(ref,{
+    fadeOut(ref,setVisible){
+        Animated.spring(ref,{
             toValue:0,
-            duration:duration,
             useNativeDriver:true,
         }).start();
 
         setTimeout(()=>{
             setVisible(false);
-        },duration);
+        },100);
     }
 }
 

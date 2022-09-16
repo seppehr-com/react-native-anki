@@ -17,6 +17,10 @@ export default theme={
             fontSize:20,
         },
         h2:{
+            fontFamily:'OpenSans-Bold',
+            fontSize:18,
+        },
+        h3:{
             fontFamily:'OpenSans-SemiBold',
             fontSize:16,
         },
@@ -25,6 +29,10 @@ export default theme={
             fontSize:18,
         },
         b2:{
+            fontFamily:'OpenSans-Regular',
+            fontSize:16,
+        },
+        b3:{
             fontFamily:'OpenSans-Regular',
             fontSize:14,
         },

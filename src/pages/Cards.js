@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Text,View,StyleSheet, TouchableOpacity,Alert } from 'react-native';
+import { Text,View,StyleSheet, TouchableOpacity,Alert,ActivityIndicator } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
@@ -91,7 +91,7 @@ function Cards({navigation,navigation:{setOptions},route}) {
     useLayoutEffect(() => {
         setOptions({
           headerRight: () => (
-            <DeleteButton onPress={handleDeleteCard} />
+            Array.isArray(cards)?<DeleteButton onPress={handleDeleteCard} />:<View />
           ),
           headerLeft: () => (
             <GoBackButton onPress={()=>navigation.goBack()} />
@@ -101,6 +101,7 @@ function Cards({navigation,navigation:{setOptions},route}) {
 
     useEffect(()=>{
         db.getNotes(setCards,deckId);
+        // console.log(cards);
     },[]);
 
     useEffect(()=>{
@@ -136,7 +137,7 @@ function Cards({navigation,navigation:{setOptions},route}) {
         );
     }
 
-    if(cards)
+    if(cards&&Array.isArray(cards))
         return ( 
             <View style={styles.container}>
                 <View style={styles.answersCounter}>
@@ -155,7 +156,7 @@ function Cards({navigation,navigation:{setOptions},route}) {
                 </VisibleContext.Provider>
             </View>
         );
-     else
+    else if(cards==='empty') 
         return (
             <View style={[styles.container,{
                 justifyContent:'center',
@@ -164,6 +165,11 @@ function Cards({navigation,navigation:{setOptions},route}) {
                 <Text style={{...theme.typo.b1,color:theme.colors.darkGray}}>There is no note here!</Text>
             </View>
         )
+    return(
+        <View style={[styles.container,{justifyContent:'center'}]}>
+            <ActivityIndicator size='large' color={theme.colors.header} />
+        </View>
+    )
 }
 
 const VisibleContext=React.createContext();

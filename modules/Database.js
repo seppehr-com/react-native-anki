@@ -88,7 +88,7 @@ class Database{
                 (sqlTxn,res)=>{
                     // console.log("notes retrieved successfully");
                     let len = res.rows.length;
-          
+
                     if (len > 0) {
                       let results = [];
                       for (let i = 0; i < len; i++) {
@@ -97,6 +97,7 @@ class Database{
           
                       setList(results);
                     }
+                    else setList('empty');
                 },
                 error=>{
                     console.log(error.message);

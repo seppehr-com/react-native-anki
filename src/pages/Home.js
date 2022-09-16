@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert, Dimensions} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import theme from '../../assets/theme';
-import Decks from '../components/Decks';
-import Modal from '../components/Modal';
-import ButtonsWrapper from '../components/ButtonsWrapper';
 import { gestureHandlerRootHOC,DrawerLayout } from 'react-native-gesture-handler';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Decks from '../components/Home/Decks';
+import New from '../components/Home/New';
+import Modal from '../components/Modal';
+import theme from '../../assets/theme';
 import Database from '../../modules/Database';
 
 MaterialCommunityIcons.loadFont();
@@ -84,7 +84,7 @@ const Home=gestureHandlerRootHOC(({navigation,route})=> {
                     <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
                 </Modal>
 
-                <ButtonsWrapper onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
+                <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
             </DrawerLayout>
         </View>
      );
@@ -135,12 +135,12 @@ const styles=StyleSheet.create({
         justifyContent:'flex-end',
     },
     createTitle:{
-        ...theme.typo.h1,
+        ...theme.typo.h2,
         color:theme.colors.black
     },
     createInput:{
         marginTop:20,
-        borderBottomWidth:2,
+        borderBottomWidth:1,
         borderBottomColor:theme.colors.black,
         fontSize:18,
         color:theme.colors.black,

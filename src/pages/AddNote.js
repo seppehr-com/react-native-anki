@@ -28,6 +28,8 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
     const [decks,setDecks]=useState([]);
     const [frontInput,setFrontInput]=useState('');
     const [backInput,setBackInput]=useState('');
+    const [frontInputSelection,setFrontInputSelection]=useState({});
+    const [backInputSelection,setBackInputSelection]=useState({});
     const [deckInput,setDeckInput]=useState(null);
 
     useLayoutEffect(() => {
@@ -104,7 +106,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
                             <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textBox} multiline onChangeText={setFrontInput} />
+                    <TextInput style={styles.textBox} multiline onChangeText={setFrontInput} onSelectionChange={({ nativeEvent: { selection }}) => setFrontInputSelection(selection)} />
                 </View>
                 <View style={styles.textBoxGroup}>
                 <View style={styles.textBoxLabel}>
@@ -113,10 +115,10 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
                             <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                         </TouchableOpacity>
                     </View>
-                    <TextInput style={styles.textBox} multiline onChangeText={setBackInput} />
+                    <TextInput style={styles.textBox} multiline onChangeText={setBackInput} onSelectionChange={({ nativeEvent: { selection }}) => setBackInputSelection(selection)} />
                 </View>
 
-                <View style={{marginTop:15}}>
+                <View style={{marginTop:15,marginBottom:100}}>
                     <View style={styles.extraBoxWrapper}>
                         <Text style={styles.extraBoxTitle}>Tags:</Text>
                     </View>
@@ -181,6 +183,7 @@ const styles=StyleSheet.create({
         borderBottomColor:theme.colors.black,
         borderBottomWidth:1,
         fontSize:18,
+        maxWidth:1000,
     },
     extraBoxWrapper:{
         marginTop:10,
