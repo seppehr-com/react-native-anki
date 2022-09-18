@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert, Dimensions} from 'react-native';
-import { gestureHandlerRootHOC,DrawerLayout } from 'react-native-gesture-handler';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert, Dimensions, Button} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Decks from '../components/Home/Decks';
 import New from '../components/Home/New';
@@ -12,11 +11,10 @@ MaterialCommunityIcons.loadFont();
 
 const db= new Database();
 
-const Home=gestureHandlerRootHOC(({navigation,route})=> {
+const Home=({navigation,navigation:{setOptions},route})=> {
     const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);
-    const drawerRef=useRef();
 
     useEffect(()=>{
         db.getDecks(setDecksList);
@@ -53,42 +51,24 @@ const Home=gestureHandlerRootHOC(({navigation,route})=> {
             ]
         );
     }
-
-
-    const renderDrawer=()=>{
-        return (
-            <View>
-              <Text>I am in the drawer!</Text>
-            </View>
-          );
-    }
     
     return ( 
         <View style={styles.container}>
             <StatusBar backgroundColor="#0288D1" />
-            <DrawerLayout
-                drawerWidth={Dimensions.get('window').width*0.7}
-                drawerPosition={DrawerLayout.positions.Left}
-                drawerType="front"
-                drawerBackgroundColor={theme.colors.white}
-                renderNavigationView={renderDrawer}
-                ref={drawerRef}
-                >
-                
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Decks navigation={navigation} decks={decksList} handleDeleteDeck={handleDeleteDeck} />
-                </ScrollView>
 
-                <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
-                    <Text style={styles.createTitle}>Create Deck</Text>
-                    <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
-                </Modal>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Decks navigation={navigation} decks={decksList} handleDeleteDeck={handleDeleteDeck} />
+            </ScrollView>
 
-                <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
-            </DrawerLayout>
+            <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
+                <Text style={styles.createTitle}>Create Deck</Text>
+                <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
+            </Modal>
+
+            <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
         </View>
      );
-});
+};
 
 const styles=StyleSheet.create({
     container:{

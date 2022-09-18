@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -6,9 +6,20 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 Entypo.loadFont();
 FontAwesome.loadFont();
 
-const LeftButton=()=>{
+const LeftButton=({onPress})=>{
+    const [open,setOpen]=useState(false);
+    const handleDrawer=()=>{
+        if(!open){
+            onPress.openDrawer();
+            // setOpen(true);
+            return;
+        }
+        onPress.closeDrawer();
+        setOpen(false);
+    }
+
     return (
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleDrawer}>
             <View style={styles.button}>
                 <Entypo name="menu" size={25} color={'white'} />
             </View>
@@ -20,7 +31,7 @@ const RightButton=()=>{
     return (
         <TouchableOpacity  onPress={()=>{}} style={{marginRight:-15}}>
             <View style={styles.button}>
-                <FontAwesome name="gear" size={25} color={'white'} />
+                <FontAwesome name="search" size={20} color={'white'} />
             </View>
         </TouchableOpacity>
     );

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Text,View,StyleSheet, TouchableOpacity,Alert,ActivityIndicator } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Text,View,StyleSheet, TouchableOpacity,ScrollView,Alert,ActivityIndicator } from 'react-native';
+import { DeleteButton, GoBackButton } from '../components/Header';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
-import { DeleteButton, GoBackButton } from '../components/Header';
 
 const db= new Database();
 
