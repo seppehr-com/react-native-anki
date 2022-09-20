@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {LeftButton,RightButton} from './src/components/Header';
+// import SplashScreen from 'react-native-splash-screen';
 import Home from './src/pages/Home';
 import AddNote from './src/pages/AddNote';
 import Cards from './src/pages/Cards';
@@ -14,6 +15,11 @@ const Stack=createNativeStackNavigator();
 
 const App=gestureHandlerRootHOC(()=>{
   let drawerRef;
+
+  // useEffect(()=>{
+  //   SplashScreen.hide();
+  // },[]);
+
   return ( 
     <NavigationContainer>
       <Drawer compRef={drawer=>drawerRef=drawer}>

@@ -64,7 +64,7 @@ const Drawer = ({children,compRef}) => {
         <DrawerLayout
             drawerWidth={width}
             drawerPosition={DrawerLayout.positions.Left}
-            drawerType="slide"
+            drawerType="front"
             drawerBackgroundColor={theme.colors.white}
             renderNavigationView={()=><RenderDrawer />}
             ref={compRef}>

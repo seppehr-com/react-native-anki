@@ -1,11 +1,84 @@
-import React from 'react';
-import { Text,View,StyleSheet, TouchableOpacity,Alert,ActivityIndicator } from 'react-native';
+import React,{useContext} from 'react';
+import { Text,View,StyleSheet, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
+import { CardContext } from '../../context/CardContext';
+
+const Head=()=>{
+    const {visible,cards,counter}=useContext(CardContext);
+
+    const currentCard=cards[counter];
+
+    return (
+        <ScrollView>
+            <View style={styles.cardWrapper}>
+                <View style={styles.frontWrapper}>
+                    <Text style={styles.cardText}>{currentCard.frontText}</Text>
+                </View>
+                <View style={[styles.backWrapper,{
+                    display:visible?'flex':'none'
+                }]}>
+                    <Text style={styles.cardText}>{currentCard.backText}</Text>
+                </View>
+            </View>
+        </ScrollView>
+    );
+}
+
+const Bottom=()=>{
+    const {visible,handleShowBack,handleNextCard}=useContext(CardContext);
+
+    return(
+        <View style={styles.buttonsWrapper}>
+            {!visible && (
+                <TouchableOpacity style={styles.showAnswerButtonWrapper} onPress={handleShowBack}>
+                    <Text style={styles.showAnswerButtonText}>SHOW ANSWER</Text>
+                </TouchableOpacity>
+            )}
+            {visible && (
+                <>
+                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard(-1,'again')}>
+                    <Text style={styles.buttonText}>AGAIN</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard(1,'good')}>
+                    <Text style={styles.buttonText}>GOOD</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard(2,'easy')}>
+                    <Text style={styles.buttonText}>EASY</Text>
+                </TouchableOpacity>
+                </>
+            )}
+        </View>
+    );
+}
 
 
 const CardLayout = () => {
-    return ( 
-        <View>
+    const {easy,good,again,cards}=useContext(CardContext);
 
+    return ( 
+        <View style={styles.container}>
+                {Array.isArray(cards)&&
+                <>
+                <View style={styles.answersCounter}>
+                    <Text style={styles.easyCounter}>{easy}</Text>
+                    <Text style={styles.againCounter}>{again}</Text>
+                    <Text style={styles.goodCounter}>{good}</Text>
+                </View>
+                <Head />
+                <Bottom />
+                </>}
+
+                {cards==='empty'&&
+                    <View style={[styles.container,{
+                        justifyContent:'center',
+                        alignItems:'center',
+                    }]}>
+                        <Text style={{...theme.typo.b1,color:theme.colors.darkGray}}>There is no note here!</Text>
+                    </View>}
+
+                {!cards&&
+                    <View style={[styles.container,{justifyContent:'center'}]}>
+                        <ActivityIndicator size='large' color={theme.colors.header} />
+                    </View>}
         </View> 
     );
 }

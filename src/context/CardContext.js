@@ -2,11 +2,11 @@ import React,{ createContext } from 'react';
 
 export const CardContext=createContext();
 
-export const CardProvider = ({children}) => {
+export const CardProvider = ({children,value}) => {
     
 
     return ( 
-        <CardContext.Provider value={{}}>
+        <CardContext.Provider value={value}>
             {children}
         </CardContext.Provider>
     );

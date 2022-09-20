@@ -95,7 +95,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
                                 <Entypo name="chevron-small-down" size={25} color={'black'} />
                             </View>
                         )}
-                        rowTextStyle={{position:'absolute',left:0}}
+                        rowTextStyle={{position:'absolute',left:0,paddingVertical:15,}}
                     />
                 </View>
 
