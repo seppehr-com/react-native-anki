@@ -54,7 +54,7 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
                     <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                 </TouchableOpacity>
             </View>
-            <TextInput style={styles.textBox} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => {setTextBoxSelection(selection);console.log(selection)}} onEndEditing={()=>setTextBoxSelection({})} />
+            <TextInput style={styles.textBox} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
         </View>
     );
 }
@@ -91,9 +91,9 @@ const TextEditor=()=>{
             <TextEditorButton name={'italic'} tag='i' />
             <TextEditorButton name={'underline'} tag='u' />
             <TextEditorButton name={'text-width'} tag='p' />
-            <TextEditorButton name={'align-left'} tag='p' properties='align="left"' />
-            <TextEditorButton name={'align-center'} tag='p' properties='align="center"' />
-            <TextEditorButton name={'align-right'} tag='p' properties='align="right"' />
+            <TextEditorButton name={'align-left'} tag='p' properties='style="text-align:left"' />
+            <TextEditorButton name={'align-center'} tag='p' properties='style="text-align:center"' />
+            <TextEditorButton name={'align-right'} tag='p' properties='style="text-align:right"' />
         </View>
     );
 }

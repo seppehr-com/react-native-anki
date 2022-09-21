@@ -1,5 +1,6 @@
 import React,{useContext} from 'react';
 import { Text,View,StyleSheet, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 import { CardContext } from '../../context/CardContext';
 
 const Head=()=>{
@@ -7,16 +8,34 @@ const Head=()=>{
 
     const currentCard=cards[counter];
 
+    const convertToHtml=(str)=>{
+        return str.replace(/\n/g, "<br />");
+    }
+
     return (
         <ScrollView>
             <View style={styles.cardWrapper}>
                 <View style={styles.frontWrapper}>
-                    <Text style={styles.cardText}>{currentCard.frontText}</Text>
+                    {/* <Text style={styles.cardText}>{currentCard.frontText}</Text> */}
+                    <RenderHtml
+                        contentWidth={500}
+                        source={{
+                            html: convertToHtml(`<b>${currentCard.frontText}</b>`)
+                        }}
+                        baseStyle={styles.cardText}
+                    />
                 </View>
+                
                 <View style={[styles.backWrapper,{
                     display:visible?'flex':'none'
                 }]}>
-                    <Text style={styles.cardText}>{currentCard.backText}</Text>
+                    <RenderHtml
+                        contentWidth={500}
+                        source={{
+                            html: convertToHtml(currentCard.backText)
+                        }}
+                        baseStyle={styles.cardText}
+                    />
                 </View>
             </View>
         </ScrollView>
@@ -123,7 +142,7 @@ const styles=StyleSheet.create({
         width:'100%',
         borderTopWidth:1,
         borderColor:theme.colors.midGray,
-        alignItems:'center'
+        // alignItems:'center'
     },
     cardText:{
         ...theme.typo.h1,

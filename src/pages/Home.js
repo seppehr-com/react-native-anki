@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert, Dimensions, Button} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Decks from '../components/Home/Decks';
 import New from '../components/Home/New';
@@ -11,7 +11,7 @@ MaterialCommunityIcons.loadFont();
 
 const db= new Database();
 
-const Home=({navigation,navigation:{setOptions},route})=> {
+const Home=({navigation})=> {
     const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);

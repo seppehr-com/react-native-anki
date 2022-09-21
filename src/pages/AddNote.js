@@ -33,7 +33,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
         const tagStart=`<${tag} ${properties?properties:''}>`,tagEnd=`</${tag}>`;
         let textInput,setTextInput;
 
-        if(start&&end){
+        if((start&&end)||(start===0)){
             if(label==='front'){
                 textInput=frontInput;
                 setTextInput=setFrontInput;
