@@ -54,7 +54,7 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
                     <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
                 </TouchableOpacity>
             </View>
-            <TextInput style={styles.textBox} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} />
+            <TextInput style={styles.textBox} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => {setTextBoxSelection(selection);console.log(selection)}} onEndEditing={()=>setTextBoxSelection({})} />
         </View>
     );
 }
@@ -74,38 +74,40 @@ const TagsCards = () => {
      );
 }
 
-const TextEditorButton=({name})=>{
-    return(
-        <TouchableOpacity style={styles.textEditorButton}>
-            <FontAwesome name={name} size={20} color={'black'} />
-        </TouchableOpacity>
-    );
-}
-
 const TextEditor=()=>{
+    const {handleTextEdit} = useContext(AddNoteContext);
+
+    const TextEditorButton=({name,tag,properties})=>{
+        return(
+            <TouchableOpacity style={styles.textEditorButton} onPress={()=>handleTextEdit(tag,properties)}>
+                <FontAwesome name={name} size={20} color={'black'} />
+            </TouchableOpacity>
+        );
+    }
+
     return(
         <View style={styles.textEditorWrapper}>
-            <TextEditorButton name={'bold'} />
-            <TextEditorButton name={'italic'} />
-            <TextEditorButton name={'underline'} />
-            <TextEditorButton name={'text-width'} />
-            <TextEditorButton name={'align-left'} />
-            <TextEditorButton name={'align-center'} />
-            <TextEditorButton name={'align-right'} />
+            <TextEditorButton name={'bold'} tag='b' />
+            <TextEditorButton name={'italic'} tag='i' />
+            <TextEditorButton name={'underline'} tag='u' />
+            <TextEditorButton name={'text-width'} tag='p' />
+            <TextEditorButton name={'align-left'} tag='p' properties='align="left"' />
+            <TextEditorButton name={'align-center'} tag='p' properties='align="center"' />
+            <TextEditorButton name={'align-right'} tag='p' properties='align="right"' />
         </View>
     );
 }
 
 const AddNoteLayout = () => {
-    const {decks,setDeckInput,frontInput,backInput,setFrontInput,setBackInput,setFrontInputSelection,setBackInputSelection}=useContext(AddNoteContext);
+    const {decks,setDeckInput,frontInput,backInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
 
     return ( 
         <View style={styles.container}>
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
                 <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput}  />
-                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={setFrontInputSelection}  />
-                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={setBackInputSelection}  />
+                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  />
+                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  />
                 <TagsCards />
             </ScrollView>
             <TextEditor />

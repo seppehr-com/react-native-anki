@@ -10,8 +10,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
     const [decks,setDecks]=useState([]);
     const [frontInput,setFrontInput]=useState('');
     const [backInput,setBackInput]=useState('');
-    const [frontInputSelection,setFrontInputSelection]=useState({});
-    const [backInputSelection,setBackInputSelection]=useState({});
+    const [inputSelection,setInputSelection]=useState({});
     const [deckInput,setDeckInput]=useState(null);
 
     useLayoutEffect(() => {
@@ -29,6 +28,32 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
         db.getDecks(setDecks);
     },[]);
 
+    const handleTextEdit=(tag,properties)=>{
+        let {start,end,label} = inputSelection;
+        const tagStart=`<${tag} ${properties?properties:''}>`,tagEnd=`</${tag}>`;
+        let textInput,setTextInput;
+
+        if(start&&end){
+            if(label==='front'){
+                textInput=frontInput;
+                setTextInput=setFrontInput;
+            }
+            else{
+                textInput=backInput;
+                setTextInput=setBackInput;
+            }
+
+            //Replacement
+            end+=tagStart.length;
+            textInput=textInput.substring(0,start)+tagStart+textInput.substring(start);
+            textInput=textInput.substring(0,end)+tagEnd+textInput.substring(end);
+
+            //Set State
+            setTextInput(textInput);
+            return;
+        }
+    }
+
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
             alert('Please enter the fields!');
@@ -42,7 +67,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
     const decksArray=decks.map(item=>item.title);
 
     return ( 
-        <AddNoteProvider value={{decks,frontInput,backInput,setFrontInput,setBackInput,setFrontInputSelection,setBackInputSelection,setDeckInput}}>
+        <AddNoteProvider value={{decks,frontInput,backInput,setFrontInput,setBackInput,setInputSelection,setDeckInput,handleTextEdit}}>
             <AddNoteLayout />
         </AddNoteProvider>
      );
