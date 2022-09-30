@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ThemeContext} from '../context/ThemeContext';
 import Decks from '../components/Home/Decks';
 import New from '../components/Home/New';
 import Modal from '../components/Modal';
@@ -12,6 +13,9 @@ MaterialCommunityIcons.loadFont();
 const db= new Database();
 
 const Home=({navigation})=> {
+    //NightMode Colors!
+    const {mode} = useContext(ThemeContext);
+    
     const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);
@@ -53,7 +57,7 @@ const Home=({navigation})=> {
     }
     
     return ( 
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
             <StatusBar backgroundColor="#0288D1" />
 
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -61,8 +65,8 @@ const Home=({navigation})=> {
             </ScrollView>
 
             <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
-                <Text style={styles.createTitle}>Create Deck</Text>
-                <TextInput style={styles.createInput} onChangeText={setDeckTextInput} />
+                <Text style={[styles.createTitle,{color:theme.colors[mode].t1}]}>Create Deck</Text>
+                <TextInput style={[styles.createInput,{borderBottomColor:theme.colors[mode].t1,color:theme.colors[mode].t1}]} onChangeText={setDeckTextInput} />
             </Modal>
 
             <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />

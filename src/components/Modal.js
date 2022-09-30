@@ -1,11 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef , useContext } from 'react';
 import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable, Animated } from 'react-native';
+import { ThemeContext } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import Animation from '../../modules/Animation';
 
 const anim=new Animation();
 
 function Modal({children,visible,setVisible,onPress}) {
+    //NightMode Colors!
+    const {mode} = useContext(ThemeContext);
+
     const fadeAnim=useRef(new Animated.Value(0)).current;
 
     useEffect(()=>{
@@ -21,7 +25,7 @@ function Modal({children,visible,setVisible,onPress}) {
                 visible={visible}
             >
             <Pressable style={styles.modal} onPress={onClose}>
-                <Animated.View style={[styles.contentWrapper,{opacity:fadeAnim}]}>
+                <Animated.View style={[styles.contentWrapper,{opacity:fadeAnim,backgroundColor:theme.colors[mode].background}]}>
                     {children}
                     <View style={styles.buttonsWrapper}>
                         <TouchableOpacity style={styles.button} onPress={onClose}>

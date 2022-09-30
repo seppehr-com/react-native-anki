@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SelectDropdown from 'react-native-select-dropdown'
 import { AddNoteContext } from '../../context/AddNoteContext';
+import { ThemeContext } from '../../context/ThemeContext';
 import theme from '../../../assets/theme';
 
 Entypo.loadFont();
@@ -12,9 +13,12 @@ MaterialCommunityIcons.loadFont();
 FontAwesome.loadFont();
 
 const  DropDown = ({label,list,setDropDown}) => {
+    //NightMode
+    const {mode} = useContext(ThemeContext);
+
     return ( 
         <View style={styles.dropDownGroup}>
-            <Text style={styles.labelTitle}>{label} </Text>
+            <Text style={[styles.labelTitle,{color:theme.colors[mode].t1}]}>{label} </Text>
             <SelectDropdown
                 data={list}
                 // defaultValue={decks.length>0?decks[0].title:null}
@@ -32,11 +36,23 @@ const  DropDown = ({label,list,setDropDown}) => {
                     // if data array is an array of objects then return item.property to represent item in dropdown
                     return item.title
                 }}
-                buttonStyle={styles.dropDownWrapper}
-                buttonTextStyle={styles.dropDownText}
+                buttonStyle={{
+                    flex:1,
+                    marginLeft:20,
+                    flexDirection:'row',
+                    justifyContent:'space-between',
+                    alignItems:'center',
+                    backgroundColor:theme.colors[mode].background,
+                }}
+                buttonTextStyle={{
+                    fontFamily:'OpenSans-Regular',
+                    fontSize:18,
+                    color:theme.colors[mode].t1,
+                    position:'absolute',
+                }}
                 renderDropdownIcon={()=>(
                     <View style={{position:'absolute',right:0,}}>
-                        <Entypo name="chevron-small-down" size={25} color={'black'} />
+                        <Entypo name="chevron-small-down" size={25} color={theme.colors[mode].t1} />
                     </View>
                 )}
                 rowTextStyle={{position:'absolute',left:0,paddingVertical:15,}}
@@ -46,15 +62,18 @@ const  DropDown = ({label,list,setDropDown}) => {
 }
 
 const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
+    //NightMode
+    const {mode} = useContext(ThemeContext);
+
     return ( 
         <View style={styles.textBoxGroup}>
             <View style={styles.textBoxLabel}>
-                <Text style={styles.labelTitle}>{label}</Text>
+                <Text style={[styles.labelTitle,{color:theme.colors[mode].t1}]}>{label}</Text>
                 <TouchableOpacity>
-                    <MaterialCommunityIcons name="attachment" size={20} color={'black'} />
+                    <MaterialCommunityIcons name="attachment" size={20} color={theme.colors[mode].t1} />
                 </TouchableOpacity>
             </View>
-            <TextInput style={styles.textBox} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
+            <TextInput style={[styles.textBox,{color:theme.colors[mode].t1,borderBottomColor:theme.colors[mode].t1}]} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
         </View>
     );
 }
@@ -99,10 +118,13 @@ const TextEditor=()=>{
 }
 
 const AddNoteLayout = () => {
+    //NightMode
+    const {mode} = useContext(ThemeContext);
+
     const {decks,setDeckInput,frontInput,backInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
 
     return ( 
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
                 <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput}  />

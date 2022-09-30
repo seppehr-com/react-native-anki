@@ -1,9 +1,14 @@
 import React,{useContext} from 'react';
 import { Text,View,StyleSheet, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import { ThemeContext } from '../../context/ThemeContext';
 import { CardContext } from '../../context/CardContext';
+import theme from '../../../assets/theme';
 
 const Head=()=>{
+    //NightMode
+    const {mode} = useContext(ThemeContext);
+    
     const {visible,cards,counter}=useContext(CardContext);
 
     const currentCard=cards[counter];
@@ -11,6 +16,11 @@ const Head=()=>{
     const convertToHtml=(str)=>{
         return str.replace(/\n/g, "<br />");
     }
+
+    const baseStyleText={
+        ...theme.typo.h1,
+        color:theme.colors[mode].t1,
+    };
 
     return (
         <ScrollView>
@@ -22,7 +32,7 @@ const Head=()=>{
                         source={{
                             html: convertToHtml(`<b>${currentCard.frontText}</b>`)
                         }}
-                        baseStyle={styles.cardText}
+                        baseStyle={baseStyleText}
                     />
                 </View>
                 
@@ -34,7 +44,7 @@ const Head=()=>{
                         source={{
                             html: convertToHtml(currentCard.backText)
                         }}
-                        baseStyle={styles.cardText}
+                        baseStyle={baseStyleText}
                     />
                 </View>
             </View>
@@ -71,10 +81,13 @@ const Bottom=()=>{
 
 
 const CardLayout = () => {
+    //NightMode
+    const {mode} = useContext(ThemeContext);
+    
     const {easy,good,again,cards}=useContext(CardContext);
 
     return ( 
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
                 {Array.isArray(cards)&&
                 <>
                 <View style={styles.answersCounter}>

@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { Text, View,StyleSheet, Pressable, Alert } from 'react-native';
+import { ThemeContext } from '../../context/ThemeContext';
 import theme from '../../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +10,9 @@ FontAwesome.loadFont();
 let rowRefs = new Map();
 
 const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
+    //NightMode Colors!
+    const {mode} = useContext(ThemeContext);
+
     const renderSwipeDelete=(progress, dragX)=>{
         return(
             <RectButton style={styles.deleteItemWrapper}>
@@ -36,10 +40,10 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
                     }}>
 
                     <TouchableOpacity 
-                        style={styles.deckWrapper} 
+                        style={[styles.deckWrapper,{backgroundColor:theme.colors[mode].background,borderBottomColor:theme.colors[mode].t3}]} 
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
                         activeOpacity={0.6}>
-                        <Text style={styles.deckTitle}>{item.title}</Text>
+                        <Text style={[styles.deckTitle,{color:theme.colors[mode].t1}]}>{item.title}</Text>
                         <View style={styles.deckSide}>
                             <Text style={styles.deckCount}>{item.easy}</Text>
                             <Text style={styles.deckCount}>{item.again}</Text>
@@ -60,7 +64,7 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         borderBottomWidth:1,
         backgroundColor:theme.colors.white,
-        borderBottomColor:theme.colors.lightGray,
+        // borderBottomColor:theme.colors.lightGray,
         justifyContent:'space-between',
         alignItems:'center',
         paddingHorizontal:15,

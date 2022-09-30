@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { ThemeContext,ThemeProvider } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import DrawerLogo from '../../assets/images/drawer_logo.png'
 
@@ -10,8 +11,7 @@ FontAwesome.loadFont();
 const width=Dimensions.get('window').width*0.7;
 
 const RenderDrawer=()=>{
-    const [nightMode,setNightMode]=useState(false);
-    const toggleSwitch = () => setNightMode(previousState => !previousState);
+    const {nightMode,toggleSwitch,mode}=useContext(ThemeContext);
 
     return ( 
         <View style={styles.drawerContainer}>
@@ -23,20 +23,20 @@ const RenderDrawer=()=>{
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='search' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Card browser</Text>
+                <FontAwesome name='search' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Card browser</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='bar-chart' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Statistcs</Text>
+                <FontAwesome name='bar-chart' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,,{color:theme.colors[mode].t1}]}>Statistcs</Text>
             </TouchableOpacity>
 
             <View style={styles.separatorLine} />
 
             <View style={styles.itemWrapper}>
-                <FontAwesome name='moon-o' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Night Mode</Text>
+                <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Night Mode</Text>
                 <Switch 
                     style={styles.switch} 
                     value={nightMode} 
@@ -44,31 +44,33 @@ const RenderDrawer=()=>{
                  />
             </View>
             <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='gear' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Settings</Text>
+                <FontAwesome name='gear' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Settings</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='question-circle' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Help</Text>
+                <FontAwesome name='question-circle' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Help</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='support' size={20} color={theme.colors.black} />
-                <Text style={styles.itemText}>Support SimpleAnki</Text>
+                <FontAwesome name='support' size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Support SimpleAnki</Text>
             </TouchableOpacity>
         </View>
      );
 }
 
 const Drawer = ({children,compRef}) => {
+    const {mode}=useContext(ThemeContext);
+
     return ( 
         <DrawerLayout
             drawerWidth={width}
             drawerPosition={DrawerLayout.positions.Left}
             drawerType="front"
-            drawerBackgroundColor={theme.colors.white}
+            drawerBackgroundColor={theme.colors[mode].background}
             renderNavigationView={()=><RenderDrawer />}
             ref={compRef}>
-                
+                    
             {children}
         </DrawerLayout>
      );
