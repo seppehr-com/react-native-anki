@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
+import {View,Text,TouchableOpacity,StyleSheet, TouchableNativeFeedback} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -29,34 +29,21 @@ const LeftButton=({onPress,visible})=>{
     );
 }
 
-const RightButton=()=>{
-    return (
-        <TouchableOpacity  onPress={()=>{}} style={{marginRight:-15}}>
-            <View style={styles.button}>
-                <FontAwesome name="search" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
-    );
-}
 
 
 const PreviewButton=({onPress})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
-            <View style={styles.button}>
-                <Entypo name="eye" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
+        <NativeButton onPress={onPress} marginRight={10}>
+            <Entypo name="eye" size={20} color={'white'} />
+        </NativeButton>
     ); 
 }
 
 const DoneButton=({onPress})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
-            <View style={styles.button}>
-                <FontAwesome name="check" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
+        <NativeButton onPress={onPress} marginRight={0}>
+            <FontAwesome name="check" size={20} color={'white'} />
+        </NativeButton>
     ); 
 }
 
@@ -72,49 +59,35 @@ const ModifyCard=({onDelete,onEdit,onShare})=>{
 
 const ShareButton=({onPress})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
-            <View style={styles.button}>
+        <NativeButton onPress={onPress} marginRight={10}>
                 <Entypo name="share" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
+        </NativeButton>
     ); 
 }
 
 const EditButton=({onPress})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
-            <View style={styles.button}>
-                <FontAwesome name="pencil" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
+        <NativeButton onPress={onPress} marginRight={10}>
+            <FontAwesome name="pencil" size={20} color={'white'} />
+        </NativeButton>
     ); 
 }
 
 const DeleteButton=({onPress})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
-            <View style={styles.button}>
-                <FontAwesome name="trash" size={20} color={'white'} />
-            </View>
-        </TouchableOpacity>
+        <NativeButton onPress={onPress} marginRight={0}>
+            <FontAwesome name="trash" size={20} color={'white'} />
+        </NativeButton>
     ); 
 }
 
-const GoBackButton=({onPress})=>{
+const NativeButton=({onPress,marginRight,children})=>{
     return (
-        <TouchableOpacity onPress={onPress} style={{marginRight:+15}}>
-            <View style={styles.button}>
-                <FontAwesome name="arrow-left" size={20} color={'white'} />
+        <TouchableNativeFeedback onPress={onPress} background={TouchableNativeFeedback.Ripple('', true)}>
+            <View style={[styles.button,{padding:3,marginRight:marginRight}]}>
+                {children}
             </View>
-        </TouchableOpacity>
-    ); 
-}
-
-const DeckTitle=()=>{
-    return (
-        <View>
-           <Text> Deck Title</Text>
-        </View>
+        </TouchableNativeFeedback>
     );
 }
 
@@ -126,4 +99,4 @@ const styles=StyleSheet.create({
     },
 });
 
-export {LeftButton,RightButton,DoneButton,PreviewButton,ModifyCard,GoBackButton,DeckTitle};
+export {LeftButton,DoneButton,PreviewButton,ModifyCard};

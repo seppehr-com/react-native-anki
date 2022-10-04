@@ -29,18 +29,20 @@ function Modal({children,visible,setVisible,onPress}) {
                     opacity:fadeAnim,
                     backgroundColor:theme.colors[mode].background
                     }]}>
-                    {children}
-                    <View style={styles.buttonsWrapper}>
-                        <TouchableOpacity style={styles.button} onPress={onClose}>
-                            <Text style={styles.buttonText}>CANCEL</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={()=>{
-                            onClose();
-                            onPress();
-                        }}>
-                            <Text style={styles.buttonText}>OK</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <Pressable>
+                        {children}
+                        <View style={styles.buttonsWrapper}>
+                            <TouchableOpacity style={styles.button} onPress={onClose}>
+                                <Text style={styles.buttonText}>CANCEL</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={()=>{
+                                onClose();
+                                onPress();
+                            }}>
+                                <Text style={styles.buttonText}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Pressable>
                 </Animated.View>
             </Pressable>
         </ReactModal>

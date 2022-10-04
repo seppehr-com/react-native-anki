@@ -36,7 +36,9 @@ const RenderDrawer=()=>{
                     }]}>Statistcs</Text>
             </TouchableOpacity>
 
-            <View style={styles.separatorLine} />
+            <View style={[styles.separatorLine,{
+                backgroundColor:theme.colors[mode].t3
+            }]} />
 
             <View style={styles.itemWrapper}>
                 <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
@@ -45,6 +47,8 @@ const RenderDrawer=()=>{
                     }]}>Night Mode</Text>
                 <Switch 
                     style={styles.switch} 
+                    trackColor={{ false: "#767577", true: "#767577" }}
+                    thumbColor={nightMode ? theme.colors.statusBar : "#f4f3f4"}
                     value={nightMode} 
                     onValueChange={toggleSwitch}
                  />
@@ -81,6 +85,7 @@ export const Drawer = ({children,compRef}) => {
             drawerType="front"
             drawerBackgroundColor={theme.colors[mode].background}
             renderNavigationView={()=><RenderDrawer />}
+            edgeWidth={100}
             ref={compRef}>
                 {children}
         </DrawerLayout>
@@ -116,7 +121,6 @@ const styles=StyleSheet.create({
     },
     separatorLine:{
         height:1,
-        backgroundColor:theme.colors.lightGray,
         marginTop:10,
     },
     switch:{
