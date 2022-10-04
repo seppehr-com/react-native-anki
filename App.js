@@ -10,6 +10,7 @@ import AddNote from './src/pages/AddNote';
 import Cards from './src/pages/Cards';
 import Drawer  from './src/components/Drawer';
 import theme from './assets/theme/index';
+import CardPreview from './src/pages/CardPreview';
 
 const Stack=createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const App=gestureHandlerRootHOC(()=>{
               title:route.params.item.title,
             })} />
             
+            <Stack.Screen name="Card Preview" component={CardPreview}  />
             <Stack.Screen name="Add Note" component={AddNote} options={{title:null}} />
           </Stack.Navigator>
         </Drawer>

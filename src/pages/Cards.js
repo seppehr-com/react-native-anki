@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState } from 'react';
 import {View,Alert,Share } from 'react-native';
-import { GoBackButton, ModifyCard } from '../components/Header';
+import {ModifyCard } from '../components/Header';
 import Database from '../../modules/Database';
 import { CardProvider } from '../context/CardContext';
 import CardLayout from '../components/Card/CardLayout';

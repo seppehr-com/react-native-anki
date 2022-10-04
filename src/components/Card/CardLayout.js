@@ -5,6 +5,18 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { CardContext } from '../../context/CardContext';
 import theme from '../../../assets/theme';
 
+const Counter=()=>{
+    const {easy,good,again}=useContext(CardContext);
+
+    if(typeof easy == 'number')
+        return (
+            <View style={styles.answersCounter}>
+                <Text style={styles.easyCounter}>{easy}</Text>
+                <Text style={styles.againCounter}>{again}</Text>
+                <Text style={styles.goodCounter}>{good}</Text>
+            </View>
+        )
+}
 const Head=()=>{
     //NightMode
     const {mode} = useContext(ThemeContext);
@@ -24,6 +36,7 @@ const Head=()=>{
 
     return (
         <ScrollView>
+            <Counter />
             <View style={styles.cardWrapper}>
                 <View style={styles.frontWrapper}>
                     {/* <Text style={styles.cardText}>{currentCard.frontText}</Text> */}
@@ -79,12 +92,25 @@ const Bottom=()=>{
     );
 }
 
+const PreviewBottom=()=>{
+    const {visible,handleToggle}=useContext(CardContext);
+
+    return(
+        <View style={styles.buttonsWrapper}>
+            <TouchableOpacity style={styles.showAnswerButtonWrapper} onPress={handleToggle}>
+                <Text style={styles.showAnswerButtonText}>{visible?'HIDE ANSWER':'SHOW ANSWER'}</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+
 
 const CardLayout = () => {
     //NightMode
     const {mode} = useContext(ThemeContext);
     
-    const {easy,good,again,cards}=useContext(CardContext);
+    const {cards,preview}=useContext(CardContext);
 
     return ( 
         <View style={[styles.container,{
@@ -92,13 +118,9 @@ const CardLayout = () => {
             }]}>
                 {Array.isArray(cards)&&
                 <>
-                <View style={styles.answersCounter}>
-                    <Text style={styles.easyCounter}>{easy}</Text>
-                    <Text style={styles.againCounter}>{again}</Text>
-                    <Text style={styles.goodCounter}>{good}</Text>
-                </View>
                 <Head />
-                <Bottom />
+                {!preview && <Bottom /> }
+                {preview && <PreviewBottom /> }
                 </>}
 
                 {cards==='empty'&&
@@ -161,7 +183,6 @@ const styles=StyleSheet.create({
         width:'100%',
         borderTopWidth:1,
         borderColor:theme.colors.midGray,
-        // alignItems:'center'
     },
     cardText:{
         ...theme.typo.h1,

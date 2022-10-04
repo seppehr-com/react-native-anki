@@ -47,7 +47,7 @@ const RenderDrawer=()=>{
                     }]}>Night Mode</Text>
                 <Switch 
                     style={styles.switch} 
-                    trackColor={{ false: "#767577", true: "#767577" }}
+                    trackColor={{ false: "#C9C9C9", true: "#767577" }}
                     thumbColor={nightMode ? theme.colors.statusBar : "#f4f3f4"}
                     value={nightMode} 
                     onValueChange={toggleSwitch}

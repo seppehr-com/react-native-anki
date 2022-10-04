@@ -17,7 +17,7 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
         setOptions({
           headerRight: () => (
             <>
-                <PreviewButton onPress={()=>{}} />
+                <PreviewButton onPress={handlePreview} />
                 <DoneButton onPress={handleDonePress} />
             </>
           ),
@@ -52,6 +52,17 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
             setTextInput(textInput);
             return;
         }
+    }
+
+    const handlePreview=()=>{
+        if(!frontInput||!backInput){
+            alert('Please enter the fields!');
+            return false;
+        }
+        navigation.navigate('Card Preview',{
+            frontText:frontInput,
+            backText:backInput
+        });
     }
 
     const handleDonePress=()=>{
