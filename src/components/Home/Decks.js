@@ -40,10 +40,15 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
                     }}>
 
                     <TouchableOpacity 
-                        style={[styles.deckWrapper,{backgroundColor:theme.colors[mode].background,borderBottomColor:theme.colors[mode].t3}]} 
+                        style={[styles.deckWrapper,{
+                            backgroundColor:theme.colors[mode].background,
+                            borderBottomColor:theme.colors[mode].t3
+                        }]} 
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
                         activeOpacity={0.6}>
-                        <Text style={[styles.deckTitle,{color:theme.colors[mode].t1}]}>{item.title}</Text>
+                        <Text style={[styles.deckTitle,{
+                            color:theme.colors[mode].t1
+                            }]}>{item.title}</Text>
                         <View style={styles.deckSide}>
                             <Text style={styles.deckCount}>{item.easy}</Text>
                             <Text style={styles.deckCount}>{item.again}</Text>

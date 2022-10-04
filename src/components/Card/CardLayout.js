@@ -87,7 +87,9 @@ const CardLayout = () => {
     const {easy,good,again,cards}=useContext(CardContext);
 
     return ( 
-        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
+        <View style={[styles.container,{
+            backgroundColor:theme.colors[mode].background
+            }]}>
                 {Array.isArray(cards)&&
                 <>
                 <View style={styles.answersCounter}>
@@ -103,12 +105,16 @@ const CardLayout = () => {
                     <View style={[styles.container,{
                         justifyContent:'center',
                         alignItems:'center',
+                        backgroundColor:theme.colors[mode].background
                     }]}>
                         <Text style={{...theme.typo.b1,color:theme.colors.darkGray}}>There is no note here!</Text>
                     </View>}
 
                 {!cards&&
-                    <View style={[styles.container,{justifyContent:'center'}]}>
+                    <View style={[styles.container,{
+                        justifyContent:'center',
+                        backgroundColor:theme.colors[mode].background
+                        }]}>
                         <ActivityIndicator size='large' color={theme.colors.header} />
                     </View>}
         </View> 

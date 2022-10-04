@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../context/ThemeContext';
@@ -7,6 +7,8 @@ import New from '../components/Home/New';
 import Modal from '../components/Modal';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
+// import { LeftButton } from '../components/Header';
+// import { DrawerContext } from '../components/Drawer';
 
 MaterialCommunityIcons.loadFont();
 
@@ -20,9 +22,36 @@ const Home=({navigation})=> {
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);
 
+    //SearchInput
+    const [search,setSearch]=useState('');
+
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            // headerLeft:()=><LeftButton onPress={drawerRef} visible={true} />,
+            headerSearchBarOptions:{
+                headerIconColor:'white',
+                textColor:'white',
+                hintTextColor:'white',
+                obscureBackground:false,
+                shouldShowHintSearchIcon:false,
+                placeholder:'Search',
+                barTintColor:theme.colors.header,
+                onChangeText: (event) => setSearch(event.nativeEvent.text),
+                // onFocus:()=>{
+                //   setTitle(null);
+                //   setHeaderLeftVisible(false);
+                // },
+                // onClose:(route)=>{
+                //   setTitle(route.name);
+                //   setHeaderLeftVisible(true);
+                // },
+              },
+        });
+    },[navigation]);
+
     useEffect(()=>{
-        db.getDecks(setDecksList);
-    },[decksList]);
+        db.getDecks(setDecksList,search);
+    },[decksList,search]);
 
     const handleCreateDeck=()=>{
         if(!deckTextInput){
@@ -57,7 +86,9 @@ const Home=({navigation})=> {
     }
     
     return ( 
-        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
+        <View style={[styles.container,{
+            backgroundColor:theme.colors[mode].background
+            }]}>
             <StatusBar backgroundColor="#0288D1" />
 
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -66,9 +97,11 @@ const Home=({navigation})=> {
 
             <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
                 <Text style={[styles.createTitle,{color:theme.colors[mode].t1}]}>Create Deck</Text>
-                <TextInput style={[styles.createInput,{borderBottomColor:theme.colors[mode].t1,color:theme.colors[mode].t1}]} onChangeText={setDeckTextInput} />
+                <TextInput style={[styles.createInput,{
+                    borderBottomColor:theme.colors[mode].t1,
+                    color:theme.colors[mode].t1
+                    }]} onChangeText={setDeckTextInput} />
             </Modal>
-
             <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
         </View>
      );

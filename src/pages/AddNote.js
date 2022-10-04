@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { DoneButton, GoBackButton } from '../components/Header';
+import { DoneButton, GoBackButton, PreviewButton } from '../components/Header';
 import { AddNoteProvider } from '../context/AddNoteContext';
 import AddNoteLayout from '../components/AddNote/AddNoteLayout';
 import Database from '../../modules/Database';
@@ -16,10 +16,10 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
     useLayoutEffect(() => {
         setOptions({
           headerRight: () => (
-            <DoneButton onPress={handleDonePress} />
-          ),
-          headerLeft: () => (
-            <GoBackButton onPress={()=>navigation.goBack()} />
+            <>
+                <PreviewButton onPress={()=>{}} />
+                <DoneButton onPress={handleDonePress} />
+            </>
           ),
         })
     });

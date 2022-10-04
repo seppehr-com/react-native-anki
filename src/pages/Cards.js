@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState } from 'react';
-import {View,Alert } from 'react-native';
-import { DeleteButton, GoBackButton } from '../components/Header';
+import {View,Alert,Share } from 'react-native';
+import { GoBackButton, ModifyCard } from '../components/Header';
 import Database from '../../modules/Database';
 import { CardProvider } from '../context/CardContext';
 import CardLayout from '../components/Card/CardLayout';
@@ -22,10 +22,7 @@ function Cards({navigation,navigation:{setOptions},route}) {
     useLayoutEffect(() => {
         setOptions({
           headerRight: () => (
-            Array.isArray(cards)?<DeleteButton onPress={handleDeleteCard} />:<View />
-          ),
-          headerLeft: () => (
-            <GoBackButton onPress={()=>navigation.goBack()} />
+            Array.isArray(cards)?<ModifyCard onDelete={handleDeleteCard} onEdit={handleEditCard} onShare={handleShareCard} />:<View />
           ),
         })
     });
@@ -40,6 +37,40 @@ function Cards({navigation,navigation:{setOptions},route}) {
         db.getStatusCount(deckId,'again',setAgain);
         db.getStatusCount(deckId,'good',setGood);
     },[counter]);
+
+    const handleShareCard=async()=>{
+        const currentCard=cards[counter];
+        try {
+            const result = await Share.share({
+              title:currentCard.frontText,
+              message:`Front Card:${currentCard.frontText}\n\nBack Card:${currentCard.backText}`,
+            });
+            if (result.action === Share.sharedAction) {
+              if (result.activityType) {
+                // shared with activity type of result.activityType
+              } else {
+                // shared
+              }
+            } else if (result.action === Share.dismissedAction) {
+              // dismissed
+            }
+          } catch (error) {
+            alert(error.message);
+          }
+    }
+
+    const handleEditCard=()=>{
+        //Navigate to edit page
+        if(!cards){
+            alert('There is no card to edit!');
+            return false;
+        }
+
+        //Change this to the edit page
+        navigation.navigate('Add Note',{
+            id:cards[counter].id,
+        });
+    }
 
     const handleDeleteCard=()=>{
         if(!cards){

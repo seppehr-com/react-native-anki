@@ -6,7 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 Entypo.loadFont();
 FontAwesome.loadFont();
 
-const LeftButton=({onPress})=>{
+const LeftButton=({onPress,visible})=>{
     const [open,setOpen]=useState(false);
     const handleDrawer=()=>{
         if(!open){
@@ -19,11 +19,13 @@ const LeftButton=({onPress})=>{
     }
 
     return (
-      <TouchableOpacity style={styles.button} onPress={handleDrawer}>
-            <View style={styles.button}>
-                <Entypo name="menu" size={25} color={'white'} />
-            </View>
-      </TouchableOpacity>
+        <TouchableOpacity style={[styles.button,{
+            display:visible?'flex':'none',
+        }]} onPress={handleDrawer}>
+              <View style={styles.button}>
+                  <Entypo name="menu" size={25} color={'white'} />
+              </View>
+        </TouchableOpacity>
     );
 }
 
@@ -37,11 +39,52 @@ const RightButton=()=>{
     );
 }
 
+
+const PreviewButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
+            <View style={styles.button}>
+                <Entypo name="eye" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
 const DoneButton=({onPress})=>{
     return (
         <TouchableOpacity onPress={onPress} style={{marginRight:-15}}>
             <View style={styles.button}>
                 <FontAwesome name="check" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
+const ModifyCard=({onDelete,onEdit,onShare})=>{
+    return (
+        <>
+            <ShareButton onPress={onShare} />
+            <EditButton onPress={onEdit} />
+            <DeleteButton onPress={onDelete} />
+        </>
+    );
+}
+
+const ShareButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
+            <View style={styles.button}>
+                <Entypo name="share" size={20} color={'white'} />
+            </View>
+        </TouchableOpacity>
+    ); 
+}
+
+const EditButton=({onPress})=>{
+    return (
+        <TouchableOpacity onPress={onPress} style={{marginRight:5}}>
+            <View style={styles.button}>
+                <FontAwesome name="pencil" size={20} color={'white'} />
             </View>
         </TouchableOpacity>
     ); 
@@ -83,4 +126,4 @@ const styles=StyleSheet.create({
     },
 });
 
-export {LeftButton,RightButton,DoneButton,DeleteButton,GoBackButton,DeckTitle};
+export {LeftButton,RightButton,DoneButton,PreviewButton,ModifyCard,GoBackButton,DeckTitle};

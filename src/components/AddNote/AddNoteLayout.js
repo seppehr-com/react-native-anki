@@ -18,7 +18,9 @@ const  DropDown = ({label,list,setDropDown}) => {
 
     return ( 
         <View style={styles.dropDownGroup}>
-            <Text style={[styles.labelTitle,{color:theme.colors[mode].t1}]}>{label} </Text>
+            <Text style={[styles.labelTitle,{
+                color:theme.colors[mode].t1
+                }]}>{label} </Text>
             <SelectDropdown
                 data={list}
                 // defaultValue={decks.length>0?decks[0].title:null}
@@ -68,12 +70,17 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
     return ( 
         <View style={styles.textBoxGroup}>
             <View style={styles.textBoxLabel}>
-                <Text style={[styles.labelTitle,{color:theme.colors[mode].t1}]}>{label}</Text>
+                <Text style={[styles.labelTitle,{
+                    color:theme.colors[mode].t1
+                    }]}>{label}</Text>
                 <TouchableOpacity>
                     <MaterialCommunityIcons name="attachment" size={20} color={theme.colors[mode].t1} />
                 </TouchableOpacity>
             </View>
-            <TextInput style={[styles.textBox,{color:theme.colors[mode].t1,borderBottomColor:theme.colors[mode].t1}]} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
+            <TextInput style={[styles.textBox,{
+                color:theme.colors[mode].t1,
+                borderBottomColor:theme.colors[mode].t1
+                }]} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
         </View>
     );
 }

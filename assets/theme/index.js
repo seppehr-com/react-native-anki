@@ -26,22 +26,6 @@ export default theme={
             t4:'#C9C9C9', //Need to change
             icon:'#FFFFFF',
         },
-        // light:{
-        //     background:theme.colors.white,
-        //     t1:theme.colors.black,
-        //     t2:theme.colors.darkGray,
-        //     t3:theme.colors.midGray,
-        //     t4:theme.colors.lightGray,
-        //     icon:theme.colors.black,
-        // },
-        // dark:{
-        //     background:theme.colors.black, // Need to change
-        //     t1:theme.colors.white, 
-        //     t2:theme.colors.lightGray, //Need to change
-        //     t3:theme.colors.midGray, //Need to change
-        //     t4:theme.colors.darkGray, // Need to change
-        //     icon:theme.colors.white,
-        // },
     },
     typo:{
         h1:{

@@ -34,7 +34,7 @@ class Database{
         });
     }
 
-    getDecks=(setList)=>{
+    getDecks=(setList,search='')=>{
         this.db.transaction(txn=>{
             txn.executeSql(
                 `SELECT d.id,d.title,
@@ -43,6 +43,7 @@ class Database{
                 COUNT(case when n.lastStatus='again' then 1 end) AS again
                 FROM decks as d
                 LEFT join notes as n ON n.deckId=d.id
+                WHERE d.title LIKE '%${search}%'
                 GROUP BY d.id,d.title ORDER BY d.id DESC`,
                 [],
                 (sqlTxn,res)=>{

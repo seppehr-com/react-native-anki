@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -15,25 +15,26 @@ const Stack=createNativeStackNavigator();
 
 
 const App=gestureHandlerRootHOC(()=>{
-  let drawerRef;
-
-  // useEffect(()=>{
-  //   SplashScreen.hide();
-  // },[]);
-
+  const [drawerRef,setDrawerRef]=useState();
+  const [headerLeftVisible,setHeaderLeftVisible]=useState(true);
+  const [title,setTitle]=useState('Simple Anki');
+  
   return ( 
     <NavigationContainer>
       <ThemeProvider>
-        <Drawer compRef={drawer=>drawerRef=drawer}>
+        <Drawer compRef={setDrawerRef}>
           <Stack.Navigator screenOptions={{
             headerStyle: {backgroundColor:theme.colors.header},
             headerTitleStyle:{color:theme.colors.white},
+            headerTintColor: theme.colors.white,
             gestureDirection: 'horizontal',
             gestureEnabled: true,
           }}>
-            <Stack.Screen name="Simple Anki" component={Home} options={{
-              headerLeft:()=><LeftButton onPress={drawerRef} />,
-              headerRight:()=><RightButton />,
+            <Stack.Screen name="Simple Anki" component={Home}
+             options={{
+              // headerTitle:()=><LeftButton onPress={drawerRef} visible={headerLeftVisible} />,
+              // headerLeft:()=><LeftButton onPress={drawerRef} visible={headerLeftVisible} />,
+              title:title
             }} />
             <Stack.Screen name="Cards" component={Cards} options={({route})=>({
               title:route.params.item.title,

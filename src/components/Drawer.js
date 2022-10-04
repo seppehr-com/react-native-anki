@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,19 +24,25 @@ const RenderDrawer=()=>{
 
             <TouchableOpacity style={styles.itemWrapper}>
                 <FontAwesome name='search' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Card browser</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Card browser</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.itemWrapper}>
                 <FontAwesome name='bar-chart' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,,{color:theme.colors[mode].t1}]}>Statistcs</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Statistcs</Text>
             </TouchableOpacity>
 
             <View style={styles.separatorLine} />
 
             <View style={styles.itemWrapper}>
                 <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Night Mode</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Night Mode</Text>
                 <Switch 
                     style={styles.switch} 
                     value={nightMode} 
@@ -45,21 +51,27 @@ const RenderDrawer=()=>{
             </View>
             <TouchableOpacity style={styles.itemWrapper}>
                 <FontAwesome name='gear' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Settings</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Settings</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemWrapper}>
                 <FontAwesome name='question-circle' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Help</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Help</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemWrapper}>
                 <FontAwesome name='support' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{color:theme.colors[mode].t1}]}>Support SimpleAnki</Text>
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>Support SimpleAnki</Text>
             </TouchableOpacity>
         </View>
      );
 }
 
-const Drawer = ({children,compRef}) => {
+export const Drawer = ({children,compRef}) => {
     const {mode}=useContext(ThemeContext);
 
     return ( 
@@ -70,8 +82,7 @@ const Drawer = ({children,compRef}) => {
             drawerBackgroundColor={theme.colors[mode].background}
             renderNavigationView={()=><RenderDrawer />}
             ref={compRef}>
-                    
-            {children}
+                {children}
         </DrawerLayout>
      );
 }

@@ -25,7 +25,10 @@ function Modal({children,visible,setVisible,onPress}) {
                 visible={visible}
             >
             <Pressable style={styles.modal} onPress={onClose}>
-                <Animated.View style={[styles.contentWrapper,{opacity:fadeAnim,backgroundColor:theme.colors[mode].background}]}>
+                <Animated.View style={[styles.contentWrapper,{
+                    opacity:fadeAnim,
+                    backgroundColor:theme.colors[mode].background
+                    }]}>
                     {children}
                     <View style={styles.buttonsWrapper}>
                         <TouchableOpacity style={styles.button} onPress={onClose}>
