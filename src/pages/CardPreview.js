@@ -1,5 +1,4 @@
 import React,{useState} from 'react';
-import { View,Text } from 'react-native';
 import CardLayout from '../components/Card/CardLayout';
 import { CardProvider } from '../context/CardContext';
 
@@ -8,9 +7,9 @@ const CardPreview = ({route}) => {
     const [visible,setVisible]=useState(false);
 
     const cards=[{
-            frontText:frontText,
-            backText:backText
-        }];
+        frontText:frontText,
+        backText:backText
+    }];
 
     const handleToggle=()=>{
         setVisible(prev=>!prev);

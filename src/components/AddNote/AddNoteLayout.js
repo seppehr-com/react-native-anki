@@ -12,9 +12,17 @@ Entypo.loadFont();
 MaterialCommunityIcons.loadFont();
 FontAwesome.loadFont();
 
-const  DropDown = ({label,list,setDropDown}) => {
+const  DropDown = ({label,list,defaultValue,setDropDown}) => {
     //NightMode
     const {mode} = useContext(ThemeContext);
+
+    const defaultFunction=()=>{
+        if(defaultValue){
+            const index = list.findIndex(item => item.id === defaultValue);
+            return list[index];
+        }
+        return list[0];
+    }
 
     return ( 
         <View style={styles.dropDownGroup}>
@@ -23,7 +31,7 @@ const  DropDown = ({label,list,setDropDown}) => {
                 }]}>{label} </Text>
             <SelectDropdown
                 data={list}
-                // defaultValue={decks.length>0?decks[0].title:null}
+                defaultValue={defaultFunction()}
                 onSelect={(selectedItem) => {
                     setDropDown(selectedItem.id)
                     // console.log(selectedItem.id)
@@ -128,13 +136,13 @@ const AddNoteLayout = () => {
     //NightMode
     const {mode} = useContext(ThemeContext);
 
-    const {decks,setDeckInput,frontInput,backInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
+    const {decks,setDeckInput,frontInput,backInput,deckInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
 
     return ( 
         <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
-                <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput}  />
+                <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput} defaultValue={deckInput}  />
                 <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  />
                 <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  />
                 <TagsCards />

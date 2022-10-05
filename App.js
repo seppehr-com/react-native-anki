@@ -11,6 +11,7 @@ import Cards from './src/pages/Cards';
 import Drawer  from './src/components/Drawer';
 import theme from './assets/theme/index';
 import CardPreview from './src/pages/CardPreview';
+import EditNote from './src/pages/EditNote';
 
 const Stack=createNativeStackNavigator();
 
@@ -33,7 +34,6 @@ const App=gestureHandlerRootHOC(()=>{
           }}>
             <Stack.Screen name="Simple Anki" component={Home}
              options={{
-              // headerTitle:()=><LeftButton onPress={drawerRef} visible={headerLeftVisible} />,
               // headerLeft:()=><LeftButton onPress={drawerRef} visible={headerLeftVisible} />,
               title:title
             }} />
@@ -42,7 +42,8 @@ const App=gestureHandlerRootHOC(()=>{
             })} />
             
             <Stack.Screen name="Card Preview" component={CardPreview}  />
-            <Stack.Screen name="Add Note" component={AddNote} options={{title:null}} />
+            <Stack.Screen name="Add Note" component={AddNote} />
+            <Stack.Screen name="Edit Note" component={EditNote} />
           </Stack.Navigator>
         </Drawer>
       </ThemeProvider>

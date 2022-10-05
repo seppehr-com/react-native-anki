@@ -6,19 +6,18 @@ import Database from '../../modules/Database';
 
 const db=new Database();
 
-const AddNote=({navigation,navigation: { setOptions}}) =>{
+const EditNote=({navigation,navigation: { setOptions},route}) =>{
+    const {id,deckId,frontText,backText} = route.params;
+
     const [decks,setDecks]=useState([]);
-    const [frontInput,setFrontInput]=useState('');
-    const [backInput,setBackInput]=useState('');
-    const [deckInput,setDeckInput]=useState(null);
+    const [frontInput,setFrontInput]=useState(frontText);
+    const [backInput,setBackInput]=useState(backText);
+    const [deckInput,setDeckInput]=useState(deckId);
 
     useLayoutEffect(() => {
         setOptions({
           headerRight: () => (
-            <>
-                <PreviewButton onPress={handlePreview} />
-                <DoneButton onPress={handleDonePress} />
-            </>
+            <DoneButton onPress={handleDonePress} />
           ),
         })
     });
@@ -27,34 +26,24 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
         db.getDecks(setDecks);
     },[]);
 
-    
-
-    const handlePreview=()=>{
-        if(!frontInput||!backInput){
-            alert('Please enter the fields!');
-            return false;
-        }
-        navigation.navigate('Card Preview',{
-            frontText:frontInput,
-            backText:backInput
-        });
-    }
-
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
             alert('Please enter the fields!');
             return false;
         }
 
-        db.insertNote(deckInput,frontInput,backInput);
+        //Update query
+        db.updateNote(id,deckInput,frontInput,backInput);
+
+        //Needs to refresh page after goBack() function!
         navigation.goBack();
     }
 
     return ( 
-        <AddNoteProvider value={{decks,frontInput,backInput,setFrontInput,setBackInput,setDeckInput}}>
+        <AddNoteProvider value={{decks,frontInput,backInput,deckInput,setFrontInput,setBackInput,setDeckInput}}>
             <AddNoteLayout />
         </AddNoteProvider>
      );
 }
 
-export default AddNote;
+export default EditNote;

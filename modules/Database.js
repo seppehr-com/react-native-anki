@@ -138,6 +138,21 @@ class Database{
         })
     }
 
+    updateNote = (id,deckId,frontText,backText) => {
+        this.db.transaction(txn=>{
+            txn.executeSql(
+                `Update notes SET deckId='${deckId}',frontText='${frontText}',backText='${backText}' WHERE id=${id}`,
+                [],
+                (sqlTxn,result)=>{
+                    // console.log(`${frontText} added successfully`);
+                },
+                error=>{
+                    console.log(error.message);
+                }
+            );
+        })
+    }
+
     updateScore=(id,score,status)=>{
         this.db.transaction(txn=>{
             txn.executeSql(

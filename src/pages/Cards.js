@@ -67,8 +67,11 @@ function Cards({navigation,navigation:{setOptions},route}) {
         }
 
         //Change this to the edit page
-        navigation.navigate('Add Note',{
+        navigation.navigate('Edit Note',{
             id:cards[counter].id,
+            deckId:deckId,
+            frontText:cards[counter].frontText,
+            backText:cards[counter].backText,
         });
     }
 
