@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch } from 'react-native';
+import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch, TouchableNativeFeedback } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ThemeContext,ThemeProvider } from '../context/ThemeContext';
@@ -9,6 +9,21 @@ import DrawerLogo from '../../assets/images/drawer_logo.png'
 FontAwesome.loadFont();
 
 const width=Dimensions.get('window').width*0.7;
+
+const NativeButton=({icon,title,onPress})=>{
+    const {mode}=useContext(ThemeContext);
+
+    return (
+        <TouchableNativeFeedback onPress={onPress}>
+            <View style={styles.itemWrapper}>
+                <FontAwesome name={icon} size={20} color={theme.colors[mode].icon} />
+                <Text style={[styles.itemText,{
+                    color:theme.colors[mode].t1
+                    }]}>{title}</Text>
+            </View>
+        </TouchableNativeFeedback>
+    );
+}
 
 const RenderDrawer=()=>{
     const {nightMode,toggleSwitch,mode}=useContext(ThemeContext);
@@ -22,19 +37,8 @@ const RenderDrawer=()=>{
                 <Text style={[styles.itemText,styles.selectedItemText]}>Decks</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='search' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>Card browser</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='bar-chart' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>Statistcs</Text>
-            </TouchableOpacity>
+            <NativeButton title='Card browser' icon='search' />
+            <NativeButton title='Statistcs' icon='bar-chart' />
 
             <View style={[styles.separatorLine,{
                 backgroundColor:theme.colors[mode].t3
@@ -53,24 +57,11 @@ const RenderDrawer=()=>{
                     onValueChange={toggleSwitch}
                  />
             </View>
-            <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='gear' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>Settings</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='question-circle' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>Help</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemWrapper}>
-                <FontAwesome name='support' size={20} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>Support SimpleAnki</Text>
-            </TouchableOpacity>
+
+            <NativeButton title='Settings' icon='gear' />
+            <NativeButton title='Help' icon='question-circle' />
+            <NativeButton title='Support SimpleAnki' icon='support' onPress={()=>alert("Support")} />
+
         </View>
      );
 }

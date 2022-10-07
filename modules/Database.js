@@ -1,12 +1,13 @@
-import {openDatabase} from 'react-native-sqlite-storage';
+import SQLite from 'react-native-sqlite-storage';
 
 class Database{
     constructor(){
        this.createTables();
     }
 
-    db=openDatabase({
+    db=SQLite.openDatabase({
         name:'anki_test',
+        location: 'default'
     });
 
     createTables = () => {

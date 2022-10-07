@@ -24,7 +24,12 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
     });
 
     useEffect(()=>{
-        db.getDecks(setDecks);
+        db.getDecks((items)=>{
+            setDecks(items);
+            if(items.length>0) {
+                setDeckInput(items[0].id);
+            }
+        });
     },[]);
 
     

@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import { Text, View,StyleSheet, Pressable, Alert } from 'react-native';
+import { Text, View,StyleSheet, Pressable, Alert, TouchableNativeFeedback } from 'react-native';
 import { ThemeContext } from '../../context/ThemeContext';
 import theme from '../../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
@@ -39,22 +39,24 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
                         handleDeleteDeck(item.id);
                     }}>
 
-                    <TouchableOpacity 
-                        style={[styles.deckWrapper,{
-                            backgroundColor:theme.colors[mode].background,
-                            borderBottomColor:theme.colors[mode].t3
-                        }]} 
+                    <TouchableNativeFeedback  
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
-                        activeOpacity={0.6}>
-                        <Text style={[styles.deckTitle,{
-                            color:theme.colors[mode].t1
-                            }]}>{item.title}</Text>
-                        <View style={styles.deckSide}>
-                            <Text style={styles.deckCount}>{item.easy}</Text>
-                            <Text style={styles.deckCount}>{item.again}</Text>
-                            <Text style={styles.deckCount}>{item.good}</Text>
+                        >
+                        <View 
+                            style={[styles.deckWrapper,{
+                                backgroundColor:theme.colors[mode].background,
+                                borderBottomColor:theme.colors[mode].t3
+                            }]}>
+                            <Text style={[styles.deckTitle,{
+                                color:theme.colors[mode].t1
+                                }]}>{item.title}</Text>
+                            <View style={styles.deckSide}>
+                                <Text style={styles.deckCount}>{item.easy}</Text>
+                                <Text style={styles.deckCount}>{item.again}</Text>
+                                <Text style={styles.deckCount}>{item.good}</Text>
+                            </View>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableNativeFeedback>
                 </Swipeable>
             ))}
         </View>

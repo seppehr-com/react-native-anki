@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text,View,StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Text,View,StyleSheet, ScrollView, TextInput, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -113,9 +113,13 @@ const TextEditor=()=>{
 
     const TextEditorButton=({name,tag,properties})=>{
         return(
-            <TouchableOpacity style={styles.textEditorButton} onPress={()=>handleTextEdit(tag,properties)}>
-                <FontAwesome name={name} size={20} color={'black'} />
-            </TouchableOpacity>
+            <TouchableNativeFeedback 
+                onPress={()=>handleTextEdit(tag,properties)}
+                background={TouchableNativeFeedback.Ripple('', true)}>
+                    <View style={styles.textEditorButton} >
+                        <FontAwesome name={name} size={20} color={'black'} />
+                    </View>
+            </TouchableNativeFeedback>
         );
     }
 
@@ -218,7 +222,7 @@ const styles=StyleSheet.create({
         width:'100%',
     },
     textEditorButton:{
-        
+        padding:10,
     },
 });
 

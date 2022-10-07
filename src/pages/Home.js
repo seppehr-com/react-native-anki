@@ -12,6 +12,7 @@ import Database from '../../modules/Database';
 
 MaterialCommunityIcons.loadFont();
 
+//Create tables One!
 const db= new Database();
 
 const Home=({navigation})=> {
