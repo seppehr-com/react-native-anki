@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
 import { DoneButton, PreviewButton } from '../components/Header';
 import { AddNoteProvider } from '../context/AddNoteContext';
 import AddNoteLayout from '../components/AddNote/AddNoteLayout';
@@ -36,7 +37,13 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
 
     const handlePreview=()=>{
         if(!frontInput||!backInput){
-            alert('Please enter the fields!');
+            ToastAndroid.showWithGravityAndOffset(
+                'Please enter the fields!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50
+            );
             return false;
         }
         navigation.navigate('Card Preview',{
@@ -47,11 +54,25 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
 
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
-            alert('Please enter the fields!');
+            ToastAndroid.showWithGravityAndOffset(
+                'Please enter the fields!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50
+            );
             return false;
         }
 
         db.insertNote(deckInput,frontInput,backInput);
+
+        ToastAndroid.showWithGravityAndOffset(
+            'Successfully added!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
         navigation.goBack();
     }
 

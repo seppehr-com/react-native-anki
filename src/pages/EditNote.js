@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
 import { DoneButton, PreviewButton } from '../components/Header';
 import { AddNoteProvider } from '../context/AddNoteContext';
 import AddNoteLayout from '../components/AddNote/AddNoteLayout';
@@ -28,7 +29,13 @@ const EditNote=({navigation,navigation: { setOptions},route}) =>{
 
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
-            alert('Please enter the fields!');
+            ToastAndroid.showWithGravityAndOffset(
+                'Please enter the fields!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50
+            );
             return false;
         }
 
@@ -36,6 +43,13 @@ const EditNote=({navigation,navigation: { setOptions},route}) =>{
         db.updateNote(id,deckInput,frontInput,backInput);
 
         //Needs to refresh page after goBack() function!
+        ToastAndroid.showWithGravityAndOffset(
+            'Successfully edited!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
         navigation.goBack();
     }
 

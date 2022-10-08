@@ -10,12 +10,12 @@ FontAwesome.loadFont();
 
 const width=Dimensions.get('window').width*0.7;
 
-const NativeButton=({icon,title,onPress})=>{
+const NativeButton=({icon,title,onPress,style})=>{
     const {mode}=useContext(ThemeContext);
 
     return (
         <TouchableNativeFeedback onPress={onPress}>
-            <View style={styles.itemWrapper}>
+            <View style={[styles.itemWrapper,style]}>
                 <FontAwesome name={icon} size={20} color={theme.colors[mode].icon} />
                 <Text style={[styles.itemText,{
                     color:theme.colors[mode].t1
@@ -32,10 +32,7 @@ const RenderDrawer=()=>{
         <View style={styles.drawerContainer}>
             <Image source={DrawerLogo} style={styles.drawerLogo} />
 
-            <TouchableOpacity style={[styles.itemWrapper,styles.selectedItem]}>
-                <FontAwesome name='list' size={20} color={theme.colors.statusBar} />
-                <Text style={[styles.itemText,styles.selectedItemText]}>Decks</Text>
-            </TouchableOpacity>
+            <NativeButton title='Decks' icon='list' style={styles[`${mode}SelectedItem`]} />
 
             <NativeButton title='Card browser' icon='search' />
             <NativeButton title='Statistcs' icon='bar-chart' />
@@ -104,8 +101,11 @@ const styles=StyleSheet.create({
         marginLeft:20,
         color:theme.colors.black,
     },
-    selectedItem:{
+    lightSelectedItem:{
         backgroundColor:theme.colors.midGray,
+    },
+    darkSelectedItem:{
+        backgroundColor:theme.colors.darkGray,
     },
     selectedItemText:{
         color:theme.colors.statusBar,

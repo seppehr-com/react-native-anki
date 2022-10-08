@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert} from 'react-native';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../context/ThemeContext';
 import Decks from '../components/Home/Decks';
@@ -56,13 +56,28 @@ const Home=({navigation})=> {
 
     const handleCreateDeck=()=>{
         if(!deckTextInput){
-            alert('Please Enter A Title!');
+            ToastAndroid.showWithGravityAndOffset(
+                'Please enter a Title!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50
+            );
             return false;
         }
 
         db.insertDeck(deckTextInput);
         db.getDecks(setDecksList);
         setDeckTextInput('');
+
+        //Create message!
+        ToastAndroid.showWithGravityAndOffset(
+            'Successfully created!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+        );
     }
 
     const handleDeleteDeck=(id)=>{
