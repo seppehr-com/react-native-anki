@@ -39,13 +39,14 @@ const Head=()=>{
             <Counter />
             <View style={styles.cardWrapper}>
                 <View style={styles.frontWrapper}>
-                    {/* <Text style={styles.cardText}>{currentCard.frontText}</Text> */}
+                    {/* <Text style={styles.cardText} selectable>{currentCard.frontText}</Text> */}
                     <RenderHtml
                         contentWidth={500}
                         source={{
                             html: convertToHtml(`<b>${currentCard.frontText}</b>`)
                         }}
-                        baseStyle={baseStyleText}
+                        baseStyle={baseStyleText} 
+                        defaultTextProps={{selectable:true}}
                     />
                 </View>
                 
@@ -58,6 +59,7 @@ const Head=()=>{
                             html: convertToHtml(currentCard.backText)
                         }}
                         baseStyle={baseStyleText}
+                        defaultTextProps={{selectable:true}}
                     />
                 </View>
             </View>
