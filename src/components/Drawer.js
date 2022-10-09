@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
-import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch, TouchableNativeFeedback } from 'react-native';
+import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch, TouchableNativeFeedback, Alert, Linking } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ThemeContext,ThemeProvider } from '../context/ThemeContext';
 import theme from '../../assets/theme';
-import DrawerLogo from '../../assets/images/drawer_logo.png'
+import DrawerLogo from '../../assets/images/drawer_logo.png';
 
 FontAwesome.loadFont();
 
@@ -14,7 +14,9 @@ const NativeButton=({icon,title,onPress,style})=>{
     const {mode}=useContext(ThemeContext);
 
     return (
-        <TouchableNativeFeedback onPress={onPress}>
+        <TouchableNativeFeedback 
+            onPress={onPress}
+            background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}>
             <View style={[styles.itemWrapper,style]}>
                 <FontAwesome name={icon} size={20} color={theme.colors[mode].icon} />
                 <Text style={[styles.itemText,{
@@ -56,8 +58,22 @@ const RenderDrawer=()=>{
             </View>
 
             <NativeButton title='Settings' icon='gear' />
+
             <NativeButton title='Help' icon='question-circle' />
-            <NativeButton title='Support SimpleAnki' icon='support' onPress={()=>alert("Support")} />
+
+            <NativeButton title='Support SimpleAnki' icon='support' onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
+                {text:'Cancel',style:'cancel'},
+                {text:'Send Email',onPress:()=>Linking.openURL('mailto:smdpr78@gmail.com')},
+            ])} />
+
+            <View style={styles.versionWrapper}>
+                <Text style={[styles.versionText,{
+                    color:theme.colors[mode].t1
+                }]}>Version:</Text>
+                <Text style={[styles.versionText,{
+                    color:theme.colors[mode].t2
+                }]}> 1.0.3</Text>
+            </View>
 
         </View>
      );
@@ -91,8 +107,7 @@ const styles=StyleSheet.create({
     },
     itemWrapper:{
         flexDirection:'row',
-        marginTop:5,
-        height:40,
+        height:45,
         paddingHorizontal:15,
         alignItems:'center',
     },
@@ -117,6 +132,16 @@ const styles=StyleSheet.create({
     switch:{
         position:'absolute',
         right:10,
+    },
+    versionWrapper:{
+        flexDirection:'row',
+        position:'absolute',
+        bottom:15,
+        left:15,
+    },
+    versionText:{
+        ...theme.typo.h3,
+        marginRight:15,
     },
 });
  

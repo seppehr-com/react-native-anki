@@ -17,6 +17,7 @@ export default theme={
             t3:'#C9C9C9',
             t4:'#ECECEC',
             icon:'#000000',
+            pressButton:'#C9C9C9',
         },
         dark:{
             background:'#15202B', // Need to change
@@ -25,6 +26,7 @@ export default theme={
             t3:'#757575', // Need to change
             t4:'#C9C9C9', //Need to change
             icon:'#FFFFFF',
+            pressButton:'#757575',
         },
     },
     typo:{

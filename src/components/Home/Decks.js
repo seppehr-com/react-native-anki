@@ -41,6 +41,7 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
 
                     <TouchableNativeFeedback  
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
+                        background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}
                         >
                         <View 
                             style={[styles.deckWrapper,{

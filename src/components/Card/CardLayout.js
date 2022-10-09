@@ -46,7 +46,7 @@ const Head=()=>{
                             html: convertToHtml(`<b>${currentCard.frontText}</b>`)
                         }}
                         baseStyle={baseStyleText} 
-                        defaultTextProps={{selectable:true}}
+                        // defaultTextProps={{selectable:true}}
                     />
                 </View>
                 
@@ -59,7 +59,7 @@ const Head=()=>{
                             html: convertToHtml(currentCard.backText)
                         }}
                         baseStyle={baseStyleText}
-                        defaultTextProps={{selectable:true}}
+                        // defaultTextProps={{selectable:true}}
                     />
                 </View>
             </View>
