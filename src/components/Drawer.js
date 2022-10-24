@@ -1,10 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
-import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch, TouchableNativeFeedback, Alert, Linking } from 'react-native';
+import React, { useState } from 'react';
+import { View,Text,Dimensions,StyleSheet,Image, Switch, TouchableNativeFeedback, Alert, Linking } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import {useSelector,useDispatch} from 'react-redux';
-import { setActive } from '../redux/actions';
+import { setActive, toggleDarkMode } from '../redux/actions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ThemeContext } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import DrawerLogo from '../../assets/images/drawer_logo.png';
 
@@ -13,8 +12,8 @@ FontAwesome.loadFont();
 const width=Dimensions.get('window').width*0.7;
 
 const NativeButton=({icon,title,onPress})=>{
-    const {mode}=useContext(ThemeContext);
-    const {activeMenu} = useSelector(s=>s);
+    const {activeMenu,nightMode} = useSelector(s=>s);
+    const {mode} =nightMode;
     const dispatch = useDispatch();
 
     const style=activeMenu==title?styles[`${mode}SelectedItem`]:{};
@@ -37,7 +36,8 @@ const NativeButton=({icon,title,onPress})=>{
 }
 
 const RenderDrawer=({drawer})=>{
-    const {nightMode,toggleSwitch,mode}=useContext(ThemeContext);
+    const {isDark,mode} = useSelector(selector => selector.nightMode);
+    const dispatch=useDispatch();
 
     return ( 
         <View style={styles.drawerContainer}>
@@ -67,9 +67,9 @@ const RenderDrawer=({drawer})=>{
                 <Switch 
                     style={styles.switch} 
                     trackColor={{ false: "#C9C9C9", true: "#767577" }}
-                    thumbColor={nightMode ? theme.colors.statusBar : "#f4f3f4"}
-                    value={nightMode} 
-                    onValueChange={toggleSwitch}
+                    thumbColor={isDark ? theme.colors.statusBar : "#f4f3f4"}
+                    value={isDark} 
+                    onValueChange={()=>dispatch(toggleDarkMode())}
                  />
             </View>
 
@@ -91,7 +91,7 @@ const RenderDrawer=({drawer})=>{
                 }]}>Version:</Text>
                 <Text style={[styles.versionText,{
                     color:theme.colors[mode].t2
-                }]}> 1.0.3</Text>
+                }]}> 1.0.4</Text>
             </View>
 
         </View>
@@ -99,7 +99,7 @@ const RenderDrawer=({drawer})=>{
 }
 
 export const Drawer = ({children,compRef}) => {
-    const {mode}=useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
     const [dref,setDref]=useState();
 
     return ( 

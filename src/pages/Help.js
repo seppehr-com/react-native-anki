@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View,Text,ScrollView,StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 import theme from '../../assets/theme';
-import { ThemeContext } from '../context/ThemeContext';
 
 const Help = () => {
     //NightMode Colors!
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     return ( 
         <ScrollView style={[styles.container,{

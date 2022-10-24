@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { UIManager,Platform, Linking } from 'react-native';
+import { UIManager,Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {gestureHandlerRootHOC } from 'react-native-gesture-handler';
-// import {LeftButton,RightButton} from './src/components/Header';
-// import SplashScreen from 'react-native-splash-screen';
-import { ThemeProvider } from './src/context/ThemeContext';
 import {legacy_createStore,applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './src/redux/reducers';
@@ -33,7 +30,6 @@ if (
 
 const App=gestureHandlerRootHOC(()=>{
   const [drawerRef,setDrawerRef]=useState();
-  const [headerLeftVisible,setHeaderLeftVisible]=useState(true);
   const [title,setTitle]=useState('Simple Anki');
 
   const config={
@@ -49,8 +45,7 @@ const App=gestureHandlerRootHOC(()=>{
       prefixes:['anki://screen'],
       config
     }}>
-      <ThemeProvider>
-        <Provider store={Store}>
+      <Provider store={Store}>
         <Drawer compRef={setDrawerRef}>
           <Stack.Navigator screenOptions={{
             headerStyle: {backgroundColor:theme.colors.header},
@@ -76,8 +71,7 @@ const App=gestureHandlerRootHOC(()=>{
             <Stack.Screen name="Statistcs" component={Statistcs} />
           </Stack.Navigator>
         </Drawer>
-        </Provider>
-      </ThemeProvider>
+      </Provider>
     </NavigationContainer>
    );
 });

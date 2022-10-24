@@ -1,9 +1,9 @@
-import React,{useContext} from 'react';
-import { Text, View,StyleSheet, Pressable, Alert, TouchableNativeFeedback } from 'react-native';
-import { ThemeContext } from '../../context/ThemeContext';
+import React from 'react';
+import { Text, View,StyleSheet, TouchableNativeFeedback } from 'react-native';
 import theme from '../../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
 
 FontAwesome.loadFont();
 
@@ -11,7 +11,7 @@ let rowRefs = new Map();
 
 const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
     //NightMode Colors!
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     const renderSwipeDelete=(progress, dragX)=>{
         return(

@@ -3,12 +3,13 @@ import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable
 import { ThemeContext } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import Animation from '../../modules/Animation';
+import { useSelector } from 'react-redux';
 
 const anim=new Animation();
 
 function Modal({children,visible,setVisible,onPress}) {
     //NightMode Colors!
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     const fadeAnim=useRef(new Animated.Value(0)).current;
 

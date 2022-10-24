@@ -1,9 +1,9 @@
 import React,{useContext} from 'react';
 import { Text,View,StyleSheet, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
 import RenderHtml from 'react-native-render-html';
-import { ThemeContext } from '../../context/ThemeContext';
 import { CardContext } from '../../context/CardContext';
 import theme from '../../../assets/theme';
+import { useSelector } from 'react-redux';
 
 const Counter=()=>{
     const {easy,good,again}=useContext(CardContext);
@@ -19,7 +19,7 @@ const Counter=()=>{
 }
 const Head=()=>{
     //NightMode
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
     
     const {visible,cards,counter}=useContext(CardContext);
 
@@ -110,7 +110,7 @@ const PreviewBottom=()=>{
 
 const CardLayout = () => {
     //NightMode
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
     
     const {cards,preview}=useContext(CardContext);
 

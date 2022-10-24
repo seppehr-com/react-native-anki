@@ -5,8 +5,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SelectDropdown from 'react-native-select-dropdown'
 import { AddNoteContext } from '../../context/AddNoteContext';
-import { ThemeContext } from '../../context/ThemeContext';
 import theme from '../../../assets/theme';
+import { useSelector } from 'react-redux';
 
 Entypo.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -14,7 +14,7 @@ FontAwesome.loadFont();
 
 const  DropDown = ({label,list,defaultValue,setDropDown}) => {
     //NightMode
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     const defaultFunction=()=>{
         if(defaultValue){
@@ -73,7 +73,7 @@ const  DropDown = ({label,list,defaultValue,setDropDown}) => {
 
 const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
     //NightMode
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     return ( 
         <View style={styles.textBoxGroup}>
@@ -138,7 +138,7 @@ const TextEditor=()=>{
 
 const AddNoteLayout = () => {
     //NightMode
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     const {decks,setDeckInput,frontInput,backInput,deckInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
 

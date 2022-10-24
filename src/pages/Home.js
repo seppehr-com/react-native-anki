@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid,Vibration} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ThemeContext} from '../context/ThemeContext';
 import Decks from '../components/Home/Decks';
 import New from '../components/Home/New';
 import Modal from '../components/Modal';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
-// import { LeftButton } from '../components/Header';
-// import { DrawerContext } from '../components/Drawer';
+import { useSelector } from 'react-redux';
 
 MaterialCommunityIcons.loadFont();
 
@@ -17,7 +15,7 @@ const db= new Database();
 
 const Home=({navigation})=> {
     //NightMode Colors!
-    const {mode} = useContext(ThemeContext);
+    const {mode} = useSelector(selector => selector.nightMode);
     
     const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');

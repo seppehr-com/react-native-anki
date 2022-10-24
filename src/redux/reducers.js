@@ -9,7 +9,7 @@ const nightModeReducer=(state=initialNightModeState,action)=>{
     switch(action.type){
         case 'ACTION_TOGGLE':
             return {
-                mode:!state.isDark,
+                isDark:!state.isDark,
                 mode:!state.isDark?'dark':'light'
             };
         default:
