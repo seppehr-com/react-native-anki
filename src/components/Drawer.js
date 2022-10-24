@@ -1,8 +1,10 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { View,Text,Dimensions,StyleSheet,Image, TouchableOpacity, Switch, TouchableNativeFeedback, Alert, Linking } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
+import {useSelector,useDispatch} from 'react-redux';
+import { setActive } from '../redux/actions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ThemeContext,ThemeProvider } from '../context/ThemeContext';
+import { ThemeContext } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import DrawerLogo from '../../assets/images/drawer_logo.png';
 
@@ -10,12 +12,19 @@ FontAwesome.loadFont();
 
 const width=Dimensions.get('window').width*0.7;
 
-const NativeButton=({icon,title,onPress,style})=>{
+const NativeButton=({icon,title,onPress})=>{
     const {mode}=useContext(ThemeContext);
+    const {activeMenu} = useSelector(s=>s);
+    const dispatch = useDispatch();
+
+    const style=activeMenu==title?styles[`${mode}SelectedItem`]:{};
 
     return (
         <TouchableNativeFeedback 
-            onPress={onPress}
+            onPress={()=>{
+                onPress();
+                dispatch(setActive(title));
+            }}
             background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}>
             <View style={[styles.itemWrapper,style]}>
                 <FontAwesome name={icon} size={20} color={theme.colors[mode].icon} />
@@ -27,17 +36,24 @@ const NativeButton=({icon,title,onPress,style})=>{
     );
 }
 
-const RenderDrawer=()=>{
+const RenderDrawer=({drawer})=>{
     const {nightMode,toggleSwitch,mode}=useContext(ThemeContext);
 
     return ( 
         <View style={styles.drawerContainer}>
             <Image source={DrawerLogo} style={styles.drawerLogo} />
 
-            <NativeButton title='Decks' icon='list' style={styles[`${mode}SelectedItem`]} />
+            <NativeButton title='Decks' icon='list' onPress={()=>{
+                drawer.closeDrawer();
+                Linking.openURL("anki://screen/Home") 
+            }} />
 
-            <NativeButton title='Card browser' icon='search' />
-            <NativeButton title='Statistcs' icon='bar-chart' />
+            {/* <NativeButton title='Card browser' icon='search' onPress={()=>drawer.closeDrawer()} /> */}
+            
+            <NativeButton title='Statistcs' icon='bar-chart' onPress={()=>{
+                drawer.closeDrawer();
+                Linking.openURL("anki://screen/Statistcs") 
+            }} />
 
             <View style={[styles.separatorLine,{
                 backgroundColor:theme.colors[mode].t3
@@ -57,9 +73,12 @@ const RenderDrawer=()=>{
                  />
             </View>
 
-            <NativeButton title='Settings' icon='gear' />
+            <NativeButton title='Settings' icon='gear' onPress={()=>Linking.openSettings()} />
 
-            <NativeButton title='Help' icon='question-circle' />
+            <NativeButton title='Help' icon='question-circle' onPress={()=>{
+                drawer.closeDrawer();
+                Linking.openURL("anki://screen/Help");
+            } }/>
 
             <NativeButton title='Support SimpleAnki' icon='support' onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
                 {text:'Cancel',style:'cancel'},
@@ -81,6 +100,7 @@ const RenderDrawer=()=>{
 
 export const Drawer = ({children,compRef}) => {
     const {mode}=useContext(ThemeContext);
+    const [dref,setDref]=useState();
 
     return ( 
         <DrawerLayout
@@ -88,9 +108,9 @@ export const Drawer = ({children,compRef}) => {
             drawerPosition={DrawerLayout.positions.Left}
             drawerType="front"
             drawerBackgroundColor={theme.colors[mode].background}
-            renderNavigationView={()=><RenderDrawer />}
+            renderNavigationView={()=><RenderDrawer drawer={dref} />}
             edgeWidth={100}
-            ref={compRef}>
+            ref={setDref}>
                 {children}
         </DrawerLayout>
      );

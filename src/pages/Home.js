@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid} from 'react-native';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid,Vibration} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../context/ThemeContext';
 import Decks from '../components/Home/Decks';
@@ -63,6 +63,7 @@ const Home=({navigation})=> {
                 25,
                 50
             );
+            Vibration.vibrate(500,false);
             return false;
         }
 
