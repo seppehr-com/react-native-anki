@@ -24,29 +24,29 @@ const Home=({navigation})=> {
     //SearchInput
     const [search,setSearch]=useState('');
 
-    useLayoutEffect(()=>{
-        navigation.setOptions({
-            // headerLeft:()=><LeftButton onPress={drawerRef} visible={true} />,
-            headerSearchBarOptions:{
-                headerIconColor:'white',
-                textColor:'white',
-                hintTextColor:'white',
-                obscureBackground:false,
-                shouldShowHintSearchIcon:false,
-                placeholder:'Search',
-                barTintColor:theme.colors.header,
-                onChangeText: (event) => setSearch(event.nativeEvent.text),
-                // onFocus:()=>{
-                //   setTitle(null);
-                //   setHeaderLeftVisible(false);
-                // },
-                // onClose:(route)=>{
-                //   setTitle(route.name);
-                //   setHeaderLeftVisible(true);
-                // },
-              },
-        });
-    },[navigation]);
+    // useLayoutEffect(()=>{
+    //     navigation.setOptions({
+    //         // headerLeft:()=><LeftButton onPress={drawerRef} visible={true} />,
+    //         headerSearchBarOptions:{
+    //             headerIconColor:'white',
+    //             textColor:'white',
+    //             hintTextColor:'white',
+    //             obscureBackground:false,
+    //             shouldShowHintSearchIcon:false,
+    //             placeholder:'Search',
+    //             barTintColor:theme.colors.header,
+    //             onChangeText: (event) => setSearch(event.nativeEvent.text),
+    //             // onFocus:()=>{
+    //             //   setTitle(null);
+    //             //   setHeaderLeftVisible(false);
+    //             // },
+    //             // onClose:(route)=>{
+    //             //   setTitle(route.name);
+    //             //   setHeaderLeftVisible(true);
+    //             // },
+    //           },
+    //     });
+    // },[navigation]);
 
     useEffect(()=>{
         db.getDecks(setDecksList,search);

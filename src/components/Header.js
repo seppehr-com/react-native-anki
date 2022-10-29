@@ -81,6 +81,14 @@ const DeleteButton=({onPress})=>{
     ); 
 }
 
+const SearchButton=({onPress})=>{
+    return (
+        <NativeButton onPress={onPress} marginRight={10}>
+            <FontAwesome name="search" size={20} color={'white'} />
+        </NativeButton>
+    ); 
+}
+
 const NativeButton=({onPress,marginRight,children})=>{
     return (
         <TouchableNativeFeedback onPress={onPress} background={TouchableNativeFeedback.Ripple('', true)}>
@@ -93,10 +101,10 @@ const NativeButton=({onPress,marginRight,children})=>{
 
 const styles=StyleSheet.create({
     button:{
-        marginRight:10,
-        alignSelf:'center',
+        // marginRight:10,
+        // alignSelf:'center',
         justifyContent:'center'
     },
 });
 
-export {LeftButton,DoneButton,PreviewButton,ModifyCard};
+export {LeftButton,DoneButton,PreviewButton,ModifyCard,SearchButton};
