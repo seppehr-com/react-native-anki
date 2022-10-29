@@ -73,19 +73,19 @@ const Bottom=()=>{
     return(
         <View style={styles.buttonsWrapper}>
             {!visible && (
-                <TouchableOpacity style={styles.showAnswerButtonWrapper} onPress={handleShowBack}>
+                <TouchableOpacity style={styles.showAnswerButtonWrapper} activeOpacity={0.8} onPress={handleShowBack}>
                     <Text style={styles.showAnswerButtonText}>SHOW ANSWER</Text>
                 </TouchableOpacity>
             )}
             {visible && (
                 <>
-                <TouchableOpacity style={styles.againButton} onPress={()=>handleNextCard(-1,'again')}>
+                <TouchableOpacity style={styles.againButton} activeOpacity={0.8} onPress={()=>handleNextCard(-1,'again')}>
                     <Text style={styles.buttonText}>AGAIN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.goodButton} onPress={()=>handleNextCard(1,'good')}>
+                <TouchableOpacity style={styles.goodButton} activeOpacity={0.8} onPress={()=>handleNextCard(1,'good')}>
                     <Text style={styles.buttonText}>GOOD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.easyButton} onPress={()=>handleNextCard(2,'easy')}>
+                <TouchableOpacity style={styles.easyButton} activeOpacity={0.8} onPress={()=>handleNextCard(2,'easy')}>
                     <Text style={styles.buttonText}>EASY</Text>
                 </TouchableOpacity>
                 </>
@@ -99,7 +99,7 @@ const PreviewBottom=()=>{
 
     return(
         <View style={styles.buttonsWrapper}>
-            <TouchableOpacity style={styles.showAnswerButtonWrapper} onPress={handleToggle}>
+            <TouchableOpacity style={styles.showAnswerButtonWrapper} activeOpacity={0.8} onPress={handleToggle}>
                 <Text style={styles.showAnswerButtonText}>{visible?'HIDE ANSWER':'SHOW ANSWER'}</Text>
             </TouchableOpacity>
         </View>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { UIManager,Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import {legacy_createStore,applyMiddleware } from 'redux';
@@ -38,6 +37,9 @@ const App=gestureHandlerRootHOC(()=>{
               headerTintColor: theme.colors.white,
               gestureDirection: 'horizontal',
               gestureEnabled: true,
+              animation:'slide_from_left',
+              // presentation:'containedTransparentModal',
+              orientation:'portrait'
             }}>
               <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} options={{header:()=>{}}} />
               <Stack.Screen name="Cards" component={Cards} options={({route})=>({

@@ -44,7 +44,8 @@ const DrawerLayout = (props) => {
                             onValueChange={()=>dispatch(toggleDarkMode())}
                         />
                     </View>
-                    <NativeButton title='Support React Anki' icon='support' onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
+                    <NativeButton title='Settings' icon='gear' size={20} onPress={()=>Linking.openSettings()} />
+                    <NativeButton title='Support React Anki' icon='support' size={18} onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
                         {text:'Cancel',style:'cancel'},
                         {text:'Send Email',onPress:()=>Linking.openURL('mailto:smdpr78@gmail.com')},
                     ])} />
@@ -66,8 +67,13 @@ const DrawerNavigation=()=>{
                 width: '100%',
                 marginLeft: 0,
                 marginVertical:0,
+                height:45,
               },
-              drawerLabelStyle:{...theme.typo.h3,marginLeft:-10},
+              drawerLabelStyle:{
+                ...theme.typo.h3,
+                marginLeft:-10,
+                marginTop:-2,
+              },
               drawerActiveTintColor:theme.colors[mode].t1,
               drawerInactiveTintColor:theme.colors[mode].t1,
               swipeEdgeWidth:200,
@@ -77,7 +83,6 @@ const DrawerNavigation=()=>{
                 drawerIcon:(props)=><FontAwesome name='list' color={props.color} size={20}  />,
                 drawerLabel:'Decks',
                 title:'React Anki',
-                // headerRight:()=><SearchButton onPress={()=>{}}/>
               }}/>
               <Drawer.Screen name="Statistcs" component={Statistcs} options={{
                  drawerIcon:(props)=><FontAwesome name='bar-chart' color={props.color} size={18}  />,
@@ -89,7 +94,7 @@ const DrawerNavigation=()=>{
     );
   }
 
-const NativeButton=({icon,title,onPress})=>{
+const NativeButton=({icon,title,size,onPress})=>{
     const {nightMode} = useSelector(s=>s);
     const {mode} =nightMode;
 
@@ -98,7 +103,7 @@ const NativeButton=({icon,title,onPress})=>{
             onPress={onPress}
             background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}>
             <View style={styles.itemWrapper}>
-                <FontAwesome name={icon} size={18} color={theme.colors[mode].icon} />
+                <FontAwesome name={icon} size={size} color={theme.colors[mode].icon} />
                 <Text style={[styles.itemText,{
                     color:theme.colors[mode].t1
                     }]}>{title}</Text>
