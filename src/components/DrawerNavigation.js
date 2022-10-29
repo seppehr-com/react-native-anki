@@ -1,6 +1,6 @@
 import React from 'react';
 import { View,Text,Image ,StyleSheet, Switch, TouchableNativeFeedback, Alert, Linking} from 'react-native';
-import {DrawerContentScrollView,DrawerItemList} from '@react-navigation/drawer';
+import {DrawerContentScrollView,DrawerItemList,DrawerItem} from '@react-navigation/drawer';
 import DrawerLogo from '../../assets/images/drawer_logo.png';
 import theme from '../../assets/theme';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,35 +20,36 @@ const DrawerLayout = (props) => {
     const dispatch=useDispatch();
 
     return ( 
-        <View style={[styles.container,{
-            backgroundColor:theme.colors[mode].background,
-        }]}>
-            <DrawerContentScrollView style={styles.drawerBody} {...props}>
-                <Image source={DrawerLogo} style={styles.drawerLogo} />
-                <DrawerItemList {...props} />
-            </DrawerContentScrollView>
-            <View style={[styles.drawerFooter,{
-                borderTopColor:theme.colors[mode].t3
-            }]}>
-                <View style={styles.itemWrapper}>
-                    <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
-                    <Text style={[styles.itemText,{
-                        color:theme.colors[mode].t1
-                        }]}>Night Mode</Text>
-                    <Switch 
-                        style={styles.switch} 
-                        trackColor={{ false: "#C9C9C9", true: "#767577" }}
-                        thumbColor={isDark ? theme.colors.statusBar : "#f4f3f4"}
-                        value={isDark} 
-                        onValueChange={()=>dispatch(toggleDarkMode())}
-                    />
+            <DrawerContentScrollView style={[styles.container,{
+                backgroundColor:theme.colors[mode].background,
+            }]} {...props}>
+                <View style={styles.drawerBody}>
+                    <Image source={DrawerLogo} style={styles.drawerLogo} />
+                    <DrawerItemList {...props} />
                 </View>
-                <NativeButton title='Support Simple Anki' icon='support' onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
-                    {text:'Cancel',style:'cancel'},
-                    {text:'Send Email',onPress:()=>Linking.openURL('mailto:smdpr78@gmail.com')},
-                ])} />
-            </View>
-        </View>
+
+                <View style={[styles.drawerFooter,{
+                    borderTopColor:theme.colors[mode].t3
+                }]}>
+                    <View style={styles.itemWrapper}>
+                        <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
+                        <Text style={[styles.itemText,{
+                            color:theme.colors[mode].t1
+                            }]}>Night Mode</Text>
+                        <Switch 
+                            style={styles.switch} 
+                            trackColor={{ false: "#C9C9C9", true: "#767577" }}
+                            thumbColor={isDark ? theme.colors.statusBar : "#f4f3f4"}
+                            value={isDark} 
+                            onValueChange={()=>dispatch(toggleDarkMode())}
+                        />
+                    </View>
+                    <NativeButton title='Support React Anki' icon='support' onPress={()=>Alert.alert("Support","You can also log the problem to us if you've seen something!",[
+                        {text:'Cancel',style:'cancel'},
+                        {text:'Send Email',onPress:()=>Linking.openURL('mailto:smdpr78@gmail.com')},
+                    ])} />
+                </View>
+            </DrawerContentScrollView>
      );
 }
 
@@ -69,11 +70,13 @@ const DrawerNavigation=()=>{
               drawerLabelStyle:{...theme.typo.h3,marginLeft:-10},
               drawerActiveTintColor:theme.colors[mode].t1,
               drawerInactiveTintColor:theme.colors[mode].t1,
+              swipeEdgeWidth:200,
             }} 
             drawerContent={(props)=><DrawerLayout {...props} />}>
-              <Drawer.Screen name="Simple Anki" component={Home} options={{
+              <Drawer.Screen name="Home" component={Home} options={{
                 drawerIcon:(props)=><FontAwesome name='list' color={props.color} size={20}  />,
                 drawerLabel:'Decks',
+                title:'React Anki',
                 // headerRight:()=><SearchButton onPress={()=>{}}/>
               }}/>
               <Drawer.Screen name="Statistcs" component={Statistcs} options={{
@@ -95,7 +98,7 @@ const NativeButton=({icon,title,onPress})=>{
             onPress={onPress}
             background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}>
             <View style={styles.itemWrapper}>
-                <FontAwesome name={icon} size={20} color={theme.colors[mode].icon} />
+                <FontAwesome name={icon} size={18} color={theme.colors[mode].icon} />
                 <Text style={[styles.itemText,{
                     color:theme.colors[mode].t1
                     }]}>{title}</Text>
@@ -116,7 +119,7 @@ const styles=StyleSheet.create({
     },
     drawerFooter:{
         borderTopWidth:1,
-        padding:10,
+        paddingVertical:10,
     },
     drawerLogo:{
         width:'100%',
@@ -124,7 +127,7 @@ const styles=StyleSheet.create({
     itemWrapper:{
         flexDirection:'row',
         height:45,
-        // paddingHorizontal:5,
+        paddingHorizontal:10,
         alignItems:'center',
     },
     itemText:{
