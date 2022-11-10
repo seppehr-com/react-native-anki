@@ -1,12 +1,11 @@
 ## React Native Anki
 
-### How to install this?
-
+### Installation
+first step
 ```
 git clone https://github.com/smdpr/react-native-anki
 ```
-
-and then
+second step
 
 ```
 npm install
