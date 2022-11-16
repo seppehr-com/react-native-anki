@@ -141,7 +141,7 @@ const AddNoteLayout = () => {
     //NightMode
     const {mode} = useSelector(selector => selector.nightMode);
 
-    const {decks,setDeckInput,frontInput,backInput,deckInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
+    const {decks,setDeckInput,frontInput,backInput,deckInput,setFrontInput,setBackInput,setInputSelection,handleChooseFromGallery,handleChooseFromCamera}=useContext(AddNoteContext);
 
     const sheetRef = createRef(null);
     const [sheetIndex,setSheetIndex]=useState(-1);
@@ -151,8 +151,8 @@ const AddNoteLayout = () => {
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
                 <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput} defaultValue={deckInput}  />
-                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  onPress={()=>sheetRef.current.expand()} />
-                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  onPress={()=>setSheetIndex(0)}  />
+                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  onPress={()=>{setSheetIndex(0);setInputSelection({label:'front'})}} />
+                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  onPress={()=>{setSheetIndex(0);setInputSelection({label:'back'})}}  />
                 <TagsCards />
             </ScrollView>
             <TextEditor />
@@ -163,7 +163,7 @@ const AddNoteLayout = () => {
                 setIndex={setSheetIndex}
                 snapPoints={[180]}
             >
-                <ImagePickerBottomSheet />
+                <ImagePickerBottomSheet onGallery={handleChooseFromGallery} onCamera={handleChooseFromCamera} />
             </CustomButtonSheet>
         </View>
     );

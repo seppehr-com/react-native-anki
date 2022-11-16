@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     },
     imagePickerContainer: {
         flex: 1,
-        // alignItems: 'center',
         justifyContent:'center',
         paddingHorizontal:15,
     },
