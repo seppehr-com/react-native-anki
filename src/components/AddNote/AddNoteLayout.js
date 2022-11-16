@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useRef,useMemo, useContext, createRef, useState } from 'react';
 import { Text,View,StyleSheet, ScrollView, TextInput, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,6 +7,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { AddNoteContext } from '../../context/AddNoteContext';
 import theme from '../../../assets/theme';
 import { useSelector } from 'react-redux';
+import CustomButtonSheet, { ImagePickerBottomSheet } from '../CustomButtonSheet';
 
 Entypo.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -71,7 +72,7 @@ const  DropDown = ({label,list,defaultValue,setDropDown}) => {
     );
 }
 
-const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
+const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection,onPress}) => {
     //NightMode
     const {mode} = useSelector(selector => selector.nightMode);
 
@@ -81,7 +82,7 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection}) => {
                 <Text style={[styles.labelTitle,{
                     color:theme.colors[mode].t1
                     }]}>{label}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onPress}>
                     <MaterialCommunityIcons name="attachment" size={20} color={theme.colors[mode].t1} />
                 </TouchableOpacity>
             </View>
@@ -142,16 +143,28 @@ const AddNoteLayout = () => {
 
     const {decks,setDeckInput,frontInput,backInput,deckInput,setFrontInput,setBackInput,setInputSelection}=useContext(AddNoteContext);
 
+    const sheetRef = createRef(null);
+    const [sheetIndex,setSheetIndex]=useState(-1);
+
     return ( 
         <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
                 <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput} defaultValue={deckInput}  />
-                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  />
-                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  />
+                <TextBox label={'Front: '} defaultValue={frontInput} setTextBoxInput={setFrontInput} setTextBoxSelection={(selection)=>{setInputSelection({...selection,label:'front'})}}  onPress={()=>sheetRef.current.expand()} />
+                <TextBox label={'Back: '} defaultValue={backInput} setTextBoxInput={setBackInput} setTextBoxSelection={(selection)=>setInputSelection({...selection,label:'back'})}  onPress={()=>setSheetIndex(0)}  />
                 <TagsCards />
             </ScrollView>
             <TextEditor />
+
+            <CustomButtonSheet
+                ref={sheetRef}
+                index={sheetIndex}
+                setIndex={setSheetIndex}
+                snapPoints={[180]}
+            >
+                <ImagePickerBottomSheet />
+            </CustomButtonSheet>
         </View>
     );
 }
@@ -160,6 +173,7 @@ const styles=StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:theme.colors.white,
+        zIndex:100,
     },
     dropDownGroup:{
         flexDirection:'row',
