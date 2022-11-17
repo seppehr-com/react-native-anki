@@ -24,10 +24,9 @@ export const AddNoteProvider = ({children,value}) => {
     const handleTextEdit=(tag,properties)=>{
         let {start,end,label} = inputSelection;
         const tagStart=`<${tag} ${properties?properties:''}>`,tagEnd=`</${tag}>`;
-        let textInput,setTextInput;
 
         if((start&&end)||(start===0)){
-            const {textInput,setTextInput} = inputStates(label);
+            let {textInput,setTextInput} = inputStates(label);
 
             //Replacement
             end+=tagStart.length;

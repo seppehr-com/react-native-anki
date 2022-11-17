@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Pressable, StyleSheet, Text, View ,BackHandler} from 'react-native'
+import React,{ useEffect } from 'react'
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useSelector } from 'react-redux';
 import theme from '../../assets/theme';
@@ -21,6 +21,23 @@ export const ImagePickerBottomSheet=({onGallery,onCamera})=>{
 export default CustomButtonSheet=React.forwardRef((props,ref)=> {
   //NightMode
   const {mode} = useSelector(selector => selector.nightMode);
+
+  //BackButton
+  useEffect(() => {
+    const backAction = () => {
+        ref.current.close();
+        return true;
+    };
+
+    if(props.index==0){
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+      
+        return () => backHandler.remove();
+    }
+  }, [props.index]);
 
   return (
     <Pressable style={[styles.modal,props.index===0?styles.extraModal:{}]} onPress={()=>{

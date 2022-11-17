@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UIManager,Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,6 +13,7 @@ import theme from './assets/theme/index';
 import CardPreview from './src/pages/CardPreview';
 import EditNote from './src/pages/EditNote';
 import DrawerNavigation from './src/components/DrawerNavigation';
+import SplashScreen from 'react-native-splash-screen';
 
 //Define Redux Store
 const Store = legacy_createStore(rootReducer,applyMiddleware(thunk));
@@ -28,6 +29,10 @@ if (
 
 //Repair the Searchbar!
 const App=gestureHandlerRootHOC(()=>{
+  useEffect(()=>{
+    SplashScreen.hide();
+  },[]);
+  
   return (
     <NavigationContainer>
         <Provider store={Store}>
@@ -37,7 +42,7 @@ const App=gestureHandlerRootHOC(()=>{
               headerTintColor: theme.colors.white,
               gestureDirection: 'horizontal',
               gestureEnabled: true,
-              animation:'slide_from_left',
+              // animation:'slide_from_left',
               // presentation:'containedTransparentModal',
               orientation:'portrait'
             }}>

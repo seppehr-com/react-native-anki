@@ -6,9 +6,7 @@ import com.facebook.react.ReactRootView;
 import android.os.Bundle;
 
 // // react-native-splash-screen >= 0.3.1
-// import org.devio.rn.splashscreen.SplashScreen; // here
-// // react-native-splash-screen < 0.3.1
-// import com.cboy.rn.splashscreen.SplashScreen; // here
+import org.devio.rn.splashscreen.SplashScreen; // here
 
 
 
@@ -22,6 +20,12 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "AnkiApp";
   }
+
+   @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this, R.style.SplashScreenTheme);
+        super.onCreate(savedInstanceState);
+   }
 
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
@@ -51,14 +55,6 @@ public class MainActivity extends ReactActivity {
       // If you opted-in for the New Architecture, we enable Concurrent Root (i.e. React 18).
       // More on this on https://reactjs.org/blog/2022/03/29/react-v18.html
       return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-      // SplashScreen.show(this, R.style.SplashScreenTheme);  // here
-      // SplashScreen.show(this);  // here
-      super.onCreate(null);
-      // super.onCreate(savedInstanceState);
     }
   }
 }
