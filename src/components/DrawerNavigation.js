@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,Text,Image ,StyleSheet, Switch, TouchableNativeFeedback, Alert, Linking} from 'react-native';
+import { View,Text,Image ,StyleSheet, Switch, TouchableNativeFeedback, Alert, Linking, StatusBar} from 'react-native';
 import {DrawerContentScrollView,DrawerItemList,DrawerItem} from '@react-navigation/drawer';
 import DrawerLogo from '../../assets/images/drawer_logo.png';
 import theme from '../../assets/theme';
@@ -58,8 +58,9 @@ const DrawerNavigation=()=>{
     const {mode} = useSelector(selector => selector.nightMode);
 
     return (
+        <>
           <Drawer.Navigator initialRouteName='Home' screenOptions={{
-              headerStyle: {backgroundColor:theme.colors.header},
+              headerStyle: {backgroundColor:theme.colors[mode].header},
               headerTitleStyle:{color:theme.colors.white},
               headerTintColor: theme.colors.white,
               drawerItemStyle: {
@@ -67,12 +68,12 @@ const DrawerNavigation=()=>{
                 width: '100%',
                 marginLeft: 0,
                 marginVertical:0,
-                height:45,
+                // height:45,
               },
               drawerLabelStyle:{
                 ...theme.typo.h3,
                 marginLeft:-10,
-                marginTop:-2,
+                // marginTop:-2,
               },
               drawerActiveTintColor:theme.colors[mode].t1,
               drawerInactiveTintColor:theme.colors[mode].t1,
@@ -91,6 +92,8 @@ const DrawerNavigation=()=>{
                  drawerIcon:(props)=><FontAwesome name='question-circle' color={props.color} size={20}  />,
               }} />
           </Drawer.Navigator>
+          <StatusBar backgroundColor={theme.colors[mode].header} />
+        </>
     );
   }
 
@@ -131,7 +134,7 @@ const styles=StyleSheet.create({
     },
     itemWrapper:{
         flexDirection:'row',
-        height:45,
+        height:55,
         paddingHorizontal:10,
         alignItems:'center',
     },

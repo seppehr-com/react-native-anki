@@ -1,4 +1,6 @@
 import {combineReducers} from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {persistReducer } from 'redux-persist';
 
 const initialNightModeState={
     isDark:false,
@@ -27,7 +29,14 @@ const activeMenuReducer=(state='Decks',action)=>{
 }
 
 
-export default rootReducer=combineReducers({
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+    // whitelist: ['bookmarks']
+};
+
+const rootReducer=combineReducers({
     nightMode:nightModeReducer,
     activeMenu:activeMenuReducer,
 });
+export default persistedReducer =persistReducer(persistConfig,rootReducer);

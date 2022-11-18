@@ -7,10 +7,13 @@ import { useSelector } from 'react-redux';
 
 const Counter=()=>{
     const {easy,good,again}=useContext(CardContext);
+    const {mode} = useSelector(selector => selector.nightMode);
 
     if(typeof easy == 'number')
         return (
-            <View style={styles.answersCounter}>
+            <View style={[styles.answersCounter,{
+                backgroundColor:theme.colors[mode].answerCounter
+            }]}>
                 <Text style={styles.easyCounter}>{easy}</Text>
                 <Text style={styles.againCounter}>{again}</Text>
                 <Text style={styles.goodCounter}>{good}</Text>
