@@ -5,13 +5,34 @@ import { useSelector } from 'react-redux';
 import theme from '../../assets/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const ImagePickerBottomSheet=({onGallery,onCamera})=>{
+export const FormControlBottomSheet=({onPress,children})=>{
+  return(
+    <View style={styles.formContainer}>
+      {children}
+
+      <TouchableOpacity style={[styles.buttonWrapper,styles.formSubmit]} onPress={onPress} activeOpacity={0.7}>
+        <Text style={styles.buttonText}>Create</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+export const ImagePickerBottomSheet=({sheetRef,onGallery,onCamera})=>{
+  const handleGallery=()=>{
+    onGallery();
+    sheetRef.current.close();
+  }
+  const handleCamera=()=>{
+    onCamera();
+    sheetRef.current.close();
+  }
+
   return(
     <View style={styles.imagePickerContainer}>
-      <TouchableOpacity style={styles.buttonWrapper} onPress={onGallery} activeOpacity={0.7}>
+      <TouchableOpacity style={styles.buttonWrapper} onPress={handleGallery} activeOpacity={0.7}>
         <Text style={styles.buttonText}>Choose from Library</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonWrapper} onPress={onCamera} activeOpacity={0.7}>
+      <TouchableOpacity style={styles.buttonWrapper} onPress={handleCamera} activeOpacity={0.7}>
         <Text style={styles.buttonText}>Take Photo</Text>
       </TouchableOpacity>
     </View>
@@ -25,7 +46,12 @@ export default CustomButtonSheet=React.forwardRef((props,ref)=> {
   //BackButton
   useEffect(() => {
     const backAction = () => {
-        ref.current.close();
+        try{
+          ref.current.close();
+        }
+        catch(e){
+          //backHandler Error
+        }
         return true;
     };
 
@@ -40,21 +66,24 @@ export default CustomButtonSheet=React.forwardRef((props,ref)=> {
   }, [props.index]);
 
   return (
-    <Pressable style={[styles.modal,props.index===0?styles.extraModal:{}]} onPress={()=>{
+    <Pressable style={[styles.modal,props.index==0?styles.extraModal:{}]} onPress={()=>{
         ref.current.close()
       }}>
-        <BottomSheet
-            ref={ref}
-            index={props.index}
-            snapPoints={props.snapPoints}
-            onClose={()=>props.setIndex(-1)}
-            backgroundStyle={theme.setBakground(mode,'background')}
-            handleIndicatorStyle={theme.setBakground(mode,'t1')}
-            enablePanDownToClose
-            >
-              {props.children}
-        </BottomSheet>
-     </Pressable>
+        <Pressable style={{height:props.snapPoints[0]+50}}>
+          <BottomSheet
+              ref={ref}
+              index={props.index}
+              snapPoints={props.snapPoints}
+              onClose={()=>props.setIndex(-1)}
+              backgroundStyle={theme.setBakground(mode,'background')}
+              handleIndicatorStyle={theme.setBakground(mode,'t1')}
+              style={{zIndex:2000}}
+              enablePanDownToClose
+              >
+                {props.children}
+          </BottomSheet>
+        </Pressable>
+      </Pressable>
   )
 })
 
@@ -63,7 +92,9 @@ const styles = StyleSheet.create({
       position:'absolute',
       bottom:0,
       top:0,
-      backgroundColor: 'rgba(0,0,0,0.4)'
+      zIndex:1000,
+      backgroundColor: 'rgba(0,0,0,0.4)',
+      justifyContent:'flex-end'
     },
     extraModal:{
         left:0,
@@ -74,13 +105,23 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         paddingHorizontal:15,
     },
+    formContainer:{
+      flex: 1,
+      justifyContent:'center',
+      marginTop:-30,
+      paddingHorizontal:20,
+    },
     buttonWrapper:{
       width:'100%',
       backgroundColor:theme.colors.statusBar,
       alignItems:'center',
       paddingVertical:15,
       marginBottom:15,
-      borderRadius:35,
+      borderRadius:10,
+    },
+    formSubmit:{
+      marginTop:20,
+      marginBottom:-15,
     },
     buttonText:{
       ...theme.typo.b1,

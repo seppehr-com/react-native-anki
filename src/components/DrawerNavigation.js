@@ -27,7 +27,7 @@ const DrawerLayout = (props) => {
                 </View>
 
                 <View style={[styles.drawerFooter,{
-                    borderTopColor:theme.modeColor(mode,'t3')
+                    borderTopColor:theme.modeColor(mode,'separator')
                 }]}>
                     <View style={styles.itemWrapper}>
                         <FontAwesome name='moon-o' size={20} color={theme.modeColor(mode,'icon')} />
@@ -64,12 +64,10 @@ const DrawerNavigation=()=>{
                 width: '100%',
                 marginLeft: 0,
                 marginVertical:0,
-                // height:45,
               },
               drawerLabelStyle:{
                 ...theme.typo.h3,
                 marginLeft:-10,
-                // marginTop:-2,
               },
               drawerActiveTintColor:theme.modeColor(mode,'t1'),
               drawerInactiveTintColor:theme.modeColor(mode,'t1'),
@@ -77,15 +75,15 @@ const DrawerNavigation=()=>{
             }} 
             drawerContent={(props)=><DrawerLayout {...props} />}>
               <Drawer.Screen name="Home" component={Home} options={{
-                drawerIcon:(props)=><FontAwesome name='list' color={props.color} size={20}  />,
+                drawerIcon:(props)=><FontAwesome name='list' color={theme.modeColor(mode,'icon')} size={20}  />,
                 drawerLabel:'Decks',
                 title:'React Anki',
               }}/>
               <Drawer.Screen name="Statistcs" component={Statistcs} options={{
-                 drawerIcon:(props)=><FontAwesome name='bar-chart' color={props.color} size={18}  />,
+                 drawerIcon:(props)=><FontAwesome name='bar-chart' color={theme.modeColor(mode,'icon')} size={18}  />,
               }} />
               <Drawer.Screen name="Help" component={Help} options={{
-                 drawerIcon:(props)=><FontAwesome name='question-circle' color={props.color} size={20}  />,
+                 drawerIcon:(props)=><FontAwesome name='question-circle' color={theme.modeColor(mode,'icon')} size={20}  />,
               }} />
           </Drawer.Navigator>
           <StatusBar backgroundColor={theme.modeColor(mode,'header')} />
@@ -97,10 +95,13 @@ const NativeButton=({icon,title,size,onPress})=>{
     const {nightMode} = useSelector(s=>s);
     const {mode} =nightMode;
 
+    //Disabled custom press button
+    //theme.modeColor(mode,'pressButton')
+
     return (
         <TouchableNativeFeedback 
             onPress={onPress}
-            background={TouchableNativeFeedback.Ripple(theme.modeColor(mode,'pressButton'), false)}>
+            background={TouchableNativeFeedback.Ripple('', false)}>
             <View style={styles.itemWrapper}>
                 <FontAwesome name={icon} size={size} color={theme.modeColor(mode,'icon')} />
                 <Text style={[styles.itemText,theme.setColor(mode,'t1')]}>{title}</Text>

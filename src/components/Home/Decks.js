@@ -46,7 +46,7 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
                         <View 
                             style={[styles.deckWrapper,{
                                 backgroundColor:theme.modeColor(mode,'background'),
-                                borderBottomColor:theme.modeColor(mode,'t3')
+                                borderBottomColor:theme.modeColor(mode,'separator')
                             }]}>
                             <Text numberOfLines={1} style={[styles.deckTitle,theme.setColor(mode,'t1')]}>{item.title}</Text>
                             <View style={styles.deckSide}>

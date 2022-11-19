@@ -79,7 +79,7 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection,onPress
             <View style={styles.textBoxLabel}>
                 <Text style={[styles.labelTitle,theme.setColor(mode,'t1')]}>{label}</Text>
                 <TouchableOpacity onPress={onPress}>
-                    <MaterialCommunityIcons name="attachment" size={20} color={theme.modeColor(mode,'t1')} />
+                    <MaterialCommunityIcons name="attachment" size={26} color={theme.modeColor(mode,'t1')} />
                 </TouchableOpacity>
             </View>
             <TextInput style={[styles.textBox,{
@@ -92,20 +92,26 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection,onPress
 
 const TagsCards = () => {
     //This item is unavailable in this version! 
+    //NightMode
+    const {mode} = useSelector(selector => selector.nightMode);
+
     return ( 
         <View style={{marginTop:15,marginBottom:100}}>
-            <View style={styles.extraBoxWrapper}>
-                <Text style={styles.extraBoxTitle}>Tags:</Text>
+            <View style={[styles.extraBoxWrapper,theme.setBakground(mode,'textEditor')]}>
+                <Text style={[styles.extraBoxTitle,theme.setColor(mode,'t1')]}>Tags:</Text>
             </View>
 
-            <View style={styles.extraBoxWrapper}>
-                <Text style={styles.extraBoxTitle}>Cards:  Card1</Text>
+            <View style={[styles.extraBoxWrapper,theme.setBakground(mode,'textEditor')]}>
+                <Text style={[styles.extraBoxTitle,theme.setColor(mode,'t1')]}>Cards:  Card1</Text>
             </View>
         </View>
      );
 }
 
 const TextEditor=()=>{
+    //NightMode
+    const {mode} = useSelector(selector => selector.nightMode);
+
     const {handleTextEdit} = useContext(AddNoteContext);
 
     const TextEditorButton=({name,tag,properties})=>{
@@ -114,14 +120,14 @@ const TextEditor=()=>{
                 onPress={()=>handleTextEdit(tag,properties)}
                 background={TouchableNativeFeedback.Ripple('', true)}>
                     <View style={styles.textEditorButton} >
-                        <FontAwesome name={name} size={20} color={'black'} />
+                        <FontAwesome name={name} size={20} color={theme.modeColor(mode,'t1')} />
                     </View>
             </TouchableNativeFeedback>
         );
     }
 
     return(
-        <View style={styles.textEditorWrapper}>
+        <View style={[styles.textEditorWrapper,theme.setBakground(mode,'textEditor')]}>
             <TextEditorButton name={'bold'} tag='b' />
             <TextEditorButton name={'italic'} tag='i' />
             <TextEditorButton name={'underline'} tag='u' />
@@ -159,7 +165,7 @@ const AddNoteLayout = () => {
                 setIndex={setSheetIndex}
                 snapPoints={[180]}
             >
-                <ImagePickerBottomSheet onGallery={handleChooseFromGallery} onCamera={handleChooseFromCamera} />
+                <ImagePickerBottomSheet onGallery={handleChooseFromGallery} onCamera={handleChooseFromCamera} sheetRef={sheetRef} />
             </CustomButtonSheet>
         </View>
     );
@@ -206,7 +212,6 @@ const styles=StyleSheet.create({
     },
     extraBoxWrapper:{
         marginTop:10,
-        backgroundColor:theme.colors.midGray,
         paddingVertical:6,
         paddingHorizontal:10,
         borderRadius:5,
@@ -214,7 +219,6 @@ const styles=StyleSheet.create({
     extraBoxTitle:{
         ...theme.typo.b2,
         fontSize:16,
-        color:theme.colors.black
     },
     textEditorWrapper:{
         position:'absolute',
@@ -222,7 +226,6 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-around',
         alignItems:'center',
-        backgroundColor:theme.colors.midGray,
         height:45,
         width:'100%',
     },

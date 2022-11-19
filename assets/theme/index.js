@@ -1,9 +1,7 @@
 export default theme={
     colors:{
         statusBar:'#0288D1',
-        // statusBar:'#233040',
         header:'#0288D1',
-        // header:'#03A9F5',
         white:'#FFFFFF',
         black:'#000000',
         lightGray:'#ECECEC',
@@ -14,24 +12,28 @@ export default theme={
         again:'#D32F2E',
         light:{
             header:'#0288D1',
-            answerCounter:'#B3E5FC',
             background:'#FFFFFF',
+            separator :'#C9C9C9',
+            icon:'#686C6C',
+            textEditor:'#C9C9C9',
+            answerCounter:'#B3E5FC',
             t1:'#000000',
             t2:'#757575',
             t3:'#C9C9C9',
             t4:'#ECECEC',
-            icon:'#000000',
             pressButton:'#C9C9C9',
         },
         dark:{
             header:'#233040',
+            background:'#15202B',
+            separator :'#233040',
+            icon:'#868E99',
+            textEditor:'#233040',
             answerCounter:'#364962',
-            background:'#15202B', // Need to change
             t1:'#FFFFFF', 
             t2:'#ECECEC', //Need to change
             t3:'#757575', // Need to change
             t4:'#C9C9C9', //Need to change
-            icon:'#FFFFFF',
             pressButton:'#757575',
         },
     },

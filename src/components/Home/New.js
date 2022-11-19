@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Text, View ,StyleSheet, TouchableOpacity, Modal, Pressable, Animated} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from 'react-redux';
 import theme from '../../../assets/theme/index';
 import Animation from '../../../modules/Animation';
 
@@ -16,6 +17,9 @@ const Button = ({onPress,style,icon}) =>{
 }
 
 export default New = ({onOpenModal,navigation}) =>{
+    //NightMode Colors!
+    const {mode} = useSelector(selector => selector.nightMode);
+
     const [visible,setVisible] = useState(false); 
     const fadeAnim=useRef(new Animated.Value(0)).current;
 
@@ -27,8 +31,8 @@ export default New = ({onOpenModal,navigation}) =>{
         anim.fadeOut(fadeAnim,setVisible);
     }
     const handleOpenModal=()=>{
-        onOpenModal();
         handlePress();
+        onOpenModal();
     }
     const handleAddNote=()=>{
         navigation.navigate('Add Note');
@@ -36,40 +40,27 @@ export default New = ({onOpenModal,navigation}) =>{
     }
     return (
         <View style={styles.buttonWrapper}>
-            <Modal 
-                transparent
-                visible={visible}
-                >
-                <Pressable style={styles.modalBackground} onPress={handlePress}>
-                    <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
-                        <Text style={styles.buttonTextSide}>Create Deck</Text>
-                        <Button style={styles.childButton} icon={{
-                            name:"folder-plus",
-                            size:15,
-                        }} 
-                            onPress={handleOpenModal}
-                        />
-                    </Animated.View>
+            <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
+                <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Create Deck</Text>
+                <Button style={styles.childButton} icon={{
+                    name:"folder-plus",
+                    size:15,
+                }} 
+                    onPress={handleOpenModal}
+                />
+            </Animated.View>
                     
-                    <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
-                        <Text style={styles.buttonTextSide}>Add Note</Text>
-                        <Button style={styles.childButton} 
-                            onPress={handleAddNote}
-                            icon={{
-                                name:"plus",
-                                size:15,
-                        }} />
-                    </Animated.View>
-                    <Animated.View style={{position:'absolute',right:20,bottom:30,opacity:fadeAnim}}>
-                        <Button style={styles.addButton} onPress={handlePress} icon={{
-                            name:"close",
-                            size:22,
-                        }} />
-                    </Animated.View>
-                </Pressable>
-            </Modal>
-            <Button style={[styles.addButton,{display:visible?'none':'flex'}]} onPress={handlePress} icon={{
-                name:"plus",
+            <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
+                <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Add Note</Text>
+                <Button style={styles.childButton} 
+                    onPress={handleAddNote}
+                    icon={{
+                        name:"plus",
+                        size:15,
+                 }} />
+            </Animated.View>
+            <Button style={[styles.addButton]} onPress={handlePress} icon={{
+                name:visible?"close":"plus",
                 size:22,
             }} />
         </View>
@@ -79,7 +70,6 @@ export default New = ({onOpenModal,navigation}) =>{
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:theme.colors.white,
     },
     buttonWrapper:{
         position:'absolute',
@@ -87,7 +77,7 @@ const styles=StyleSheet.create({
         bottom:30,
         justifyContent:'flex-end',
         alignItems:'flex-end',
-        zIndex:100,
+        // zIndex:100,
     },
     addButton:{
         backgroundColor:theme.colors.statusBar,
@@ -97,15 +87,6 @@ const styles=StyleSheet.create({
         alignItems:'center',
         borderRadius:50,
         elevation:6,
-    },
-    modalBackground:{
-        flex:1,
-        backgroundColor:'rgba(0,0,0,0.4)',
-        // backgroundColor:'black',
-        // opacity:0.4,
-        justifyContent:'flex-end',
-        paddingRight:20,
-        paddingBottom:80,
     },
     childButtonsWrapper:{
         flexDirection:'row',
@@ -126,18 +107,5 @@ const styles=StyleSheet.create({
     buttonTextSide:{
         ...theme.typo.h2,
         color:theme.colors.white
-    },
-    buttonsModal:{
-        justifyContent:'flex-end',
-    },
-    createTitle:{
-        ...theme.typo.h1,
-        color:theme.colors.black
-    },
-    createInput:{
-        marginTop:20,
-        borderBottomWidth:2,
-        borderBottomColor:theme.colors.black,
-        fontSize:18,
     },
 });

@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid,Vibration} from 'react-native';
+import React, { createRef, useEffect, useLayoutEffect, useState } from 'react';
+import { Text, View ,StyleSheet, StatusBar, ScrollView, TextInput, Alert,ToastAndroid,Vibration, Button} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Decks from '../components/Home/Decks';
 import New from '../components/Home/New';
@@ -7,6 +7,8 @@ import Modal from '../components/Modal';
 import theme from '../../assets/theme';
 import Database from '../../modules/Database';
 import { useSelector } from 'react-redux';
+import CustomButtonSheet, { FormControlBottomSheet } from '../components/CustomButtonSheet';
+import { useIsFocused } from '@react-navigation/native';
 
 MaterialCommunityIcons.loadFont();
 
@@ -17,40 +19,18 @@ const Home=({navigation})=> {
     //NightMode Colors!
     const {mode} = useSelector(selector => selector.nightMode);
     
-    const [visibleModal,setVisibleModal] = useState(false);
     const [deckTextInput,setDeckTextInput] = useState('');
     const [decksList,setDecksList]=useState([]);
 
-    //SearchInput
-    const [search,setSearch]=useState('');
+    //BottomSheet
+    const sheetRef = createRef(null);
+    const [sheetIndex,setSheetIndex]=useState(-1);
 
-    // useLayoutEffect(()=>{
-    //     navigation.setOptions({
-    //         // headerLeft:()=><LeftButton onPress={drawerRef} visible={true} />,
-    //         headerSearchBarOptions:{
-    //             headerIconColor:'white',
-    //             textColor:'white',
-    //             hintTextColor:'white',
-    //             obscureBackground:false,
-    //             shouldShowHintSearchIcon:false,
-    //             placeholder:'Search',
-    //             barTintColor:theme.colors.header,
-    //             onChangeText: (event) => setSearch(event.nativeEvent.text),
-    //             // onFocus:()=>{
-    //             //   setTitle(null);
-    //             //   setHeaderLeftVisible(false);
-    //             // },
-    //             // onClose:(route)=>{
-    //             //   setTitle(route.name);
-    //             //   setHeaderLeftVisible(true);
-    //             // },
-    //           },
-    //     });
-    // },[navigation]);
-
+    //Refresh Page After Go Back
+    const isVisible = useIsFocused();
     useEffect(()=>{
-        db.getDecks(setDecksList,search);
-    },[decksList,search]);
+        db.getDecks(setDecksList);
+    },[isVisible]);
 
     const handleCreateDeck=()=>{
         if(!deckTextInput){
@@ -68,6 +48,7 @@ const Home=({navigation})=> {
         db.insertDeck(deckTextInput);
         db.getDecks(setDecksList);
         setDeckTextInput('');
+        sheetRef.current.close()
 
         //Create message!
         ToastAndroid.showWithGravityAndOffset(
@@ -108,14 +89,27 @@ const Home=({navigation})=> {
                 <Decks navigation={navigation} decks={decksList} handleDeleteDeck={handleDeleteDeck} />
             </ScrollView>
 
-            <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
-                <Text style={[styles.createTitle,{color:theme.colors[mode].t1}]}>Create Deck</Text>
-                <TextInput style={[styles.createInput,{
-                    borderBottomColor:theme.modeColor(mode,'t1'),
-                    color:theme.modeColor(mode,'t1')
-                    }]} onChangeText={setDeckTextInput} />
-            </Modal>
-            <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
+            <New onOpenModal={()=>setSheetIndex(0)} navigation={navigation} />
+
+            <CustomButtonSheet
+                ref={sheetRef}
+                index={sheetIndex}
+                setIndex={setSheetIndex}
+                snapPoints={[210]}
+            >
+                <FormControlBottomSheet onPress={handleCreateDeck} sheetRef={sheetRef}>
+                    <Text style={[styles.createTitle,theme.setColor(mode,'t1')]}>Create Deck</Text>
+                    <TextInput style={[styles.createInput,{
+                        borderBottomColor:theme.modeColor(mode,'t1'),
+                        color:theme.modeColor(mode,'t1')
+                        }]} 
+                        placeholder='Title (e.g: Daily Words)' 
+                        placeholderTextColor={theme.modeColor(mode,'t3')} 
+                        value={deckTextInput} 
+                        onChangeText={setDeckTextInput} 
+                    />
+                </FormControlBottomSheet>
+            </CustomButtonSheet>
         </View>
      );
 };
