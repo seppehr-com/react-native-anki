@@ -8,9 +8,7 @@ const Statistcs = () => {
     const {mode} = useSelector(selector => selector.nightMode);
 
     return ( 
-        <ScrollView style={[styles.container,{
-            backgroundColor:theme.colors[mode].background
-            }]}>
+        <ScrollView style={[styles.container,theme.setBakground(mode,'background')]}>
         </ScrollView>
      );
 }

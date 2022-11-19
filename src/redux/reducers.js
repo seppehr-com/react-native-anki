@@ -39,4 +39,5 @@ const rootReducer=combineReducers({
     nightMode:nightModeReducer,
     activeMenu:activeMenuReducer,
 });
-export default persistedReducer =persistReducer(persistConfig,rootReducer);
+
+export default reducers = persistReducer(persistConfig,rootReducer);

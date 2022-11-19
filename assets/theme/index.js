@@ -61,4 +61,7 @@ export default theme={
             fontSize:14,
         },
     },
+    modeColor:(mode,type)=>(theme.colors[mode][type]),
+    setBakground:(mode,type)=>({backgroundColor:theme.modeColor(mode,type)}),
+    setColor:(mode,type)=>({color:theme.modeColor(mode,type)}),
 };

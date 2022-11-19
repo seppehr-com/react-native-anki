@@ -20,22 +20,18 @@ const DrawerLayout = (props) => {
     const dispatch=useDispatch();
 
     return ( 
-            <DrawerContentScrollView style={[styles.container,{
-                backgroundColor:theme.colors[mode].background,
-            }]} {...props}>
+            <DrawerContentScrollView style={[styles.container,theme.setBakground(mode,'background')]} {...props}>
                 <View style={styles.drawerBody}>
                     <Image source={DrawerLogo} style={styles.drawerLogo} />
                     <DrawerItemList {...props} />
                 </View>
 
                 <View style={[styles.drawerFooter,{
-                    borderTopColor:theme.colors[mode].t3
+                    borderTopColor:theme.modeColor(mode,'t3')
                 }]}>
                     <View style={styles.itemWrapper}>
-                        <FontAwesome name='moon-o' size={20} color={theme.colors[mode].icon} />
-                        <Text style={[styles.itemText,{
-                            color:theme.colors[mode].t1
-                            }]}>Night Mode</Text>
+                        <FontAwesome name='moon-o' size={20} color={theme.modeColor(mode,'icon')} />
+                        <Text style={[styles.itemText,theme.setColor(mode,'t1')]}>Night Mode</Text>
                         <Switch 
                             style={styles.switch} 
                             trackColor={{ false: "#C9C9C9", true: "#767577" }}
@@ -60,7 +56,7 @@ const DrawerNavigation=()=>{
     return (
         <>
           <Drawer.Navigator initialRouteName='Home' screenOptions={{
-              headerStyle: {backgroundColor:theme.colors[mode].header},
+              headerStyle: {backgroundColor:theme.modeColor(mode,'header')},
               headerTitleStyle:{color:theme.colors.white},
               headerTintColor: theme.colors.white,
               drawerItemStyle: {
@@ -75,8 +71,8 @@ const DrawerNavigation=()=>{
                 marginLeft:-10,
                 // marginTop:-2,
               },
-              drawerActiveTintColor:theme.colors[mode].t1,
-              drawerInactiveTintColor:theme.colors[mode].t1,
+              drawerActiveTintColor:theme.modeColor(mode,'t1'),
+              drawerInactiveTintColor:theme.modeColor(mode,'t1'),
               swipeEdgeWidth:200,
             }} 
             drawerContent={(props)=><DrawerLayout {...props} />}>
@@ -92,7 +88,7 @@ const DrawerNavigation=()=>{
                  drawerIcon:(props)=><FontAwesome name='question-circle' color={props.color} size={20}  />,
               }} />
           </Drawer.Navigator>
-          <StatusBar backgroundColor={theme.colors[mode].header} />
+          <StatusBar backgroundColor={theme.modeColor(mode,'header')} />
         </>
     );
   }
@@ -104,12 +100,10 @@ const NativeButton=({icon,title,size,onPress})=>{
     return (
         <TouchableNativeFeedback 
             onPress={onPress}
-            background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}>
+            background={TouchableNativeFeedback.Ripple(theme.modeColor(mode,'pressButton'), false)}>
             <View style={styles.itemWrapper}>
-                <FontAwesome name={icon} size={size} color={theme.colors[mode].icon} />
-                <Text style={[styles.itemText,{
-                    color:theme.colors[mode].t1
-                    }]}>{title}</Text>
+                <FontAwesome name={icon} size={size} color={theme.modeColor(mode,'icon')} />
+                <Text style={[styles.itemText,theme.setColor(mode,'t1')]}>{title}</Text>
             </View>
         </TouchableNativeFeedback>
     );
@@ -141,7 +135,6 @@ const styles=StyleSheet.create({
     itemText:{
         ...theme.typo.h3,
         marginLeft:20,
-        color:theme.colors.black,
     },
     switch:{
         position:'absolute',

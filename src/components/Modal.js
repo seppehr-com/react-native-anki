@@ -1,6 +1,5 @@
-import React, { useEffect, useRef , useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Modal as ReactModal , View,Text,StyleSheet, TouchableOpacity, Pressable, Animated } from 'react-native';
-import { ThemeContext } from '../context/ThemeContext';
 import theme from '../../assets/theme';
 import Animation from '../../modules/Animation';
 import { useSelector } from 'react-redux';
@@ -28,7 +27,7 @@ function Modal({children,visible,setVisible,onPress}) {
             <Pressable style={styles.modal} onPress={onClose}>
                 <Animated.View style={[styles.contentWrapper,{
                     opacity:fadeAnim,
-                    backgroundColor:theme.colors[mode].background
+                    backgroundColor:theme.modeColor(mode,'background')
                     }]}>
                     <Pressable>
                         {children}

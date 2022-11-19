@@ -48,8 +48,8 @@ export default CustomButtonSheet=React.forwardRef((props,ref)=> {
             index={props.index}
             snapPoints={props.snapPoints}
             onClose={()=>props.setIndex(-1)}
-            backgroundStyle={{backgroundColor:theme.colors[mode].background}}
-            handleIndicatorStyle={{backgroundColor:theme.colors[mode].t1}}
+            backgroundStyle={theme.setBakground(mode,'background')}
+            handleIndicatorStyle={theme.setBakground(mode,'t1')}
             enablePanDownToClose
             >
               {props.children}

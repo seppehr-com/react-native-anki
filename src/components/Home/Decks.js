@@ -41,16 +41,14 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
 
                     <TouchableNativeFeedback  
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
-                        background={TouchableNativeFeedback.Ripple(theme.colors[mode].pressButton, false)}
+                        background={TouchableNativeFeedback.Ripple(theme.modeColor(mode,'pressButton'), false)}
                         >
                         <View 
                             style={[styles.deckWrapper,{
-                                backgroundColor:theme.colors[mode].background,
-                                borderBottomColor:theme.colors[mode].t3
+                                backgroundColor:theme.modeColor(mode,'background'),
+                                borderBottomColor:theme.modeColor(mode,'t3')
                             }]}>
-                            <Text style={[styles.deckTitle,{
-                                color:theme.colors[mode].t1
-                                }]}>{item.title}</Text>
+                            <Text numberOfLines={1} style={[styles.deckTitle,theme.setColor(mode,'t1')]}>{item.title}</Text>
                             <View style={styles.deckSide}>
                                 <Text style={styles.deckCount}>{item.easy}</Text>
                                 <Text style={styles.deckCount}>{item.again}</Text>
@@ -71,8 +69,6 @@ const styles=StyleSheet.create({
     deckWrapper:{
         flexDirection:'row',
         borderBottomWidth:1,
-        backgroundColor:theme.colors.white,
-        // borderBottomColor:theme.colors.lightGray,
         justifyContent:'space-between',
         alignItems:'center',
         paddingHorizontal:15,
@@ -80,7 +76,6 @@ const styles=StyleSheet.create({
     },
     deckTitle:{
         ...theme.typo.h2,
-        color:theme.colors.black,
     },
     deckSide:{
         flexDirection:'row',

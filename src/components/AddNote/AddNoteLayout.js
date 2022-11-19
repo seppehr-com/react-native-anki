@@ -27,9 +27,7 @@ const  DropDown = ({label,list,defaultValue,setDropDown}) => {
 
     return ( 
         <View style={styles.dropDownGroup}>
-            <Text style={[styles.labelTitle,{
-                color:theme.colors[mode].t1
-                }]}>{label} </Text>
+            <Text style={[styles.labelTitle,theme.setColor(mode,'t1')]}>{label} </Text>
             <SelectDropdown
                 data={list}
                 defaultValue={defaultFunction()}
@@ -53,17 +51,17 @@ const  DropDown = ({label,list,defaultValue,setDropDown}) => {
                     flexDirection:'row',
                     justifyContent:'space-between',
                     alignItems:'center',
-                    backgroundColor:theme.colors[mode].background,
+                    backgroundColor:theme.modeColor(mode,'background'),
                 }}
                 buttonTextStyle={{
                     fontFamily:'OpenSans-Regular',
                     fontSize:18,
-                    color:theme.colors[mode].t1,
+                    color:theme.modeColor(mode,'t1'),
                     position:'absolute',
                 }}
                 renderDropdownIcon={()=>(
                     <View style={{position:'absolute',right:0,}}>
-                        <Entypo name="chevron-small-down" size={25} color={theme.colors[mode].t1} />
+                        <Entypo name="chevron-small-down" size={25} color={theme.modeColor(mode,'t1')} />
                     </View>
                 )}
                 rowTextStyle={{position:'absolute',left:0,paddingVertical:15,}}
@@ -79,16 +77,14 @@ const  TextBox= ({label,defaultValue,setTextBoxInput,setTextBoxSelection,onPress
     return ( 
         <View style={styles.textBoxGroup}>
             <View style={styles.textBoxLabel}>
-                <Text style={[styles.labelTitle,{
-                    color:theme.colors[mode].t1
-                    }]}>{label}</Text>
+                <Text style={[styles.labelTitle,theme.setColor(mode,'t1')]}>{label}</Text>
                 <TouchableOpacity onPress={onPress}>
-                    <MaterialCommunityIcons name="attachment" size={20} color={theme.colors[mode].t1} />
+                    <MaterialCommunityIcons name="attachment" size={20} color={theme.modeColor(mode,'t1')} />
                 </TouchableOpacity>
             </View>
             <TextInput style={[styles.textBox,{
-                color:theme.colors[mode].t1,
-                borderBottomColor:theme.colors[mode].t1
+                color:theme.modeColor(mode,'t1'),
+                borderBottomColor:theme.modeColor(mode,'t1')
                 }]} multiline value={defaultValue} onChangeText={setTextBoxInput} onSelectionChange={({ nativeEvent: { selection }}) => setTextBoxSelection(selection)} onEndEditing={()=>setTextBoxSelection({})} />
         </View>
     );
@@ -147,7 +143,7 @@ const AddNoteLayout = () => {
     const [sheetIndex,setSheetIndex]=useState(-1);
 
     return ( 
-        <View style={[styles.container,{backgroundColor:theme.colors[mode].background}]}>
+        <View style={[styles.container,theme.setBakground(mode,'background')]}>
             <ScrollView style={{padding:15}}>
                 <DropDown label='Type: ' list={[]} setDropDown={()=>{}}  />
                 <DropDown label='Decks: ' list={decks} setDropDown={setDeckInput} defaultValue={deckInput}  />
@@ -172,7 +168,6 @@ const AddNoteLayout = () => {
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:theme.colors.white,
         zIndex:100,
     },
     dropDownGroup:{
@@ -182,7 +177,6 @@ const styles=StyleSheet.create({
     },
     labelTitle:{
         ...theme.typo.h2,
-        color:theme.colors.black
     },
     dropDownWrapper:{
         flex:1,
@@ -190,12 +184,10 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        backgroundColor:theme.colors.white,
     },
     dropDownText:{
         fontFamily:'OpenSans-Regular',
         fontSize:18,
-        color:theme.colors.black,
         position:'absolute',
     },
     textBoxGroup:{
@@ -208,7 +200,6 @@ const styles=StyleSheet.create({
     },
     textBox:{
         color:'black',
-        borderBottomColor:theme.colors.black,
         borderBottomWidth:1,
         fontSize:18,
         maxWidth:1000,

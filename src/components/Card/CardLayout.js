@@ -11,9 +11,7 @@ const Counter=()=>{
 
     if(typeof easy == 'number')
         return (
-            <View style={[styles.answersCounter,{
-                backgroundColor:theme.colors[mode].answerCounter
-            }]}>
+            <View style={[styles.answersCounter,theme.setBakground(mode,'answerCounter')]}>
                 <Text style={styles.easyCounter}>{easy}</Text>
                 <Text style={styles.againCounter}>{again}</Text>
                 <Text style={styles.goodCounter}>{good}</Text>
@@ -34,7 +32,7 @@ const Head=()=>{
 
     const baseStyleText={
         ...theme.typo.h1,
-        color:theme.colors[mode].t1,
+        color:theme.modeColor(mode,'t1'),
     };
 
     return (
@@ -118,9 +116,7 @@ const CardLayout = () => {
     const {cards,preview}=useContext(CardContext);
 
     return ( 
-        <View style={[styles.container,{
-            backgroundColor:theme.colors[mode].background
-            }]}>
+        <View style={[styles.container,theme.setBakground(mode,'background')]}>
                 {Array.isArray(cards)&&
                 <>
                 <Head />
@@ -132,7 +128,7 @@ const CardLayout = () => {
                     <View style={[styles.container,{
                         justifyContent:'center',
                         alignItems:'center',
-                        backgroundColor:theme.colors[mode].background
+                        backgroundColor:theme.modeColor(mode,'background')
                     }]}>
                         <Text style={{...theme.typo.b1,color:theme.colors.darkGray}}>There is no note here!</Text>
                     </View>}
@@ -140,7 +136,7 @@ const CardLayout = () => {
                 {!cards&&
                     <View style={[styles.container,{
                         justifyContent:'center',
-                        backgroundColor:theme.colors[mode].background
+                        backgroundColor:theme.modeColor(mode,'background')
                         }]}>
                         <ActivityIndicator size='large' color={theme.colors.header} />
                     </View>}
@@ -153,7 +149,6 @@ export default CardLayout;
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:theme.colors.white,
     },
     answersCounter:{
         height:30,

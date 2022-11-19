@@ -101,9 +101,7 @@ const Home=({navigation})=> {
     }
     
     return ( 
-        <View style={[styles.container,{
-            backgroundColor:theme.colors[mode].background
-            }]}>
+        <View style={[styles.container,theme.setBakground(mode,'background')]}>
             <StatusBar backgroundColor="#0288D1" />
 
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -113,8 +111,8 @@ const Home=({navigation})=> {
             <Modal visible={visibleModal} setVisible={setVisibleModal} onPress={handleCreateDeck}>
                 <Text style={[styles.createTitle,{color:theme.colors[mode].t1}]}>Create Deck</Text>
                 <TextInput style={[styles.createInput,{
-                    borderBottomColor:theme.colors[mode].t1,
-                    color:theme.colors[mode].t1
+                    borderBottomColor:theme.modeColor(mode,'t1'),
+                    color:theme.modeColor(mode,'t1')
                     }]} onChangeText={setDeckTextInput} />
             </Modal>
             <New onOpenModal={()=>setVisibleModal(true)} navigation={navigation} />
@@ -125,7 +123,6 @@ const Home=({navigation})=> {
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:theme.colors.white,
     },
     buttonWrapper:{
         position:'absolute',
@@ -135,7 +132,6 @@ const styles=StyleSheet.create({
         alignItems:'flex-end',
     },
     addButton:{
-        backgroundColor:theme.colors.statusBar,
         width:50,
         height:50,
         justifyContent:'center',
@@ -150,7 +146,6 @@ const styles=StyleSheet.create({
         alignItems:'center',
     },
     childButton:{
-        backgroundColor:theme.colors.statusBar,
         width:40,
         height:40,
         justifyContent:'center',
@@ -161,21 +156,17 @@ const styles=StyleSheet.create({
     },
     buttonTextSide:{
         ...theme.typo.h2,
-        color:theme.colors.darkGray
     },
     buttonsModal:{
         justifyContent:'flex-end',
     },
     createTitle:{
         ...theme.typo.h2,
-        color:theme.colors.black
     },
     createInput:{
         marginTop:20,
         borderBottomWidth:1,
-        borderBottomColor:theme.colors.black,
         fontSize:18,
-        color:theme.colors.black,
     },
 });
 

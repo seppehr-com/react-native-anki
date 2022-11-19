@@ -17,7 +17,7 @@ const StackNavigation = () => {
   return (
     <>
         <Stack.Navigator screenOptions={{
-            headerStyle: {backgroundColor:theme.colors[mode].header},
+            headerStyle: theme.setBakground(mode,'header'),
             headerTitleStyle:{color:theme.colors.white},
             headerTintColor: theme.colors.white,
             gestureDirection: 'horizontal',
@@ -35,7 +35,7 @@ const StackNavigation = () => {
             <Stack.Screen name="Add Note" component={AddNote} />
             <Stack.Screen name="Edit Note" component={EditNote} />
         </Stack.Navigator>
-        <StatusBar backgroundColor={theme.colors[mode].header} />
+        <StatusBar backgroundColor={theme.modeColor(mode,'header')} />
     </>
   )
 }
