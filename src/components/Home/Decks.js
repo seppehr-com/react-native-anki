@@ -4,14 +4,17 @@ import theme from '../../../assets/theme';
 import { gestureHandlerRootHOC,Swipeable,RectButton,TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 FontAwesome.loadFont();
 
 let rowRefs = new Map();
 
-const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
+const Decks=gestureHandlerRootHOC(({decks,handleDeleteDeck})=> {
     //NightMode Colors!
     const {mode} = useSelector(selector => selector.nightMode);
+
+    const navigation=useNavigation();
 
     const renderSwipeDelete=(progress, dragX)=>{
         return(
@@ -33,14 +36,15 @@ const Decks=gestureHandlerRootHOC(({navigation,decks,handleDeleteDeck})=> {
                     }}
                     renderRightActions={renderSwipeDelete} 
                     onSwipeableOpen={()=>{
-                        [...rowRefs.entries()].forEach(([id, ref]) => {
-                            ref.close();
-                        });
-                        handleDeleteDeck(item.id);
+                        let ref=rowRefs.get(item.id);
+                        ref.close();
+
+                        handleDeleteDeck(item.id,rowRefs);
                     }}>
 
                     <TouchableNativeFeedback  
                         onPress={()=>navigation.navigate('Cards',{id:item.id,item:item})}
+                        onLongPress={()=>console.log('LongPress')}
                         background={TouchableNativeFeedback.Ripple(theme.modeColor(mode,'pressButton'), false)}
                         >
                         <View 

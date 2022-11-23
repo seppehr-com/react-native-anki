@@ -1,5 +1,6 @@
 import React,{useContext} from 'react';
 import { Text,View,StyleSheet, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
+import EmptyLayout from './EmptyLayout'
 import RenderHtml from 'react-native-render-html';
 import { CardContext } from '../../context/CardContext';
 import theme from '../../../assets/theme';
@@ -124,14 +125,7 @@ const CardLayout = () => {
                 {preview && <PreviewBottom /> }
                 </>}
 
-                {cards==='empty'&&
-                    <View style={[styles.container,{
-                        justifyContent:'center',
-                        alignItems:'center',
-                        backgroundColor:theme.modeColor(mode,'background')
-                    }]}>
-                        <Text style={{...theme.typo.b1,color:theme.colors.darkGray}}>There is no note here!</Text>
-                    </View>}
+                {cards==='empty'&& <EmptyLayout />}
 
                 {!cards&&
                     <View style={[styles.container,{

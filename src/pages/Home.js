@@ -33,7 +33,8 @@ const Home=({navigation})=> {
     },[isVisible]);
 
     const handleCreateDeck=()=>{
-        if(!deckTextInput){
+        if(!deckTextInput
+            ||deckTextInput.trim()==''){
             ToastAndroid.showWithGravityAndOffset(
                 'Please enter a Title!',
                 ToastAndroid.LONG,
@@ -41,11 +42,11 @@ const Home=({navigation})=> {
                 25,
                 50
             );
-            Vibration.vibrate(500,false);
+            Vibration.vibrate(100,false);
             return false;
         }
 
-        db.insertDeck(deckTextInput);
+        db.insertDeck(deckTextInput.trim());
         db.getDecks(setDecksList);
         setDeckTextInput('');
         sheetRef.current.close()
@@ -60,7 +61,7 @@ const Home=({navigation})=> {
         );
     }
 
-    const handleDeleteDeck=(id)=>{
+    const handleDeleteDeck=(id,rowRefs)=>{
         Alert.alert(
             "Delete this Deck!",
             "Are you sure ?!",
@@ -73,8 +74,22 @@ const Home=({navigation})=> {
                 text: "YES",
                 onPress: () => {
                     //Delete and reset the decks!
-                    db.deleteDeck(id);
-                    db.getDecks(setDecksList);
+                    try{
+                        rowRefs.delete(id);
+                        db.deleteDeck(id);
+                        db.getDecks(setDecksList);
+
+                        //Create message!
+                        ToastAndroid.showWithGravityAndOffset(
+                            'Successfully deleted!',
+                            ToastAndroid.LONG,
+                            ToastAndroid.BOTTOM,
+                            25,
+                            50
+                        );
+                    }catch(e){
+                        
+                    }
                 }
               },
             ]
@@ -83,10 +98,9 @@ const Home=({navigation})=> {
     
     return ( 
         <View style={[styles.container,theme.setBakground(mode,'background')]}>
-            <StatusBar backgroundColor="#0288D1" />
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Decks navigation={navigation} decks={decksList} handleDeleteDeck={handleDeleteDeck} />
+                <Decks decks={decksList} handleDeleteDeck={handleDeleteDeck} />
             </ScrollView>
 
             <New onOpenModal={()=>setSheetIndex(0)} navigation={navigation} />

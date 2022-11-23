@@ -5,8 +5,8 @@ export const CameraPermission = async (callback) => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
-          title: "App Camera Permission",
-          message:"App needs access to your camera ",
+          title: "Anki Camera Permission",
+          message:"Anki needs access to your camera ",
           buttonNeutral: "Ask Me Later",
           buttonNegative: "Cancel",
           buttonPositive: "OK"

@@ -40,25 +40,29 @@ export default New = ({onOpenModal,navigation}) =>{
     }
     return (
         <View style={styles.buttonWrapper}>
-            <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
-                <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Create Deck</Text>
-                <Button style={styles.childButton} icon={{
-                    name:"folder-plus",
-                    size:15,
-                }} 
-                    onPress={handleOpenModal}
-                />
-            </Animated.View>
-                    
-            <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
-                <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Add Note</Text>
-                <Button style={styles.childButton} 
-                    onPress={handleAddNote}
-                    icon={{
-                        name:"plus",
+            {visible&& (
+                <>
+                <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
+                    <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Create Deck</Text>
+                    <Button style={styles.childButton} icon={{
+                        name:"folder-plus",
                         size:15,
-                 }} />
-            </Animated.View>
+                    }} 
+                        onPress={handleOpenModal}
+                    />
+                </Animated.View>
+                        
+                <Animated.View style={[styles.childButtonsWrapper,{opacity:fadeAnim}]}>
+                    <Text style={[styles.buttonTextSide,theme.setColor(mode,'t2')]}>Add Note</Text>
+                    <Button style={styles.childButton} 
+                        onPress={handleAddNote}
+                        icon={{
+                            name:"plus",
+                            size:15,
+                    }} />
+                </Animated.View>
+                </>
+            )}
             <Button style={[styles.addButton]} onPress={handlePress} icon={{
                 name:visible?"close":"plus",
                 size:22,

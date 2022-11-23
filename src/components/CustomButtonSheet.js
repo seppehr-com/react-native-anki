@@ -69,7 +69,6 @@ export default CustomButtonSheet=React.forwardRef((props,ref)=> {
     <Pressable style={[styles.modal,props.index==0?styles.extraModal:{}]} onPress={()=>{
         ref.current.close()
       }}>
-        <Pressable style={{height:props.snapPoints[0]+50}}>
           <BottomSheet
               ref={ref}
               index={props.index}
@@ -80,9 +79,10 @@ export default CustomButtonSheet=React.forwardRef((props,ref)=> {
               style={{zIndex:2000}}
               enablePanDownToClose
               >
-                {props.children}
+                <Pressable style={{flex:1,zIndex:2000}}>
+                  {props.children}
+                </Pressable>
           </BottomSheet>
-        </Pressable>
       </Pressable>
   )
 })

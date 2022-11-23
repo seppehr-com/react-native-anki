@@ -10,6 +10,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../pages/Home';
 import Help from '../pages/Help';
 import Statistcs from '../pages/Statistcs';
+import Search from '../pages/Search';
 
 
 const Drawer = createDrawerNavigator();
@@ -62,6 +63,7 @@ const DrawerNavigation=()=>{
               drawerItemStyle: {
                 borderRadius: 0,
                 width: '100%',
+                // paddingLeft:15,
                 marginLeft: 0,
                 marginVertical:0,
               },
@@ -75,15 +77,18 @@ const DrawerNavigation=()=>{
             }} 
             drawerContent={(props)=><DrawerLayout {...props} />}>
               <Drawer.Screen name="Home" component={Home} options={{
-                drawerIcon:(props)=><FontAwesome name='list' color={theme.modeColor(mode,'icon')} size={20}  />,
+                drawerIcon:(props)=><FontAwesome name='list' color={theme.modeColor(mode,'icon')} size={20} style={styles.labelIconStyle}  />,
                 drawerLabel:'Decks',
                 title:'React Anki',
               }}/>
+              <Drawer.Screen name="Deck browser" component={Search} options={{
+                 drawerIcon:(props)=><FontAwesome name='search' color={theme.modeColor(mode,'icon')} size={18} style={styles.labelIconStyle} />,
+              }} />
               <Drawer.Screen name="Statistcs" component={Statistcs} options={{
-                 drawerIcon:(props)=><FontAwesome name='bar-chart' color={theme.modeColor(mode,'icon')} size={18}  />,
+                 drawerIcon:(props)=><FontAwesome name='bar-chart' color={theme.modeColor(mode,'icon')} size={18} style={styles.labelIconStyle} />,
               }} />
               <Drawer.Screen name="Help" component={Help} options={{
-                 drawerIcon:(props)=><FontAwesome name='question-circle' color={theme.modeColor(mode,'icon')} size={20}  />,
+                 drawerIcon:(props)=><FontAwesome name='question-circle' color={theme.modeColor(mode,'icon')} size={20} style={styles.labelIconStyle}  />,
               }} />
           </Drawer.Navigator>
           <StatusBar backgroundColor={theme.modeColor(mode,'header')} />
@@ -130,12 +135,15 @@ const styles=StyleSheet.create({
     itemWrapper:{
         flexDirection:'row',
         height:55,
-        paddingHorizontal:10,
+        paddingHorizontal:20,
         alignItems:'center',
     },
     itemText:{
         ...theme.typo.h3,
         marginLeft:20,
+    },
+    labelIconStyle:{
+        marginLeft:10,
     },
     switch:{
         position:'absolute',

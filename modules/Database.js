@@ -48,7 +48,6 @@ class Database{
                 GROUP BY d.id,d.title ORDER BY d.id DESC`,
                 [],
                 (sqlTxn,res)=>{
-                    // console.log("decks retrieved successfully");
                     let len = res.rows.length;
           
                     if (len > 0) {
@@ -59,6 +58,8 @@ class Database{
           
                       setList(results);
                     }
+                    else
+                        setList([]);
                 },
                 error=>{
                     console.log(error.message);

@@ -4,6 +4,7 @@ import {ModifyCard } from '../components/Header';
 import Database from '../../modules/Database';
 import { CardProvider } from '../context/CardContext';
 import CardLayout from '../components/Card/CardLayout';
+import { useIsFocused } from '@react-navigation/native';
 
 const db= new Database();
 
@@ -27,9 +28,11 @@ function Cards({navigation,navigation:{setOptions},route}) {
         })
     });
 
+    //Refresh Page After Update
+    const isVisible = useIsFocused();
     useEffect(()=>{
         db.getNotes(setCards,deckId);
-    },[]);
+    },[isVisible]);
 
     //Status Counts Update
     useEffect(()=>{
