@@ -35,12 +35,9 @@ const Home=({navigation})=> {
     const handleCreateDeck=()=>{
         if(!deckTextInput
             ||deckTextInput.trim()==''){
-            ToastAndroid.showWithGravityAndOffset(
+            ToastAndroid.show(
                 'Please enter a Title!',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
+                ToastAndroid.SHORT,
             );
             Vibration.vibrate(100,false);
             return false;
@@ -52,12 +49,9 @@ const Home=({navigation})=> {
         sheetRef.current.close()
 
         //Create message!
-        ToastAndroid.showWithGravityAndOffset(
+        ToastAndroid.show(
             'Successfully created!',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
+            ToastAndroid.SHORT,
         );
     }
 

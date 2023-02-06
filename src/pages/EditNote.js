@@ -29,12 +29,9 @@ const EditNote=({navigation,navigation: { setOptions},route}) =>{
 
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
-            ToastAndroid.showWithGravityAndOffset(
+            ToastAndroid.show(
                 'Please enter the fields!',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
+                ToastAndroid.SHORT,
             );
             return false;
         }
@@ -43,12 +40,9 @@ const EditNote=({navigation,navigation: { setOptions},route}) =>{
         db.updateNote(id,deckInput,frontInput,backInput);
 
         //Needs to refresh page after goBack() function!
-        ToastAndroid.showWithGravityAndOffset(
+        ToastAndroid.show(
             'Successfully edited!',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
+            ToastAndroid.SHORT,
         );
         navigation.goBack();
     }

@@ -24,7 +24,7 @@ const SearchBar=({setSearch})=>{
         </View>
     )
 }
-const Search = ({navigation}) => {
+const Search = () => {
     //NightMode Colors!
     const {mode} = useSelector(selector => selector.nightMode);
     const [decksList,setDecksList] =useState([]);

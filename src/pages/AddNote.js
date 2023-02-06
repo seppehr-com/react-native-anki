@@ -37,12 +37,9 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
 
     const handlePreview=()=>{
         if(!frontInput||!backInput){
-            ToastAndroid.showWithGravityAndOffset(
+            ToastAndroid.show(
                 'Please enter the fields!',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
+                ToastAndroid.SHORT,
             );
             return false;
         }
@@ -54,24 +51,18 @@ const AddNote=({navigation,navigation: { setOptions}}) =>{
 
     const handleDonePress=()=>{
         if(!frontInput||!backInput||!deckInput){
-            ToastAndroid.showWithGravityAndOffset(
+            ToastAndroid.show(
                 'Please enter the fields!',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50
+                ToastAndroid.SHORT,
             );
             return false;
         }
 
         db.insertNote(deckInput,frontInput,backInput);
 
-        ToastAndroid.showWithGravityAndOffset(
+        ToastAndroid.show(
             'Successfully added!',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
+            ToastAndroid.SHORT,
         );
         navigation.goBack();
     }

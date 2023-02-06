@@ -13,7 +13,7 @@ class Database{
     createTables = () => {
         this.db.transaction(txn => {
           txn.executeSql(
-            `CREATE TABLE IF NOT EXISTS decks (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(200));`,
+            `CREATE TABLE IF NOT EXISTS decks (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(200),date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);`,
             [],
             (sqlTxn, res) => {
                 // console.log("decks table created successfully");
@@ -38,7 +38,7 @@ class Database{
     getDecks=(setList,search='')=>{
         this.db.transaction(txn=>{
             txn.executeSql(
-                `SELECT d.id,d.title,
+                `SELECT d.id,d.title,d.date,
                 COUNT(case when n.lastStatus='good' then 1 end) AS good,
                 COUNT(case when n.lastStatus='easy' then 1 end) AS easy,
                 COUNT(case when n.lastStatus='again' then 1 end) AS again
